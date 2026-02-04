@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Theme configuration
+  "theme": "tokyonight",
+  // "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "ctx7sk-bd9f0ab5-6f91-48f6-915c-559d9ffec3d3",
+      ],
+      "enabled": true,
+    },
+  },
+}

@@ -1,0 +1,108 @@
+name: hymnal_app
+description: A multi-language hymnal app supporting Spanish, English, Russian and Portuguese
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management and DI
+  get: ^4.6.6
+  get_it: ^7.6.4
+  get_it_mixin: ^4.2.0
+
+  # Audio
+  just_audio: ^0.9.35
+  just_audio_background: ^0.0.1-beta.10
+  audio_service: ^0.18.12
+
+  # Storage
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.2
+
+  # Networking
+  dio: ^5.4.0
+
+  # UI
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.1
+  photo_view: ^0.14.0
+  share_plus: ^7.2.1
+  url_launcher: ^6.2.2
+  package_info_plus: ^5.0.1
+  device_info_plus: ^9.1.1
+  wakelock_plus: ^1.1.4
+  google_fonts: ^6.1.0
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # Functional programming
+  dartz: ^0.10.1
+
+  # Utils
+  equatable: ^2.0.5
+  json_annotation: ^4.8.1
+  logger: ^2.0.2+1
+  path_provider: ^2.1.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/hymns/
+    - assets/background_image.png
+    - assets/info_constants.json
+    - assets/settings.json
+    - info_constants.json
+    - settings.json
+    - background_image.png
+
+  # fonts:
+  #   - family: OpenSans
+  #     fonts:
+  #       - asset: assets/fonts/OpenSans-Regular.ttf
+  #       - asset: assets/fonts/OpenSans-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/OpenSans-Light.ttf
+  #         weight: 300
+  #       - asset: assets/fonts/OpenSans-SemiBold.ttf
+  #         weight: 600
+  #   - family: Nunito
+  #     fonts:
+  #       - asset: assets/fonts/Nunito-Regular.ttf
+  #       - asset: assets/fonts/Nunito-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/Nunito-Light.ttf
+  #         weight: 300
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/app_icon_foreground.png"
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/app_icon.png
+  android: true
+  ios: true
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.7
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.9

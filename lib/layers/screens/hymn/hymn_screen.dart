@@ -72,7 +72,11 @@ class _HymnScreenState extends State<HymnScreen> {
     );
 
     if (_settingsService.keepScreenOn) {
-      WakelockPlus.enable();
+      try {
+        await WakelockPlus.enable();
+      } catch (e) {
+        debugPrint('Warning: Failed to enable wakelock: $e');
+      }
     }
 
     setState(() {});
@@ -149,7 +153,11 @@ Shared from Hymnal App''';
 
   @override
   void dispose() {
-    WakelockPlus.disable();
+    try {
+      WakelockPlus.disable();
+    } catch (e) {
+      debugPrint('Warning: Failed to disable wakelock: $e');
+    }
     _pageController?.dispose();
     super.dispose();
   }

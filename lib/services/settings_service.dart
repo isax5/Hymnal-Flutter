@@ -13,7 +13,7 @@ class SettingsService extends ChangeNotifier {
   double _fontSize = 16.0;
   String _themeMode = 'system';
   bool _keepScreenOn = false;
-  bool _showBackgroundImage = true;
+  bool _showBackgroundImage = false;
   bool _isLoading = true;
 
   List<Hymnal> get hymnals => _hymnals;
@@ -77,8 +77,6 @@ class SettingsService extends ChangeNotifier {
   }
 
   List<Hymnal> getHymnalsByLanguage(String languageCode) {
-    return _hymnals
-        .where((h) => h.twoLetterIsoLanguageName == languageCode)
-        .toList();
+    return _hymnals.where((h) => h.twoLetterIsoLanguageName == languageCode).toList();
   }
 }

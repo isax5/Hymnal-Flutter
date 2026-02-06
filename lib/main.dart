@@ -10,11 +10,17 @@ import 'package:get_it/get_it.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.isax5.hymnal.channel.audio',
-    androidNotificationChannelName: 'Hymnal Audio',
-    androidNotificationOngoing: true,
-  );
+  // Initialize audio background service with error handling
+  try {
+    await JustAudioBackground.init(
+      androidNotificationChannelId: 'com.isax5.hymnal.channel.audio',
+      androidNotificationChannelName: 'Hymnal Audio',
+      androidNotificationOngoing: true,
+    );
+  } catch (e) {
+    // If background audio fails to initialize, continue without it
+    debugPrint('Warning: Background audio initialization failed: $e');
+  }
 
   setupLocator();
 

@@ -62,29 +62,31 @@ class _ListsScreenState extends State<ListsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lists'),
-        bottom: TabBar(
-          isScrollable: true,
-          onTap: (index) => setState(() => _selectedTab = index),
-          tabs: const [
-            Tab(text: 'Numeric', icon: Icon(Icons.format_list_numbered)),
-            Tab(text: 'Alphabetic', icon: Icon(Icons.sort_by_alpha)),
-            Tab(text: 'Thematic', icon: Icon(Icons.category)),
-          ],
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Lists'),
+          bottom: TabBar(
+            isScrollable: true,
+            onTap: (index) => setState(() => _selectedTab = index),
+            tabs: const [
+              Tab(text: 'Numeric', icon: Icon(Icons.format_list_numbered)),
+              Tab(text: 'Alphabetic', icon: Icon(Icons.sort_by_alpha)),
+              Tab(text: 'Thematic', icon: Icon(Icons.category)),
+            ],
+          ),
         ),
+        body: _hymns == null
+            ? const Center(child: CircularProgressIndicator())
+            : TabBarView(
+                children: [
+                  _buildNumericList(),
+                  _buildAlphabeticList(),
+                  _buildThematicList(),
+                ],
+              ),
       ),
-      body: _hymns == null
-          ? const Center(child: CircularProgressIndicator())
-          : IndexedStack(
-              index: _selectedTab,
-              children: [
-                _buildNumericList(),
-                _buildAlphabeticList(),
-                _buildThematicList(),
-              ],
-            ),
     );
   }
 

@@ -60,12 +60,12 @@ flutter:
   assets:
     - assets/
     - assets/hymns/
+    - assets/musicSheets/
     - assets/background_image.png
     - assets/info_constants.json
     - assets/settings.json
     - info_constants.json
     - settings.json
-    - background_image.png
 
   # fonts:
   #   - family: OpenSans

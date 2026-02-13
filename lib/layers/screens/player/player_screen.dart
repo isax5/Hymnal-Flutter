@@ -16,6 +16,35 @@ class PlayerScreen extends StatelessWidget {
         : '$minutes:$seconds';
   }
 
+  void _openHymnPage(BuildContext context, String hymnalId, int hymnNumber) {
+    // Check if HymnScreen is already in the navigation stack
+    final navigator = Navigator.of(context);
+    bool hymnScreenFound = false;
+
+    navigator.popUntil((route) {
+      if (route.settings.name == '/hymn') {
+        hymnScreenFound = true;
+        return true;
+      }
+      return false;
+    });
+
+    // If HymnScreen not found, push a new one
+    if (!hymnScreenFound) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          settings: const RouteSettings(name: '/hymn'),
+          builder: (_) => HymnScreen(
+            hymnalId: hymnalId,
+            hymnNumber: hymnNumber,
+            skipHistory: true,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
@@ -135,15 +164,7 @@ class PlayerScreen extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: () {
                     if (hymnal != null) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => HymnScreen(
-                            hymnalId: hymnal.id,
-                            hymnNumber: hymn.number,
-                          ),
-                        ),
-                      );
+                      _openHymnPage(context, hymnal.id, hymn.number);
                     }
                   },
                   icon: const Icon(Icons.library_music),

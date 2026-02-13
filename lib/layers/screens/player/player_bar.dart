@@ -9,6 +9,8 @@ class PlayerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return AnimatedBuilder(
       animation: audioService,
@@ -31,8 +33,10 @@ class PlayerBar extends StatelessWidget {
             child: SafeArea(
               top: false,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: isLandscape ? 4 : 8,
+                ),
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
@@ -49,8 +53,9 @@ class PlayerBar extends StatelessWidget {
                         children: [
                           Text(
                             audioService.currentHymn!.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              fontSize: isLandscape ? 12 : 14,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -58,7 +63,7 @@ class PlayerBar extends StatelessWidget {
                           Text(
                             '#${audioService.currentHymn!.number}',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: isLandscape ? 10 : 12,
                               color: Colors.grey[600],
                             ),
                           ),
@@ -66,12 +71,14 @@ class PlayerBar extends StatelessWidget {
                       ),
                     ),
                     IconButton(
+                      iconSize: isLandscape ? 20 : 24,
                       icon: Icon(
                         audioService.isPlaying ? Icons.pause : Icons.play_arrow,
                       ),
                       onPressed: () => audioService.togglePlayPause(),
                     ),
                     IconButton(
+                      iconSize: isLandscape ? 20 : 24,
                       icon: const Icon(Icons.close),
                       onPressed: () => audioService.stop(),
                     ),

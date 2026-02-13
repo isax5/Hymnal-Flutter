@@ -81,8 +81,10 @@ class _SheetsScreenState extends State<SheetsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: isLandscape ? 40 : null,
         title: Text('Sheet Music - Hymn ${widget.hymnNumber}'),
         actions: [
           if (_sheetUrls.length > 1)

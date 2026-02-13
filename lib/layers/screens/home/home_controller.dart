@@ -50,7 +50,8 @@ abstract class _HomeController extends State<HomeScreen> {
       return;
     }
 
-    final hymn = await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
+    final hymn =
+        await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
     if (hymn == null) {
       _showError('Hymn not found');
       return;
@@ -62,6 +63,7 @@ abstract class _HomeController extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
+          settings: const RouteSettings(name: '/hymn'),
           builder: (_) => HymnScreen(
             hymnalId: hymnal.id,
             hymnNumber: hymn.number,
@@ -86,12 +88,14 @@ abstract class _HomeController extends State<HomeScreen> {
               ),
             ),
             ..._settingsService.hymnals.map((hymnal) {
-              final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
+              final isSelected =
+                  hymnal.id == _settingsService.selectedHymnal?.id;
               return ListTile(
                 leading: Text(
                   hymnal.twoLetterIsoLanguageName.toUpperCase(),
                   style: TextStyle(
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
                     color: isSelected ? Theme.of(context).primaryColor : null,
                   ),
                 ),

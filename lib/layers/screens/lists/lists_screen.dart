@@ -51,6 +51,7 @@ class _ListsScreenState extends State<ListsScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
+          settings: const RouteSettings(name: '/hymn'),
           builder: (_) => HymnScreen(
             hymnalId: hymnal.id,
             hymnNumber: hymn.number,

@@ -16,11 +16,13 @@ import 'package:hymnal_app/layers/screens/player/player_bar.dart';
 class HymnScreen extends StatefulWidget {
   final String hymnalId;
   final int hymnNumber;
+  final bool skipHistory;
 
   const HymnScreen({
     super.key,
     required this.hymnalId,
     required this.hymnNumber,
+    this.skipHistory = false,
   });
 
   @override
@@ -64,11 +66,14 @@ class _HymnScreenState extends State<HymnScreen> {
     final initialPage = _allHymns!.indexWhere((h) => h.number == widget.hymnNumber);
     _pageController = PageController(initialPage: initialPage);
 
-    await _historyService.addToHistory(
-      widget.hymnalId,
-      _hymn!.number,
-      _hymn!.title,
-    );
+    // Only add to history if not skipped
+    if (!widget.skipHistory) {
+      await _historyService.addToHistory(
+        widget.hymnalId,
+        _hymn!.number,
+        _hymn!.title,
+      );
+    }
 
     if (_settingsService.keepScreenOn) {
       try {
@@ -87,11 +92,14 @@ class _HymnScreenState extends State<HymnScreen> {
       _hymn = hymn;
     });
 
-    await _historyService.addToHistory(
-      widget.hymnalId,
-      hymn.number,
-      hymn.title,
-    );
+    // Only add to history if not skipped
+    if (!widget.skipHistory) {
+      await _historyService.addToHistory(
+        widget.hymnalId,
+        hymn.number,
+        hymn.title,
+      );
+    }
 
     _isFavorite = await _favoritesService.isFavorite(
       widget.hymnalId,
@@ -153,7 +161,7 @@ Shared from Hymnal App''';
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Container(
-      height: isLandscape ? 50 : 56,
+      height: isLandscape ? 50 : 60,
       padding: const EdgeInsets.only(bottom: 0, top: 2),
       child: SafeArea(
         child: Padding(

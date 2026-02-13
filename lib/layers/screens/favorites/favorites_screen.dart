@@ -134,6 +134,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
+                                settings: const RouteSettings(name: '/hymn'),
                                 builder: (_) => HymnScreen(
                                   hymnalId: favorite.hymnalId,
                                   hymnNumber: favorite.hymnNumber,

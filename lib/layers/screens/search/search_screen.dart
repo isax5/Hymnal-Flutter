@@ -88,6 +88,7 @@ class _SearchScreenState extends State<SearchScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
+          settings: const RouteSettings(name: '/hymn'),
           builder: (_) => HymnScreen(
             hymnalId: hymnal.id,
             hymnNumber: hymn.number,

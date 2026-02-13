@@ -47,6 +47,7 @@ class AmbitScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
+                    settings: const RouteSettings(name: '/hymn'),
                     builder: (_) => HymnScreen(
                       hymnalId: settingsService.selectedHymnal!.id,
                       hymnNumber: hymn.number,

@@ -22,15 +22,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Future<void> _openHymn(String hymnalId, int hymnNumber, String title) async {
-    await _historyService.addToHistory(hymnalId, hymnNumber, title);
-
+    // Don't add to history when opening from history
     if (mounted) {
       Navigator.push(
         context,
         MaterialPageRoute(
+          settings: const RouteSettings(name: '/hymn'),
           builder: (_) => HymnScreen(
             hymnalId: hymnalId,
             hymnNumber: hymnNumber,
+            skipHistory: true,
           ),
         ),
       );

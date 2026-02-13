@@ -88,13 +88,15 @@ abstract class _HomeController extends State<HomeScreen> {
             ..._settingsService.hymnals.map((hymnal) {
               final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
               return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: isSelected ? Theme.of(context).primaryColor : null,
-                  foregroundColor: isSelected ? Colors.white : null,
-                  child: Text(hymnal.twoLetterIsoLanguageName.toUpperCase()),
+                leading: Text(
+                  hymnal.twoLetterIsoLanguageName.toUpperCase(),
+                  style: TextStyle(
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    color: isSelected ? Theme.of(context).primaryColor : null,
+                  ),
                 ),
                 title: Text(hymnal.name),
-                subtitle: Text('${hymnal.year}'),
+                subtitle: Text('${hymnal.year} • ${hymnal.detail}'),
                 trailing: isSelected ? const Icon(Icons.check) : null,
                 onTap: () {
                   _settingsService.selectHymnal(hymnal.id);

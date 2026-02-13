@@ -144,10 +144,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         title: Text(hymn.title),
                         subtitle: Text(
-                          hymn.content.substring(
+                          hymn.content.replaceAll('\n', ' ').substring(
                               0,
-                              hymn.content.length > 50
-                                  ? 50
+                              hymn.content.length > 100
+                                  ? 100
                                   : hymn.content.length),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

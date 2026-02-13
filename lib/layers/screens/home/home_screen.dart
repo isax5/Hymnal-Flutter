@@ -38,23 +38,6 @@ class _HomeScreenState extends _HomeController {
                 fontWeight: FontWeight.w600,
               ),
               title: const Text('Hymnal'),
-              actions: [
-                if (_settingsService.selectedHymnal != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Center(
-                      child: Chip(
-                        label: Text(
-                          _settingsService.selectedHymnal!.detail,
-                          style: const TextStyle(
-                              fontSize: 12, color: Colors.white),
-                        ),
-                        backgroundColor: Theme.of(context).primaryColor,
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                  ),
-              ],
             ),
             body: Container(
               decoration: _settingsService.showBackgroundImage
@@ -94,7 +77,7 @@ class _HomeScreenState extends _HomeController {
                                               .titleLarge,
                                         ),
                                         Text(
-                                          '${_settingsService.selectedHymnal!.year}',
+                                          '${_settingsService.selectedHymnal!.year} • ${_settingsService.selectedHymnal!.detail}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium

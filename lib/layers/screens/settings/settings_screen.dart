@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/favorites_service.dart';
-import 'package:hymnal_app/layers/domain/model/hymnal.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -120,7 +119,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListTile(
       leading: const Icon(Icons.book),
       title: const Text('Selected Hymnal'),
-      subtitle: Text(_settingsService.selectedHymnal?.name ?? 'None'),
+      subtitle: Text(_settingsService.selectedHymnal != null
+          ? '${_settingsService.selectedHymnal?.name} • ${_settingsService.selectedHymnal?.detail}'
+          : 'None'),
       trailing: const Icon(Icons.chevron_right),
       onTap: _showHymnalSelector,
     );
@@ -151,8 +152,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSwitchTile(
-      String title, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchTile(String title, bool value, ValueChanged<bool> onChanged) {
     return SwitchListTile(
       secondary: const Icon(Icons.settings),
       title: Text(title),
@@ -176,19 +176,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             ..._settingsService.hymnals.map((hymnal) {
-              final isSelected =
-                  hymnal.id == _settingsService.selectedHymnal?.id;
+              final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
               return ListTile(
                 leading: Text(
                   hymnal.twoLetterIsoLanguageName.toUpperCase(),
                   style: TextStyle(
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                     color: isSelected ? Theme.of(context).primaryColor : null,
                   ),
                 ),
                 title: Text(hymnal.name),
-                subtitle: Text('${hymnal.year}'),
+                subtitle: Text('${hymnal.year} • ${hymnal.detail}'),
                 trailing: isSelected ? const Icon(Icons.check) : null,
                 onTap: () {
                   _settingsService.selectHymnal(hymnal.id);
@@ -219,9 +217,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.brightness_auto),
               title: const Text('System'),
-              trailing: _settingsService.themeMode == 'system'
-                  ? const Icon(Icons.check)
-                  : null,
+              trailing: _settingsService.themeMode == 'system' ? const Icon(Icons.check) : null,
               onTap: () {
                 _settingsService.setThemeMode('system');
                 Navigator.pop(context);
@@ -230,9 +226,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.light_mode),
               title: const Text('Light'),
-              trailing: _settingsService.themeMode == 'light'
-                  ? const Icon(Icons.check)
-                  : null,
+              trailing: _settingsService.themeMode == 'light' ? const Icon(Icons.check) : null,
               onTap: () {
                 _settingsService.setThemeMode('light');
                 Navigator.pop(context);
@@ -241,9 +235,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.dark_mode),
               title: const Text('Dark'),
-              trailing: _settingsService.themeMode == 'dark'
-                  ? const Icon(Icons.check)
-                  : null,
+              trailing: _settingsService.themeMode == 'dark' ? const Icon(Icons.check) : null,
               onTap: () {
                 _settingsService.setThemeMode('dark');
                 Navigator.pop(context);
@@ -292,9 +284,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    try {
+      final uri = Uri.parse(url);
+      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Could not launch $url')),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error opening link: $e')),
+        );
+      }
     }
   }
 

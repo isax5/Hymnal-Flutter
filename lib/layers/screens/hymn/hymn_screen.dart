@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -61,8 +60,7 @@ class _HymnScreenState extends State<HymnScreen> {
       widget.hymnNumber,
     );
 
-    final initialPage =
-        _allHymns!.indexWhere((h) => h.number == widget.hymnNumber);
+    final initialPage = _allHymns!.indexWhere((h) => h.number == widget.hymnNumber);
     _pageController = PageController(initialPage: initialPage);
 
     await _historyService.addToHistory(
@@ -146,9 +144,79 @@ Shared from Hymnal App''';
         : _musicSettings?.getSungUrl(_hymn!.number);
 
     if (url != null) {
-      await _audioService.playHymn(_hymn!, _hymnal!, url,
-          instrumental: instrumental);
+      await _audioService.playHymn(_hymn!, _hymnal!, url, instrumental: instrumental);
     }
+  }
+
+  Widget _buildAudioButtons(bool hasInstrumental, bool hasSung) {
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    return BottomAppBar(
+      height: isLandscape ? 40 : 56,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (hasInstrumental)
+                Expanded(
+                  child: InkWell(
+                    onTap: () => _playAudio(instrumental: true),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.piano, size: 20),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Instrumental',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              if (hasSung && hasInstrumental)
+                VerticalDivider(
+                  color: Theme.of(context).dividerColor,
+                  thickness: 1,
+                ),
+              if (hasSung)
+                Expanded(
+                  child: InkWell(
+                    onTap: () => _playAudio(instrumental: false),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.mic, size: 20),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Sung',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -171,8 +239,7 @@ Shared from Hymnal App''';
     }
 
     final hasSheets = _hymnal?.hymnsSheetsFileName != null;
-    final hasInstrumental =
-        _musicSettings?.getInstrumentalUrl(_hymn!.number) != null;
+    final hasInstrumental = _musicSettings?.getInstrumentalUrl(_hymn!.number) != null;
     final hasSung = _musicSettings?.getSungUrl(_hymn!.number) != null;
     final hasAudio = hasInstrumental || hasSung;
 
@@ -204,31 +271,7 @@ Shared from Hymnal App''';
           return _buildHymnContent(hymn);
         },
       ),
-      bottomNavigationBar: hasAudio
-          ? BottomAppBar(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (hasInstrumental)
-                    Expanded(
-                      child: ListTile(
-                        leading: const Icon(Icons.piano),
-                        title: const Text('Instrumental'),
-                        onTap: () => _playAudio(instrumental: true),
-                      ),
-                    ),
-                  if (hasSung)
-                    Expanded(
-                      child: ListTile(
-                        leading: const Icon(Icons.mic),
-                        title: const Text('Sung'),
-                        onTap: () => _playAudio(instrumental: false),
-                      ),
-                    ),
-                ],
-              ),
-            )
-          : null,
+      bottomNavigationBar: hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
     );
   }
 
@@ -238,9 +281,9 @@ Shared from Hymnal App''';
       builder: (context, child) {
         return Container(
           decoration: _settingsService.showBackgroundImage
-              ? BoxDecoration(
+              ? const BoxDecoration(
                   image: DecorationImage(
-                    image: const AssetImage('assets/background_image.png'),
+                    image: AssetImage('assets/background_image.png'),
                     fit: BoxFit.cover,
                     opacity: 0.1,
                   ),

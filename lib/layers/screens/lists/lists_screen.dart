@@ -135,12 +135,16 @@ class _ListsScreenState extends State<ListsScreen> {
       itemBuilder: (context, index) {
         final category = _thematicList![index];
         return ExpansionTile(
-          title: Text(category.thematic),
+          title: Text(
+            category.thematic,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           children: category.ambits.map((ambit) {
             return ListTile(
+              dense: true,
               title: Text(ambit.name),
               subtitle: Text('Hymns ${ambit.start}-${ambit.end}'),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(Icons.chevron_right, size: 20),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

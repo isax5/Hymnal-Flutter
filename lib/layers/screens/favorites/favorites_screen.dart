@@ -58,32 +58,91 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   onReorder: _favoritesService.reorderFavorites,
                   itemBuilder: (context, index) {
                     final favorite = favorites[index];
-                    return ListTile(
+                    return Dismissible(
                       key: ValueKey(favorite),
-                      leading: CircleAvatar(
-                        child: Text('${favorite.hymnNumber}'),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        color: Colors.red,
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
                       ),
-                      title: Text(favorite.title),
-                      subtitle: Text(_getHymnalName(favorite.hymnalId)),
-                      trailing: const Icon(Icons.drag_handle),
-                      onTap: () async {
-                        await _historyService.addToHistory(
+                      confirmDismiss: (direction) async {
+                        return await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Remove Favorite'),
+                            content: Text(
+                                'Remove "${favorite.title}" from favorites?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.red,
+                                ),
+                                child: const Text('Remove'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      onDismissed: (direction) {
+                        _favoritesService.removeFavorite(
                           favorite.hymnalId,
                           favorite.hymnNumber,
-                          favorite.title,
                         );
-                        if (mounted) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => HymnScreen(
-                                hymnalId: favorite.hymnalId,
-                                hymnNumber: favorite.hymnNumber,
-                              ),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                '${favorite.title} removed from favorites'),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () {
+                                _favoritesService.addFavorite(
+                                  favorite.hymnalId,
+                                  favorite.hymnNumber,
+                                  favorite.title,
+                                );
+                              },
                             ),
-                          );
-                        }
+                          ),
+                        );
                       },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Text('${favorite.hymnNumber}'),
+                        ),
+                        title: Text(favorite.title),
+                        subtitle: Text(_getHymnalName(favorite.hymnalId)),
+                        trailing: const Icon(Icons.drag_handle),
+                        onTap: () async {
+                          await _historyService.addToHistory(
+                            favorite.hymnalId,
+                            favorite.hymnNumber,
+                            favorite.title,
+                          );
+                          if (mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => HymnScreen(
+                                  hymnalId: favorite.hymnalId,
+                                  hymnNumber: favorite.hymnNumber,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      ),
                     );
                   },
                 ),

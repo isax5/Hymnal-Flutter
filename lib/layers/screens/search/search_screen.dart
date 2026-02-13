@@ -15,38 +15,68 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
   final HymnalRepository _repository = GetIt.I<HymnalRepository>();
   final SettingsService _settingsService = GetIt.I<SettingsService>();
   final HistoryService _historyService = GetIt.I<HistoryService>();
 
   List<Hymn> _results = [];
-  bool _isSearching = false;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Focus the search field and load all hymns
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _searchFocusNode.requestFocus();
+      _loadAllHymns();
+    });
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
+  Future<void> _loadAllHymns() async {
+    setState(() => _isLoading = true);
+
+    final hymnal = _settingsService.selectedHymnal;
+    if (hymnal == null) {
+      setState(() => _isLoading = false);
+      return;
+    }
+
+    final hymns = await _repository.getHymns(hymnal.id);
+
+    setState(() {
+      _results = hymns;
+      _isLoading = false;
+    });
+  }
+
   Future<void> _search(String query) async {
+    final hymnal = _settingsService.selectedHymnal;
+    if (hymnal == null) return;
+
     if (query.isEmpty) {
+      // Show all hymns when search is empty
+      final hymns = await _repository.getHymns(hymnal.id);
       setState(() {
-        _results = [];
-        _isSearching = false;
+        _results = hymns;
       });
       return;
     }
 
-    setState(() => _isSearching = true);
-
-    final hymnal = _settingsService.selectedHymnal;
-    if (hymnal == null) return;
+    setState(() => _isLoading = true);
 
     final results = await _repository.searchHymns(hymnal.id, query);
 
     setState(() {
       _results = results;
-      _isSearching = false;
+      _isLoading = false;
     });
   }
 
@@ -79,6 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
             padding: const EdgeInsets.all(16),
             child: TextField(
               controller: _searchController,
+              focusNode: _searchFocusNode,
               onChanged: _search,
               decoration: InputDecoration(
                 labelText: 'Search',
@@ -99,10 +130,10 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          if (_isSearching) const LinearProgressIndicator(),
+          if (_isLoading) const LinearProgressIndicator(),
           Expanded(
-            child: _results.isEmpty && _searchController.text.isNotEmpty
-                ? const Center(child: Text('No results found'))
+            child: _results.isEmpty
+                ? const Center(child: Text('No hymns found'))
                 : ListView.builder(
                     itemCount: _results.length,
                     itemBuilder: (context, index) {

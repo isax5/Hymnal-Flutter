@@ -11,6 +11,7 @@ import 'package:hymnal_app/services/favorites_service.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/layers/screens/sheets/sheets_screen.dart';
+import 'package:hymnal_app/layers/screens/player/player_bar.dart';
 
 class HymnScreen extends StatefulWidget {
   final String hymnalId;
@@ -151,8 +152,9 @@ Shared from Hymnal App''';
   Widget _buildAudioButtons(bool hasInstrumental, bool hasSung) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
-    return BottomAppBar(
-      height: isLandscape ? 40 : 56,
+    return Container(
+      height: isLandscape ? 50 : 56,
+      padding: const EdgeInsets.only(bottom: 0, top: 2),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -242,9 +244,11 @@ Shared from Hymnal App''';
     final hasInstrumental = _musicSettings?.getInstrumentalUrl(_hymn!.number) != null;
     final hasSung = _musicSettings?.getSungUrl(_hymn!.number) != null;
     final hasAudio = hasInstrumental || hasSung;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: isLandscape ? 40 : null,
         title: Text('Hymn ${_hymn!.number}'),
         actions: [
           IconButton(
@@ -262,14 +266,21 @@ Shared from Hymnal App''';
             ),
         ],
       ),
-      body: PageView.builder(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        itemCount: _allHymns?.length ?? 0,
-        itemBuilder: (context, index) {
-          final hymn = _allHymns![index];
-          return _buildHymnContent(hymn);
-        },
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: _onPageChanged,
+              itemCount: _allHymns?.length ?? 0,
+              itemBuilder: (context, index) {
+                final hymn = _allHymns![index];
+                return _buildHymnContent(hymn);
+              },
+            ),
+          ),
+          const PlayerBar(),
+        ],
       ),
       bottomNavigationBar: hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
     );

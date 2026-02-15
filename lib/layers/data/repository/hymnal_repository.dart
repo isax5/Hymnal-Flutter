@@ -37,8 +37,7 @@ class HymnalRepositoryImpl implements HymnalRepository {
     final hymnals = await getHymnals();
     final hymnal = hymnals.firstWhere((h) => h.id == hymnalId);
 
-    final jsonString =
-        await rootBundle.loadString('assets/hymns/${hymnal.hymnsFileName}');
+    final jsonString = await rootBundle.loadString('assets/hymns/${hymnal.hymnsFileName}');
     final List<dynamic> jsonList = json.decode(jsonString);
     final hymns = jsonList.map((e) => Hymn.fromJson(e)).toList();
 
@@ -55,11 +54,9 @@ class HymnalRepositoryImpl implements HymnalRepository {
     final hymnals = await getHymnals();
     final hymnal = hymnals.firstWhere((h) => h.id == hymnalId);
 
-    final jsonString = await rootBundle
-        .loadString('assets/hymns/${hymnal.thematicHymnsFileName}');
+    final jsonString = await rootBundle.loadString('assets/hymns/${hymnal.thematicHymnsFileName}');
     final List<dynamic> jsonList = json.decode(jsonString);
-    final thematicList =
-        jsonList.map((e) => ThematicCategory.fromJson(e)).toList();
+    final thematicList = jsonList.map((e) => ThematicCategory.fromJson(e)).toList();
 
     _cachedThematicLists[hymnalId] = thematicList;
     return thematicList;
@@ -75,10 +72,10 @@ class HymnalRepositoryImpl implements HymnalRepository {
     final List<dynamic> jsonList = json.decode(jsonString);
     final settings = jsonList.map((e) => MusicSettings.fromJson(e)).toList();
 
-    final musicSetting = settings.firstWhere(
-      (s) => s.id == hymnalId,
-      orElse: () => null as MusicSettings,
-    );
+    final musicSetting = settings.cast<MusicSettings?>().firstWhere(
+          (s) => s?.id == hymnalId,
+          orElse: () => null,
+        );
 
     if (musicSetting != null) {
       _cachedMusicSettings[hymnalId] = musicSetting;

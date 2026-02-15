@@ -45,8 +45,7 @@ class AudioService extends ChangeNotifier {
     });
   }
 
-  Future<void> playHymn(Hymn hymn, Hymnal hymnal, String url,
-      {bool instrumental = true}) async {
+  Future<void> playHymn(Hymn hymn, Hymnal hymnal, String url, {bool instrumental = true}) async {
     if (_currentUrl == url && _isPlaying) {
       await pause();
       return;
@@ -77,8 +76,12 @@ class AudioService extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _isLoading = false;
+      _currentHymn = null;
+      _currentHymnal = null;
+      _currentUrl = null;
       notifyListeners();
       debugPrint('Error playing audio: $e');
+      rethrow;
     }
   }
 

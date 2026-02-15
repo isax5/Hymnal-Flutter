@@ -153,7 +153,11 @@ Shared from Hymnal App''';
         : _musicSettings?.getSungUrl(_hymn!.number);
 
     if (url != null) {
-      await _audioService.playHymn(_hymn!, _hymnal!, url, instrumental: instrumental);
+      try {
+        await _audioService.playHymn(_hymn!, _hymnal!, url, instrumental: instrumental);
+      } catch (e) {
+        debugPrint('Failed to play audio: $e');
+      }
     }
   }
 

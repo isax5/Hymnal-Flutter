@@ -126,7 +126,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       },
                       child: ListTile(
                         leading: CircleAvatar(
-                          child: Text('${favorite.hymnNumber}'),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.6),
+                          child: Text(
+                            '${favorite.hymnNumber}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                         title: Text(favorite.title),
                         subtitle: Text(_getHymnalName(favorite.hymnalId)),

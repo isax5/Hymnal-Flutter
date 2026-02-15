@@ -171,7 +171,17 @@ class _SearchScreenState extends State<SearchScreen> {
                           final hymn = _results[index];
                           return ListTile(
                             leading: CircleAvatar(
-                              child: Text('${hymn.number}'),
+                              backgroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer
+                                  .withValues(alpha: 0.6),
+                              child: Text(
+                                '${hymn.number}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                             title: Text(hymn.title),
                             subtitle: Text(

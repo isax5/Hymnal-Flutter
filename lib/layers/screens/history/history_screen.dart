@@ -122,7 +122,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         final entry = history[index];
                         return ListTile(
                           leading: CircleAvatar(
-                            child: Text('${entry.hymnNumber}'),
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .primaryContainer
+                                .withValues(alpha: 0.6),
+                            child: Text(
+                              '${entry.hymnNumber}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                           title: Text(entry.title),
                           subtitle: Text(

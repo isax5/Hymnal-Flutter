@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/favorites_service.dart';
+import 'package:hymnal_app/services/history_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -41,85 +42,155 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return AnimatedBuilder(
       animation: Listenable.merge([_settingsService]),
       builder: (context, child) {
-        return Stack(
-          children: [
-            Container(color: Theme.of(context).scaffoldBackgroundColor),
-            if (_settingsService.showBackgroundImage)
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/background_image.png',
-                  fit: BoxFit.cover,
-                  opacity: const AlwaysStoppedAnimation(0.15),
-                ),
-              ),
-            Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                iconTheme: IconThemeData(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                titleTextStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                title: const Text('Settings'),
-              ),
-              body: ListView(
-                children: [
-                  _buildSection('Hymnal'),
-                  _buildHymnalSelector(),
-                  _buildSection('Appearance'),
-                  _buildThemeSelector(),
-                  _buildFontSizeSlider(),
-                  _buildSwitchTile(
-                    'Show Background Image',
-                    _settingsService.showBackgroundImage,
-                    (value) => _settingsService.setShowBackgroundImage(value),
-                  ),
-                  _buildSection('Behavior'),
-                  _buildSwitchTile(
-                    'Keep Screen On',
-                    _settingsService.keepScreenOn,
-                    (value) {
-                      _settingsService.setKeepScreenOn(value);
-                      WakelockPlus.toggle(enable: value);
-                    },
-                  ),
-                  _buildSection('About'),
-                  ListTile(
-                    leading: const Icon(Icons.web),
-                    title: const Text('Website'),
-                    subtitle: const Text(AppConstants.websiteUrl),
-                    onTap: () => _launchUrl(AppConstants.websiteUrl),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.code),
-                    title: const Text('Contribute'),
-                    subtitle: const Text('GitHub Repository'),
-                    onTap: () => _launchUrl(AppConstants.repositoryUrl),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.star),
-                    title: const Text('Rate the App'),
-                    onTap: _showRateOptions,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.info),
-                    title: const Text('Version'),
-                    subtitle: Text('$_appVersion ($_buildNumber)'),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.inventory_2),
-                    title: const Text('Licenses'),
-                    onTap: () => showLicensePage(context: context),
-                  ),
-                ],
-              ),
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-          ],
+            titleTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            title: const Text('Settings'),
+          ),
+          body: ListView(
+            children: [
+              _buildSection('Hymnal'),
+              _buildHymnalSelector(),
+              _buildSection('Appearance'),
+              _buildThemeSelector(),
+              _buildFontSizeSlider(),
+              SwitchListTile(
+                title: const Text('Background Image'),
+                subtitle: const Text('Show background image on screens'),
+                value: _settingsService.showBackgroundImage,
+                onChanged: (value) => _settingsService.setShowBackgroundImage(value),
+              ),
+              _buildSection('Behavior'),
+              _buildSwitchTile(
+                'Keep Screen On',
+                _settingsService.keepScreenOn,
+                (value) {
+                  _settingsService.setKeepScreenOn(value);
+                  WakelockPlus.toggle(enable: value);
+                },
+              ),
+              _buildSection('Data Management'),
+              ListTile(
+                leading: const Icon(Icons.refresh),
+                title: const Text('Clear History'),
+                subtitle: const Text('Remove all recently viewed hymns'),
+                onTap: () async {
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Clear History'),
+                      content: const Text(
+                        'Are you sure you want to clear your history? This cannot be undone.',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.red,
+                          ),
+                          child: const Text('Clear'),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (confirmed == true) {
+                    await GetIt.I<HistoryService>().clearHistory();
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('History cleared'),
+                        ),
+                      );
+                    }
+                  }
+                },
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: const Icon(Icons.delete_outline),
+                title: const Text('Clear Favorites'),
+                subtitle: const Text('Remove all favorite hymns'),
+                onTap: () async {
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Clear Favorites'),
+                      content: const Text(
+                        'Are you sure you want to clear all favorites? This cannot be undone.',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.red,
+                          ),
+                          child: const Text('Clear'),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (confirmed == true) {
+                    await _favoritesService.clearFavorites();
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Favorites cleared'),
+                        ),
+                      );
+                    }
+                  }
+                },
+              ),
+              _buildSection('About'),
+              ListTile(
+                leading: const Icon(Icons.web),
+                title: const Text('Website'),
+                subtitle: const Text(AppConstants.websiteUrl),
+                onTap: () => _launchUrl(AppConstants.websiteUrl),
+              ),
+              ListTile(
+                leading: const Icon(Icons.code),
+                title: const Text('Contribute'),
+                subtitle: const Text('GitHub Repository'),
+                onTap: () => _launchUrl(AppConstants.repositoryUrl),
+              ),
+              ListTile(
+                leading: const Icon(Icons.star),
+                title: const Text('Rate the App'),
+                onTap: _showRateOptions,
+              ),
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: const Text('Version'),
+                subtitle: Text('$_appVersion ($_buildNumber)'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.inventory_2),
+                title: const Text('Licenses'),
+                onTap: () => showLicensePage(context: context),
+              ),
+            ],
+          ),
         );
       },
     );

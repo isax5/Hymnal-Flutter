@@ -8,6 +8,7 @@ abstract class FavoritesRepository {
   Future<void> removeFavorite(String hymnalId, int hymnNumber);
   Future<bool> isFavorite(String hymnalId, int hymnNumber);
   Future<void> reorderFavorites(List<FavoriteHymn> favorites);
+  Future<void> clearFavorites();
 }
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
@@ -62,6 +63,12 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   @override
   Future<void> reorderFavorites(List<FavoriteHymn> favorites) async {
     await _saveFavorites(favorites);
+  }
+
+  @override
+  Future<void> clearFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_favoritesKey);
   }
 
   Future<void> _saveFavorites(List<FavoriteHymn> favorites) async {

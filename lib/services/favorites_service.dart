@@ -22,8 +22,7 @@ class FavoritesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addFavorite(
-      String hymnalId, int hymnNumber, String title) async {
+  Future<void> addFavorite(String hymnalId, int hymnNumber, String title) async {
     final favorite = FavoriteHymn(
       hymnalId: hymnalId,
       hymnNumber: hymnNumber,
@@ -41,12 +40,16 @@ class FavoritesService extends ChangeNotifier {
     await loadFavorites();
   }
 
+  Future<void> clearFavorites() async {
+    await _repository.clearFavorites();
+    await loadFavorites();
+  }
+
   Future<bool> isFavorite(String hymnalId, int hymnNumber) async {
     return await _repository.isFavorite(hymnalId, hymnNumber);
   }
 
-  Future<void> toggleFavorite(
-      String hymnalId, int hymnNumber, String title) async {
+  Future<void> toggleFavorite(String hymnalId, int hymnNumber, String title) async {
     final isFav = await isFavorite(hymnalId, hymnNumber);
     if (isFav) {
       await removeFavorite(hymnalId, hymnNumber);

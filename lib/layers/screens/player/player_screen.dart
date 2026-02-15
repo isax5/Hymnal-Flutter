@@ -95,7 +95,10 @@ class PlayerScreen extends StatelessWidget {
                           width: 220,
                           height: 220,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primaryContainer,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primaryContainer
+                                .withValues(alpha: 0.8),
                             borderRadius: BorderRadius.circular(24),
                             boxShadow: [
                               BoxShadow(

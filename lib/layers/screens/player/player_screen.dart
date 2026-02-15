@@ -11,9 +11,7 @@ class PlayerScreen extends StatelessWidget {
     final hours = twoDigits(duration.inHours);
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return duration.inHours > 0
-        ? '$hours:$minutes:$seconds'
-        : '$minutes:$seconds';
+    return duration.inHours > 0 ? '$hours:$minutes:$seconds' : '$minutes:$seconds';
   }
 
   void _openHymnPage(BuildContext context, String hymnalId, int hymnNumber) {
@@ -106,7 +104,10 @@ class PlayerScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 48),
                 Slider(
-                  value: audioService.position.inMilliseconds.toDouble(),
+                  value: audioService.position.inMilliseconds.toDouble().clamp(
+                        0,
+                        audioService.duration.inMilliseconds.toDouble().clamp(1, double.infinity),
+                      ),
                   max: audioService.duration.inMilliseconds.toDouble().clamp(
                         1,
                         double.infinity,

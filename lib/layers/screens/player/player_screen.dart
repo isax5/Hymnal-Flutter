@@ -132,6 +132,14 @@ class PlayerScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Skip previous
+                    IconButton(
+                      icon: const Icon(Icons.skip_previous),
+                      iconSize: 36,
+                      onPressed: () => audioService.skipPrevious(),
+                    ),
+                    const SizedBox(width: 8),
+                    // Rewind 10s
                     IconButton(
                       icon: const Icon(Icons.replay_10),
                       iconSize: 36,
@@ -141,7 +149,8 @@ class PlayerScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    const SizedBox(width: 24),
+                    const SizedBox(width: 8),
+                    // Play/Pause
                     FloatingActionButton(
                       onPressed: () => audioService.togglePlayPause(),
                       child: Icon(
@@ -149,7 +158,8 @@ class PlayerScreen extends StatelessWidget {
                         size: 36,
                       ),
                     ),
-                    const SizedBox(width: 24),
+                    const SizedBox(width: 8),
+                    // Forward 10s
                     IconButton(
                       icon: const Icon(Icons.forward_10),
                       iconSize: 36,
@@ -159,9 +169,36 @@ class PlayerScreen extends StatelessWidget {
                         );
                       },
                     ),
+                    const SizedBox(width: 8),
+                    // Skip next
+                    IconButton(
+                      icon: const Icon(Icons.skip_next),
+                      iconSize: 36,
+                      onPressed: () => audioService.skipNext(),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
+                // Continuous play toggle
+                TextButton.icon(
+                  onPressed: () => audioService.toggleContinuousPlay(),
+                  icon: Icon(
+                    Icons.playlist_play,
+                    color: audioService.continuousPlay
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey,
+                  ),
+                  label: Text(
+                    'Continuous Play',
+                    style: TextStyle(
+                      color: audioService.continuousPlay
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey,
+                      fontWeight: audioService.continuousPlay ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: () {
                     if (hymnal != null) {

@@ -154,7 +154,7 @@ Shared from Hymnal App''';
 
     if (url != null) {
       try {
-        await _audioService.playHymn(_hymn!, _hymnal!, url, instrumental: instrumental);
+        await _audioService.playHymn(_hymnal!, _hymn!, url, instrumental: instrumental);
       } catch (e) {
         debugPrint('Failed to play audio: $e');
       }

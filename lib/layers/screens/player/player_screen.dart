@@ -76,7 +76,7 @@ class PlayerScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
-                    audioService.isInstrumental ? Icons.piano : Icons.mic,
+                    audioService.isInstrumental ? Icons.piano : Icons.record_voice_over,
                     size: 80,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),

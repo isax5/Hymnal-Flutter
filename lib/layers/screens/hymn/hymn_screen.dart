@@ -211,7 +211,7 @@ Shared from Hymnal App''';
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.mic, size: 20),
+                          const Icon(Icons.record_voice_over, size: 20),
                           const SizedBox(width: 4),
                           Text(
                             'Sung',

@@ -9,8 +9,7 @@ class PlayerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     return AnimatedBuilder(
       animation: audioService,
@@ -24,6 +23,7 @@ class PlayerBar extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
+                settings: const RouteSettings(name: '/player'),
                 builder: (_) => const PlayerScreen(),
               ),
             );

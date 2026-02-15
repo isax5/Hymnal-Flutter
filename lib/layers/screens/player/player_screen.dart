@@ -16,31 +16,27 @@ class PlayerScreen extends StatelessWidget {
 
   void _openHymnPage(BuildContext context, String hymnalId, int hymnNumber) {
     // Check if HymnScreen is already in the navigation stack
-    final navigator = Navigator.of(context);
-    bool hymnScreenFound = false;
-
-    navigator.popUntil((route) {
-      if (route.settings.name == '/hymn') {
-        hymnScreenFound = true;
-        return true;
-      }
-      return false;
-    });
-
-    // If HymnScreen not found, push a new one
-    if (!hymnScreenFound) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          settings: const RouteSettings(name: '/hymn'),
-          builder: (_) => HymnScreen(
-            hymnalId: hymnalId,
-            hymnNumber: hymnNumber,
-            skipHistory: true,
-          ),
+    // Use pushAndRemoveUntil to replace the current hymn/player stack with the new hymn.
+    // This strictly removes any existing '/hymn' or '/player' routes from the top of the stack,
+    // essentially "swapping" the current view for the new hymn lyrics, while preserving
+    // the history (Home, Search, etc.) that effectively "launched" this flow.
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        settings: const RouteSettings(name: '/hymn'),
+        builder: (_) => HymnScreen(
+          hymnalId: hymnalId,
+          hymnNumber: hymnNumber,
+          skipHistory: true, // Don't add to history since it's from current playback
         ),
-      );
-    }
+      ),
+      (route) {
+        // Keep routes that are NOT '/hymn' or '/player'.
+        // This ensures check marks like "Home" or "Search" stay, but intermediate
+        // player/hymn pages are removed, preventing a deep loop stack.
+        return route.settings.name != '/hymn' && route.settings.name != '/player';
+      },
+    );
   }
 
   @override

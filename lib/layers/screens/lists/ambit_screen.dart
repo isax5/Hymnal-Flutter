@@ -20,45 +20,74 @@ class AmbitScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(ambit.name),
-      ),
-      body: ListView.builder(
-        itemCount: hymns.length,
-        itemBuilder: (context, index) {
-          final hymn = hymns[index];
-          return ListTile(
-            leading: CircleAvatar(
-              child: Text('${hymn.number}'),
-            ),
-            title: Text(hymn.title),
-            onTap: () async {
-              final settingsService = GetIt.I<SettingsService>();
-              final historyService = GetIt.I<HistoryService>();
+    final settingsService = GetIt.I<SettingsService>();
+    final historyService = GetIt.I<HistoryService>();
 
-              await historyService.addToHistory(
-                settingsService.selectedHymnal!.id,
-                hymn.number,
-                hymn.title,
-              );
-
-              if (context.mounted) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    settings: const RouteSettings(name: '/hymn'),
-                    builder: (_) => HymnScreen(
-                      hymnalId: settingsService.selectedHymnal!.id,
-                      hymnNumber: hymn.number,
+    return AnimatedBuilder(
+      animation: settingsService,
+      builder: (context, child) {
+        return Stack(
+          children: [
+            Container(color: Theme.of(context).scaffoldBackgroundColor),
+            if (settingsService.showBackgroundImage)
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/background_image.png',
+                  fit: BoxFit.cover,
+                  opacity: const AlwaysStoppedAnimation(0.15),
+                ),
+              ),
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                iconTheme: IconThemeData(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                titleTextStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                title: Text(ambit.name),
+              ),
+              body: ListView.builder(
+                itemCount: hymns.length,
+                itemBuilder: (context, index) {
+                  final hymn = hymns[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${hymn.number}'),
                     ),
-                  ),
-                );
-              }
-            },
-          );
-        },
-      ),
+                    title: Text(hymn.title),
+                    onTap: () async {
+                      await historyService.addToHistory(
+                        settingsService.selectedHymnal!.id,
+                        hymn.number,
+                        hymn.title,
+                      );
+
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            settings: const RouteSettings(name: '/hymn'),
+                            builder: (_) => HymnScreen(
+                              hymnalId: settingsService.selectedHymnal!.id,
+                              hymnNumber: hymn.number,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

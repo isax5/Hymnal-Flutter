@@ -258,43 +258,74 @@ Shared from Hymnal App''';
     final hasAudio = hasInstrumental || hasSung;
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: isLandscape ? 40 : null,
-        title: Text('Hymn ${_hymn!.number}'),
-        actions: [
-          IconButton(
-            icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
-            onPressed: _toggleFavorite,
-          ),
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: _shareHymn,
-          ),
-          if (hasSheets)
-            IconButton(
-              icon: const Icon(Icons.music_note),
-              onPressed: _openSheets,
+    return Stack(
+      children: [
+        Container(color: Theme.of(context).scaffoldBackgroundColor),
+        AnimatedBuilder(
+          animation: _settingsService,
+          builder: (context, child) {
+            if (!_settingsService.showBackgroundImage) {
+              return const SizedBox.shrink();
+            }
+            return Positioned.fill(
+              child: Image.asset(
+                'assets/background_image.png',
+                fit: BoxFit.cover,
+                opacity: const AlwaysStoppedAnimation(0.1),
+              ),
+            );
+          },
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              onPageChanged: _onPageChanged,
-              itemCount: _allHymns?.length ?? 0,
-              itemBuilder: (context, index) {
-                final hymn = _allHymns![index];
-                return _buildHymnContent(hymn);
-              },
+            titleTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
             ),
+            toolbarHeight: isLandscape ? 40 : null,
+            title: Text('Hymn ${_hymn!.number}'),
+            actions: [
+              IconButton(
+                icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
+                onPressed: _toggleFavorite,
+              ),
+              IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: _shareHymn,
+              ),
+              if (hasSheets)
+                IconButton(
+                  icon: const Icon(Icons.music_note),
+                  onPressed: _openSheets,
+                ),
+            ],
           ),
-          const PlayerBar(),
-        ],
-      ),
-      bottomNavigationBar: hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
+          body: Column(
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  itemCount: _allHymns?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final hymn = _allHymns![index];
+                    return _buildHymnContent(hymn);
+                  },
+                ),
+              ),
+              const PlayerBar(),
+            ],
+          ),
+          bottomNavigationBar: hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
+        ),
+      ],
     );
   }
 
@@ -303,15 +334,7 @@ Shared from Hymnal App''';
       animation: _settingsService,
       builder: (context, child) {
         return Container(
-          decoration: _settingsService.showBackgroundImage
-              ? const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/background_image.png'),
-                    fit: BoxFit.cover,
-                    opacity: 0.1,
-                  ),
-                )
-              : null,
+          // Background is now handled in the parent Stack
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(

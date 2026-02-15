@@ -1,26 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:hymnal_app/services/locator_service.dart';
 import 'package:hymnal_app/services/settings_service.dart';
-import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/styles/theme.dart';
 import 'package:hymnal_app/layers/screens/main_tabs_screen.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize audio background service with error handling
-  try {
-    await JustAudioBackground.init(
-      androidNotificationChannelId: 'com.isax5.hymnal.channel.audio',
-      androidNotificationChannelName: 'Hymnal Audio',
-      androidNotificationOngoing: true,
-    );
-  } catch (e) {
-    // If background audio fails to initialize, continue without it
-    debugPrint('Warning: Background audio initialization failed: $e');
-  }
 
   setupLocator();
 

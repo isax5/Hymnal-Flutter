@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:hymnal_app/layers/domain/model/hymn.dart';
 import 'package:hymnal_app/layers/domain/model/hymnal.dart';
 
@@ -27,6 +26,7 @@ class AudioService extends ChangeNotifier {
   bool get hasAudio => _currentUrl != null;
 
   AudioService() {
+    debugPrint('[AudioService] Initializing...');
     _player.positionStream.listen((position) {
       _position = position;
       notifyListeners();
@@ -34,19 +34,28 @@ class AudioService extends ChangeNotifier {
 
     _player.durationStream.listen((duration) {
       if (duration != null) {
+        debugPrint('[AudioService] Duration updated: $duration');
         _duration = duration;
         notifyListeners();
       }
     });
 
     _player.playerStateStream.listen((state) {
+      debugPrint(
+          '[AudioService] Player state changed: playing=${state.playing}, processingState=${state.processingState}');
       _isPlaying = state.playing;
       notifyListeners();
     });
+    debugPrint('[AudioService] Initialized successfully');
   }
 
   Future<void> playHymn(Hymn hymn, Hymnal hymnal, String url, {bool instrumental = true}) async {
+    debugPrint(
+        '[AudioService] playHymn called: hymn=${hymn.number} "${hymn.title}", hymnal=${hymnal.id}, instrumental=$instrumental');
+    debugPrint('[AudioService] URL: $url');
+
     if (_currentUrl == url && _isPlaying) {
+      debugPrint('[AudioService] Same URL already playing, pausing instead');
       await pause();
       return;
     }
@@ -59,20 +68,15 @@ class AudioService extends ChangeNotifier {
     notifyListeners();
 
     try {
+      debugPrint('[AudioService] Setting audio source...');
       await _player.setAudioSource(
-        AudioSource.uri(
-          Uri.parse(url),
-          tag: MediaItem(
-            id: '${hymnal.id}_${hymn.number}',
-            title: hymn.title,
-            artist: hymnal.name,
-            artUri: Uri.parse('asset:///assets/app_icon.png'),
-          ),
-        ),
+        AudioSource.uri(Uri.parse(url)),
       );
 
+      debugPrint('[AudioService] Audio source set, starting playback...');
       await _player.play();
       _isLoading = false;
+      debugPrint('[AudioService] Playback started successfully');
       notifyListeners();
     } catch (e) {
       _isLoading = false;
@@ -80,20 +84,23 @@ class AudioService extends ChangeNotifier {
       _currentHymnal = null;
       _currentUrl = null;
       notifyListeners();
-      debugPrint('Error playing audio: $e');
+      debugPrint('[AudioService] ERROR playing audio: $e');
       rethrow;
     }
   }
 
   Future<void> play() async {
+    debugPrint('[AudioService] play()');
     await _player.play();
   }
 
   Future<void> pause() async {
+    debugPrint('[AudioService] pause()');
     await _player.pause();
   }
 
   Future<void> stop() async {
+    debugPrint('[AudioService] stop()');
     await _player.stop();
     _currentHymn = null;
     _currentHymnal = null;
@@ -103,10 +110,12 @@ class AudioService extends ChangeNotifier {
   }
 
   Future<void> seek(Duration position) async {
+    debugPrint('[AudioService] seek($position)');
     await _player.seek(position);
   }
 
   Future<void> togglePlayPause() async {
+    debugPrint('[AudioService] togglePlayPause() — currently ${_isPlaying ? "playing" : "paused"}');
     if (_isPlaying) {
       await pause();
     } else {
@@ -116,6 +125,7 @@ class AudioService extends ChangeNotifier {
 
   @override
   void dispose() {
+    debugPrint('[AudioService] dispose()');
     _player.dispose();
     super.dispose();
   }

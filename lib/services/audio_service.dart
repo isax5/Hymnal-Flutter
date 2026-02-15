@@ -17,6 +17,7 @@ class AudioService extends ChangeNotifier {
   Duration _duration = Duration.zero;
   bool _isInstrumental = true;
   bool _continuousPlay = false;
+  int _playRequestId = 0;
 
   AudioPlayer get player => _player;
   Hymn? get currentHymn => _currentHymn;
@@ -149,6 +150,9 @@ class AudioService extends ChangeNotifier {
         '[AudioService] playHymn called: hymn=${hymn.number} "${hymn.title}", hymnal=${hymnal.id}, instrumental=$isInstrumental');
     debugPrint('[AudioService] URL: $url');
 
+    // Increment request ID to invalidate any previous pending requests
+    final requestId = ++_playRequestId;
+
     if (_currentUrl == url && _isPlaying) {
       debugPrint('[AudioService] Same URL already playing, pausing instead');
       await pause();
@@ -163,24 +167,44 @@ class AudioService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      debugPrint('[AudioService] Setting audio source...');
+      debugPrint('[AudioService] Setting audio source... (Request ID: $requestId)');
       await _player.setAudioSource(
         AudioSource.uri(Uri.parse(url)),
       );
 
+      // Check if this request is still the latest one
+      if (requestId != _playRequestId) {
+        debugPrint('[AudioService] Request ID $requestId is stale, ignoring success');
+        return;
+      }
+
       debugPrint('[AudioService] Audio source set, starting playback...');
       await _player.play();
+
+      if (requestId != _playRequestId) return;
+
       _isLoading = false;
       debugPrint('[AudioService] Playback started successfully');
       notifyListeners();
     } catch (e) {
-      _isLoading = false;
-      _currentHymn = null;
-      _currentHymnal = null;
-      _currentUrl = null;
-      notifyListeners();
-      debugPrint('[AudioService] ERROR playing audio: $e');
-      rethrow;
+      // Only clear state if this was the latest request
+      if (requestId == _playRequestId) {
+        _isLoading = false;
+        _currentHymn = null;
+        _currentHymnal = null;
+        _currentUrl = null;
+        notifyListeners();
+        debugPrint('[AudioService] ERROR playing audio: $e');
+      } else {
+        debugPrint('[AudioService] Ignoring error from stale request ID $requestId: $e');
+      }
+      // We don't rethrow here if it's stale, or maybe we shouldn't rethrow at all if we handled it?
+      // The original code rethrowed. If it's stale, we definitely shouldn't rethrow to the current caller?
+      // Actually, playHymn is awaited. If we suppress the error for stale requests, the UI (which awaited the stale request) won't get an exception.
+      // That's probably fine, the UI has moved on.
+      if (requestId == _playRequestId) {
+        rethrow;
+      }
     }
   }
 

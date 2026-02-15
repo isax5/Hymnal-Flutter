@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/audio_service.dart';
+import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 
 class PlayerScreen extends StatelessWidget {
@@ -42,173 +43,267 @@ class PlayerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
+    final settingsService = GetIt.I<SettingsService>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Now Playing'),
-      ),
-      body: AnimatedBuilder(
-        animation: audioService,
-        builder: (context, child) {
-          final hymn = audioService.currentHymn;
-          final hymnal = audioService.currentHymnal;
+    return AnimatedBuilder(
+      animation: settingsService,
+      builder: (context, child) {
+        return Stack(
+          children: [
+            Container(color: Theme.of(context).scaffoldBackgroundColor),
+            if (settingsService.showBackgroundImage)
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/background_image.png',
+                  fit: BoxFit.cover,
+                  opacity: const AlwaysStoppedAnimation(0.15),
+                ),
+              ),
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                iconTheme: IconThemeData(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                titleTextStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                title: const Text('Now Playing'),
+              ),
+              body: AnimatedBuilder(
+                animation: audioService,
+                builder: (context, child) {
+                  final hymn = audioService.currentHymn;
+                  final hymnal = audioService.currentHymnal;
 
-          if (hymn == null) {
-            return const Center(
-              child: Text('No audio playing'),
-            );
-          }
-
-          return Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(
-                    audioService.isInstrumental ? Icons.piano : Icons.record_voice_over,
-                    size: 80,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                Text(
-                  hymn.title,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '${hymnal?.name ?? ""} • #${hymn.number}',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.grey,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  audioService.isInstrumental ? 'Instrumental' : 'Sung',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 48),
-                Slider(
-                  value: audioService.position.inMilliseconds.toDouble().clamp(
-                        0,
-                        audioService.duration.inMilliseconds.toDouble().clamp(1, double.infinity),
-                      ),
-                  max: audioService.duration.inMilliseconds.toDouble().clamp(
-                        1,
-                        double.infinity,
-                      ),
-                  onChanged: (value) {
-                    audioService.seek(
-                      Duration(milliseconds: value.toInt()),
+                  if (hymn == null) {
+                    return const Center(
+                      child: Text('No audio playing'),
                     );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(_formatDuration(audioService.position)),
-                      Text(_formatDuration(audioService.duration)),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Skip previous
-                    IconButton(
-                      icon: const Icon(Icons.skip_previous),
-                      iconSize: 36,
-                      onPressed: () => audioService.skipPrevious(),
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 220,
+                          height: 220,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(24),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.1),
+                                blurRadius: 16,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            audioService.isInstrumental ? Icons.piano : Icons.record_voice_over,
+                            size: 80,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        Text(
+                          hymn.title,
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          '${hymnal?.name ?? ""} • #${hymn.number}',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            audioService.isInstrumental ? 'Instrumental' : 'Sung',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 48),
+                        Slider(
+                          value: audioService.position.inMilliseconds.toDouble().clamp(
+                                0,
+                                audioService.duration.inMilliseconds
+                                    .toDouble()
+                                    .clamp(1, double.infinity),
+                              ),
+                          max: audioService.duration.inMilliseconds.toDouble().clamp(
+                                1,
+                                double.infinity,
+                              ),
+                          onChanged: (value) {
+                            audioService.seek(
+                              Duration(milliseconds: value.toInt()),
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                _formatDuration(audioService.position),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.7),
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                _formatDuration(audioService.duration),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.7),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Skip previous
+                            IconButton(
+                              icon: const Icon(Icons.skip_previous_rounded),
+                              iconSize: 42,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              onPressed: () => audioService.skipPrevious(),
+                            ),
+                            const SizedBox(width: 16),
+                            // Rewind 10s
+                            IconButton(
+                              icon: const Icon(Icons.replay_10_rounded),
+                              iconSize: 32,
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+                              onPressed: () {
+                                audioService.seek(
+                                  audioService.position - const Duration(seconds: 10),
+                                );
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            // Play/Pause
+                            GestureDetector(
+                              onTap: () => audioService.togglePlayPause(),
+                              child: Container(
+                                width: 72,
+                                height: 72,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.4),
+                                      blurRadius: 20,
+                                      offset: const Offset(0, 8),
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(
+                                  audioService.isPlaying
+                                      ? Icons.pause_rounded
+                                      : Icons.play_arrow_rounded,
+                                  size: 42,
+                                  color: Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            // Forward 10s
+                            IconButton(
+                              icon: const Icon(Icons.forward_10_rounded),
+                              iconSize: 32,
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+                              onPressed: () {
+                                audioService.seek(
+                                  audioService.position + const Duration(seconds: 10),
+                                );
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            // Skip next
+                            IconButton(
+                              icon: const Icon(Icons.skip_next_rounded),
+                              iconSize: 42,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              onPressed: () => audioService.skipNext(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        // Continuous play toggle
+                        TextButton.icon(
+                          onPressed: () => audioService.toggleContinuousPlay(),
+                          icon: Icon(
+                            Icons.playlist_play,
+                            color: audioService.continuousPlay
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey,
+                          ),
+                          label: Text(
+                            'Continuous Play',
+                            style: TextStyle(
+                              color: audioService.continuousPlay
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.grey,
+                              fontWeight:
+                                  audioService.continuousPlay ? FontWeight.bold : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            if (hymnal != null) {
+                              _openHymnPage(context, hymnal.id, hymn.number);
+                            }
+                          },
+                          icon: const Icon(Icons.library_music),
+                          label: const Text('View Lyrics'),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    // Rewind 10s
-                    IconButton(
-                      icon: const Icon(Icons.replay_10),
-                      iconSize: 36,
-                      onPressed: () {
-                        audioService.seek(
-                          audioService.position - const Duration(seconds: 10),
-                        );
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    // Play/Pause
-                    FloatingActionButton(
-                      onPressed: () => audioService.togglePlayPause(),
-                      child: Icon(
-                        audioService.isPlaying ? Icons.pause : Icons.play_arrow,
-                        size: 36,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    // Forward 10s
-                    IconButton(
-                      icon: const Icon(Icons.forward_10),
-                      iconSize: 36,
-                      onPressed: () {
-                        audioService.seek(
-                          audioService.position + const Duration(seconds: 10),
-                        );
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    // Skip next
-                    IconButton(
-                      icon: const Icon(Icons.skip_next),
-                      iconSize: 36,
-                      onPressed: () => audioService.skipNext(),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                // Continuous play toggle
-                TextButton.icon(
-                  onPressed: () => audioService.toggleContinuousPlay(),
-                  icon: Icon(
-                    Icons.playlist_play,
-                    color: audioService.continuousPlay
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.grey,
-                  ),
-                  label: Text(
-                    'Continuous Play',
-                    style: TextStyle(
-                      color: audioService.continuousPlay
-                          ? Theme.of(context).colorScheme.primary
-                          : Colors.grey,
-                      fontWeight: audioService.continuousPlay ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    if (hymnal != null) {
-                      _openHymnPage(context, hymnal.id, hymn.number);
-                    }
-                  },
-                  icon: const Icon(Icons.library_music),
-                  label: const Text('View Lyrics'),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
-          );
-        },
-      ),
+          ],
+        );
+      },
     );
   }
 }

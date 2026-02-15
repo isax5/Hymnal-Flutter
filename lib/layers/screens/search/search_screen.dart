@@ -100,66 +100,89 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Hymns'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-              controller: _searchController,
-              focusNode: _searchFocusNode,
-              onChanged: _search,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                hintText: 'Enter title, lyrics, or number',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          _search('');
-                        },
-                      )
-                    : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
+    return Stack(
+      children: [
+        Container(color: Theme.of(context).scaffoldBackgroundColor),
+        if (_settingsService.showBackgroundImage)
+          Positioned.fill(
+            child: Image.asset(
+              'assets/background_image.png',
+              fit: BoxFit.cover,
+              opacity: const AlwaysStoppedAnimation(0.15),
             ),
           ),
-          if (_isLoading) const LinearProgressIndicator(),
-          Expanded(
-            child: _results.isEmpty
-                ? const Center(child: Text('No hymns found'))
-                : ListView.builder(
-                    itemCount: _results.length,
-                    itemBuilder: (context, index) {
-                      final hymn = _results[index];
-                      return ListTile(
-                        leading: CircleAvatar(
-                          child: Text('${hymn.number}'),
-                        ),
-                        title: Text(hymn.title),
-                        subtitle: Text(
-                          hymn.content.replaceAll('\n', ' ').substring(
-                              0,
-                              hymn.content.length > 100
-                                  ? 100
-                                  : hymn.content.length),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        onTap: () => _openHymn(hymn),
-                      );
-                    },
-                  ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            titleTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            title: const Text('Search Hymns'),
           ),
-        ],
-      ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: TextField(
+                  controller: _searchController,
+                  focusNode: _searchFocusNode,
+                  onChanged: _search,
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    hintText: 'Enter title, lyrics, or number',
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: _searchController.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _searchController.clear();
+                              _search('');
+                            },
+                          )
+                        : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Theme.of(context).colorScheme.surface,
+                  ),
+                ),
+              ),
+              if (_isLoading) const LinearProgressIndicator(),
+              Expanded(
+                child: _results.isEmpty
+                    ? const Center(child: Text('No hymns found'))
+                    : ListView.builder(
+                        itemCount: _results.length,
+                        itemBuilder: (context, index) {
+                          final hymn = _results[index];
+                          return ListTile(
+                            leading: CircleAvatar(
+                              child: Text('${hymn.number}'),
+                            ),
+                            title: Text(hymn.title),
+                            subtitle: Text(
+                              hymn.content.replaceAll('\n', ' ').substring(
+                                  0, hymn.content.length > 100 ? 100 : hymn.content.length),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            onTap: () => _openHymn(hymn),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

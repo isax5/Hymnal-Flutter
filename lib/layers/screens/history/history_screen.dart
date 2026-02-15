@@ -69,51 +69,75 @@ class _HistoryScreenState extends State<HistoryScreen> {
       builder: (context, child) {
         final history = _historyService.history;
 
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('History'),
-            actions: [
-              if (history.isNotEmpty)
-                IconButton(
-                  icon: const Icon(Icons.clear_all),
-                  onPressed: _clearHistory,
+        return Stack(
+          children: [
+            Container(color: Theme.of(context).scaffoldBackgroundColor),
+            if (_settingsService.showBackgroundImage)
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/background_image.png',
+                  fit: BoxFit.cover,
+                  opacity: const AlwaysStoppedAnimation(0.15),
                 ),
-            ],
-          ),
-          body: history.isEmpty
-              ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.history, size: 64, color: Colors.grey),
-                      SizedBox(height: 16),
-                      Text(
-                        'No history yet',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: history.length,
-                  itemBuilder: (context, index) {
-                    final entry = history[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text('${entry.hymnNumber}'),
-                      ),
-                      title: Text(entry.title),
-                      subtitle: Text(
-                        '${_getHymnalName(entry.hymnalId)} • ${_formatDate(entry.openedAt)}',
-                      ),
-                      onTap: () => _openHymn(
-                        entry.hymnalId,
-                        entry.hymnNumber,
-                        entry.title,
-                      ),
-                    );
-                  },
+              ),
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                iconTheme: IconThemeData(
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
+                titleTextStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                title: const Text('History'),
+                actions: [
+                  if (history.isNotEmpty)
+                    IconButton(
+                      icon: const Icon(Icons.clear_all),
+                      onPressed: _clearHistory,
+                    ),
+                ],
+              ),
+              body: history.isEmpty
+                  ? const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.history, size: 64, color: Colors.grey),
+                          SizedBox(height: 16),
+                          Text(
+                            'No history yet',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: history.length,
+                      itemBuilder: (context, index) {
+                        final entry = history[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            child: Text('${entry.hymnNumber}'),
+                          ),
+                          title: Text(entry.title),
+                          subtitle: Text(
+                            '${_getHymnalName(entry.hymnalId)} • ${_formatDate(entry.openedAt)}',
+                          ),
+                          onTap: () => _openHymn(
+                            entry.hymnalId,
+                            entry.hymnNumber,
+                            entry.title,
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
         );
       },
     );

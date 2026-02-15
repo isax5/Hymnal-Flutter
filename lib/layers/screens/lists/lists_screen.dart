@@ -65,28 +65,52 @@ class _ListsScreenState extends State<ListsScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Lists'),
-          bottom: TabBar(
-            isScrollable: true,
-            onTap: (index) => setState(() => _selectedTab = index),
-            tabs: const [
-              Tab(text: 'Numeric', icon: Icon(Icons.format_list_numbered)),
-              Tab(text: 'Alphabetic', icon: Icon(Icons.sort_by_alpha)),
-              Tab(text: 'Thematic', icon: Icon(Icons.category)),
-            ],
-          ),
-        ),
-        body: _hymns == null
-            ? const Center(child: CircularProgressIndicator())
-            : TabBarView(
-                children: [
-                  _buildNumericList(),
-                  _buildAlphabeticList(),
-                  _buildThematicList(),
+      child: Stack(
+        children: [
+          Container(color: Theme.of(context).scaffoldBackgroundColor),
+          if (_settingsService.showBackgroundImage)
+            Positioned.fill(
+              child: Image.asset(
+                'assets/background_image.png',
+                fit: BoxFit.cover,
+                opacity: const AlwaysStoppedAnimation(0.15),
+              ),
+            ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              iconTheme: IconThemeData(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              titleTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+              title: const Text('Lists'),
+              bottom: TabBar(
+                isScrollable: true,
+                onTap: (index) => setState(() => _selectedTab = index),
+                tabs: const [
+                  Tab(text: 'Numeric', icon: Icon(Icons.format_list_numbered)),
+                  Tab(text: 'Alphabetic', icon: Icon(Icons.sort_by_alpha)),
+                  Tab(text: 'Thematic', icon: Icon(Icons.category)),
                 ],
               ),
+            ),
+            body: _hymns == null
+                ? const Center(child: CircularProgressIndicator())
+                : TabBarView(
+                    children: [
+                      _buildNumericList(),
+                      _buildAlphabeticList(),
+                      _buildThematicList(),
+                    ],
+                  ),
+          ),
+        ],
       ),
     );
   }
@@ -108,8 +132,7 @@ class _ListsScreenState extends State<ListsScreen> {
   }
 
   Widget _buildAlphabeticList() {
-    final sortedHymns = List<Hymn>.from(_hymns!)
-      ..sort((a, b) => a.title.compareTo(b.title));
+    final sortedHymns = List<Hymn>.from(_hymns!)..sort((a, b) => a.title.compareTo(b.title));
 
     return ListView.builder(
       itemCount: sortedHymns.length,
@@ -153,8 +176,7 @@ class _ListsScreenState extends State<ListsScreen> {
                     category: category.thematic,
                     ambit: ambit,
                     hymns: _hymns!
-                        .where((h) =>
-                            h.number >= ambit.start && h.number <= ambit.end)
+                        .where((h) => h.number >= ambit.start && h.number <= ambit.end)
                         .toList(),
                   ),
                 ),

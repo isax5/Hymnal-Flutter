@@ -41,61 +41,85 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return AnimatedBuilder(
       animation: Listenable.merge([_settingsService]),
       builder: (context, child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Settings'),
-          ),
-          body: ListView(
-            children: [
-              _buildSection('Hymnal'),
-              _buildHymnalSelector(),
-              _buildSection('Appearance'),
-              _buildThemeSelector(),
-              _buildFontSizeSlider(),
-              _buildSwitchTile(
-                'Show Background Image',
-                _settingsService.showBackgroundImage,
-                (value) => _settingsService.setShowBackgroundImage(value),
+        return Stack(
+          children: [
+            Container(color: Theme.of(context).scaffoldBackgroundColor),
+            if (_settingsService.showBackgroundImage)
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/background_image.png',
+                  fit: BoxFit.cover,
+                  opacity: const AlwaysStoppedAnimation(0.15),
+                ),
               ),
-              _buildSection('Behavior'),
-              _buildSwitchTile(
-                'Keep Screen On',
-                _settingsService.keepScreenOn,
-                (value) {
-                  _settingsService.setKeepScreenOn(value);
-                  WakelockPlus.toggle(enable: value);
-                },
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                iconTheme: IconThemeData(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                titleTextStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                title: const Text('Settings'),
               ),
-              _buildSection('About'),
-              ListTile(
-                leading: const Icon(Icons.web),
-                title: const Text('Website'),
-                subtitle: const Text(AppConstants.websiteUrl),
-                onTap: () => _launchUrl(AppConstants.websiteUrl),
+              body: ListView(
+                children: [
+                  _buildSection('Hymnal'),
+                  _buildHymnalSelector(),
+                  _buildSection('Appearance'),
+                  _buildThemeSelector(),
+                  _buildFontSizeSlider(),
+                  _buildSwitchTile(
+                    'Show Background Image',
+                    _settingsService.showBackgroundImage,
+                    (value) => _settingsService.setShowBackgroundImage(value),
+                  ),
+                  _buildSection('Behavior'),
+                  _buildSwitchTile(
+                    'Keep Screen On',
+                    _settingsService.keepScreenOn,
+                    (value) {
+                      _settingsService.setKeepScreenOn(value);
+                      WakelockPlus.toggle(enable: value);
+                    },
+                  ),
+                  _buildSection('About'),
+                  ListTile(
+                    leading: const Icon(Icons.web),
+                    title: const Text('Website'),
+                    subtitle: const Text(AppConstants.websiteUrl),
+                    onTap: () => _launchUrl(AppConstants.websiteUrl),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.code),
+                    title: const Text('Contribute'),
+                    subtitle: const Text('GitHub Repository'),
+                    onTap: () => _launchUrl(AppConstants.repositoryUrl),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.star),
+                    title: const Text('Rate the App'),
+                    onTap: _showRateOptions,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.info),
+                    title: const Text('Version'),
+                    subtitle: Text('$_appVersion ($_buildNumber)'),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.inventory_2),
+                    title: const Text('Licenses'),
+                    onTap: () => showLicensePage(context: context),
+                  ),
+                ],
               ),
-              ListTile(
-                leading: const Icon(Icons.code),
-                title: const Text('Contribute'),
-                subtitle: const Text('GitHub Repository'),
-                onTap: () => _launchUrl(AppConstants.repositoryUrl),
-              ),
-              ListTile(
-                leading: const Icon(Icons.star),
-                title: const Text('Rate the App'),
-                onTap: _showRateOptions,
-              ),
-              ListTile(
-                leading: const Icon(Icons.info),
-                title: const Text('Version'),
-                subtitle: Text('$_appVersion ($_buildNumber)'),
-              ),
-              ListTile(
-                leading: const Icon(Icons.inventory_2),
-                title: const Text('Licenses'),
-                onTap: () => showLicensePage(context: context),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

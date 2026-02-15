@@ -50,11 +50,18 @@ class AudioService extends ChangeNotifier {
       _isPlaying = state.playing;
       notifyListeners();
 
-      // Auto-advance to next hymn when playback completes
-      if (state.processingState == ProcessingState.completed && _continuousPlay) {
-        debugPrint(
-            '[AudioService] Playback completed, continuous play is ON — advancing to next hymn');
-        skipNext();
+      // Handle playback completion
+      if (state.processingState == ProcessingState.completed) {
+        if (_continuousPlay) {
+          debugPrint(
+              '[AudioService] Playback completed, continuous play is ON — advancing to next hymn');
+          skipNext();
+        } else {
+          debugPrint('[AudioService] Playback completed, pausing and seeking to start');
+          // Pause first to stop playback, then seek to start
+          _player.pause();
+          _player.seek(Duration.zero);
+        }
       }
     });
     debugPrint('[AudioService] Initialized successfully');

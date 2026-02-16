@@ -36,7 +36,10 @@ class _MainTabsScreenState extends _MainTabsController {
             Scaffold(
               backgroundColor: Colors.transparent,
               resizeToAvoidBottomInset: false,
-              body: _screens[_currentIndex],
+              body: IndexedStack(
+                index: _currentIndex,
+                children: _screens,
+              ),
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: _currentIndex,
                 onTap: _onTabTapped,

@@ -29,6 +29,8 @@ class _HomeScreenState extends _HomeController {
             backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,
             appBar: AppBar(
+              toolbarHeight:
+                  MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
               backgroundColor: Colors.transparent,
               elevation: 0,
               iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),

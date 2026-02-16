@@ -45,6 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            toolbarHeight: MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
             backgroundColor: Colors.transparent,
             elevation: 0,
             iconTheme: IconThemeData(

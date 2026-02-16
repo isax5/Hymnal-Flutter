@@ -22,7 +22,6 @@ class _ListsScreenState extends State<ListsScreen> {
 
   List<Hymn>? _hymns;
   List<ThematicCategory>? _thematicList;
-  int _selectedTab = 0;
 
   @override
   void initState() {
@@ -68,21 +67,12 @@ class _ListsScreenState extends State<ListsScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          toolbarHeight: 0,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          titleTextStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
-          title: const Text('Lists'),
-          bottom: TabBar(
+          bottom: const TabBar(
             isScrollable: true,
-            onTap: (index) => setState(() => _selectedTab = index),
-            tabs: const [
+            tabs: [
               Tab(text: 'Numeric', icon: Icon(Icons.format_list_numbered)),
               Tab(text: 'Alphabetic', icon: Icon(Icons.sort_by_alpha)),
               Tab(text: 'Thematic', icon: Icon(Icons.category)),

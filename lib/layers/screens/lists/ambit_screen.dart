@@ -5,7 +5,7 @@ import 'package:hymnal_app/layers/domain/model/hymn.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
-import 'package:hymnal_app/layers/screens/player/player_bar.dart';
+import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
 class AmbitScreen extends StatelessWidget {
   final String category;
@@ -51,58 +51,55 @@ class AmbitScreen extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
-                title: Text(ambit.name),
-              ),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: hymns.length,
-                      itemBuilder: (context, index) {
-                        final hymn = hymns[index];
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .primaryContainer
-                                .withValues(alpha: 0.6),
-                            child: Text(
-                              '${hymn.number}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          title: Text(hymn.title),
-                          onTap: () async {
-                            await historyService.addToHistory(
-                              settingsService.selectedHymnal!.id,
-                              hymn.number,
-                              hymn.title,
-                            );
-
-                            if (context.mounted) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  settings: const RouteSettings(name: '/hymn'),
-                                  builder: (_) => HymnScreen(
-                                    hymnalId: settingsService.selectedHymnal!.id,
-                                    hymnNumber: hymn.number,
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      },
-                    ),
+                title: Text(category),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.share),
+                    onPressed: () {
+                      // TODO: Implement share
+                    },
                   ),
-                  const PlayerBar(),
                 ],
               ),
+              body: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 80),
+                itemCount: hymns.length,
+                itemBuilder: (context, index) {
+                  final hymn = hymns[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor:
+                          Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
+                      child: Text(
+                        '${hymn.number}',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    title: Text(hymn.title),
+                    onTap: () async {
+                      await historyService.addToHistory(
+                          settingsService.selectedHymnal!.id, hymn.number, hymn.title);
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            settings: const RouteSettings(name: '/hymn'),
+                            builder: (_) => HymnScreen(
+                              hymnalId: settingsService.selectedHymnal!.id,
+                              hymnNumber: hymn.number,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
             ),
+            const DraggablePlayer(),
           ],
         );
       },

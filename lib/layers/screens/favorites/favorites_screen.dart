@@ -65,6 +65,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                 )
               : ReorderableListView.builder(
+                  padding: const EdgeInsets.only(bottom: 80),
                   itemCount: favorites.length,
                   onReorder: _favoritesService.reorderFavorites,
                   itemBuilder: (context, index) {

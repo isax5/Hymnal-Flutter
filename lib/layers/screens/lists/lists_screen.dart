@@ -104,6 +104,7 @@ class _ListsScreenState extends State<ListsScreen> {
 
   Widget _buildNumericList() {
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 80),
       itemCount: _hymns!.length,
       itemBuilder: (context, index) {
         final hymn = _hymns![index];
@@ -129,6 +130,7 @@ class _ListsScreenState extends State<ListsScreen> {
     final sortedHymns = List<Hymn>.from(_hymns!)..sort((a, b) => a.title.compareTo(b.title));
 
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 80),
       itemCount: sortedHymns.length,
       itemBuilder: (context, index) {
         final hymn = sortedHymns[index];
@@ -156,6 +158,7 @@ class _ListsScreenState extends State<ListsScreen> {
     }
 
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 80),
       itemCount: _thematicList!.length,
       itemBuilder: (context, index) {
         final category = _thematicList![index];

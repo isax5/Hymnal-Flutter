@@ -1,4 +1,3 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/layers/data/repository/hymnal_repository.dart';
@@ -6,6 +5,7 @@ import 'package:hymnal_app/layers/domain/model/hymn.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
+import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -16,189 +16,185 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode();
   final HymnalRepository _repository = GetIt.I<HymnalRepository>();
   final SettingsService _settingsService = GetIt.I<SettingsService>();
-  final HistoryService _historyService = GetIt.I<HistoryService>();
-
   List<Hymn> _results = [];
+  List<Hymn> _allHymns = [];
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    // Focus the search field and load all hymns
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _searchFocusNode.requestFocus();
-      _loadAllHymns();
-    });
+    _searchController.addListener(_onSearchChanged);
+    _loadInitialData();
+  }
+
+  Future<void> _loadInitialData() async {
+    setState(() => _isLoading = true);
+    try {
+      final hymnalId = _settingsService.selectedHymnal?.id;
+      if (hymnalId == null) return;
+
+      final hymns = await _repository.getHymns(hymnalId);
+      if (mounted) {
+        setState(() {
+          _allHymns = hymns;
+          if (_searchController.text.isEmpty) {
+            _results = hymns;
+          }
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
   void dispose() {
+    _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
-    _searchFocusNode.dispose();
     super.dispose();
   }
 
-  Future<void> _loadAllHymns() async {
-    setState(() => _isLoading = true);
-
-    final hymnal = _settingsService.selectedHymnal;
-    if (hymnal == null) {
-      setState(() => _isLoading = false);
-      return;
-    }
-
-    final hymns = await _repository.getHymns(hymnal.id);
-
-    setState(() {
-      _results = hymns;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _search(String query) async {
-    final hymnal = _settingsService.selectedHymnal;
-    if (hymnal == null) return;
-
+  void _onSearchChanged() {
+    final query = _searchController.text;
     if (query.isEmpty) {
-      // Show all hymns when search is empty
-      final hymns = await _repository.getHymns(hymnal.id);
       setState(() {
-        _results = hymns;
+        _results = _allHymns;
+        _isLoading = false;
       });
       return;
     }
-
-    setState(() => _isLoading = true);
-
-    final results = await _repository.searchHymns(hymnal.id, query);
-
-    setState(() {
-      _results = results;
-      _isLoading = false;
-    });
+    _performSearch(query);
   }
 
-  Future<void> _openHymn(Hymn hymn) async {
-    final hymnal = _settingsService.selectedHymnal!;
-    await _historyService.addToHistory(hymnal.id, hymn.number, hymn.title);
+  Future<void> _performSearch(String query) async {
+    setState(() => _isLoading = true);
+    try {
+      final hymnalId = _settingsService.selectedHymnal?.id;
+      if (hymnalId == null) return;
 
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          settings: const RouteSettings(name: '/hymn'),
-          builder: (_) => HymnScreen(
-            hymnalId: hymnal.id,
-            hymnNumber: hymn.number,
-          ),
-        ),
-      );
+      final results = await _repository.searchHymns(hymnalId, query);
+      if (mounted) {
+        setState(() {
+          _results = results;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
+  }
+
+  void _openHymn(Hymn hymn) {
+    if (_settingsService.selectedHymnal == null) return;
+
+    // Unfocus keyboard before navigating
+    FocusScope.of(context).unfocus();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        settings: const RouteSettings(name: '/hymn'),
+        builder: (_) => HymnScreen(
+          hymnalId: _settingsService.selectedHymnal!.id,
+          hymnNumber: hymn.number,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(color: Theme.of(context).scaffoldBackgroundColor),
-        if (_settingsService.showBackgroundImage)
-          Positioned.fill(
-            child: Image.asset(
-              'assets/background_image.png',
-              fit: BoxFit.cover,
-              opacity: const AlwaysStoppedAnimation(0.15),
-            ),
-          ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            iconTheme: IconThemeData(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            titleTextStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-            title: const Text('Search Hymns'),
-          ),
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: BackdropFilter(
-                    filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: TextField(
-                      controller: _searchController,
-                      focusNode: _searchFocusNode,
-                      onChanged: _search,
-                      decoration: InputDecoration(
-                        labelText: 'Search',
-                        hintText: 'Enter title, lyrics, or number',
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  _searchController.clear();
-                                  _search('');
-                                },
-                              )
-                            : null,
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.6),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      ),
+    return AnimatedBuilder(
+      animation: _settingsService,
+      builder: (context, child) {
+        return Stack(
+          children: [
+            Container(color: Theme.of(context).scaffoldBackgroundColor),
+            if (_settingsService.showBackgroundImage)
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/background_image.png',
+                  fit: BoxFit.cover,
+                  opacity: const AlwaysStoppedAnimation(0.15),
+                ),
+              ),
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                iconTheme: IconThemeData(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                title: TextField(
+                  controller: _searchController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: 'Search hymns...',
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                     ),
+                  ),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
-              if (_isLoading) const LinearProgressIndicator(),
-              Expanded(
-                child: _results.isEmpty
-                    ? const Center(child: Text('No hymns found'))
-                    : ListView.builder(
-                        itemCount: _results.length,
-                        itemBuilder: (context, index) {
-                          final hymn = _results[index];
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer
-                                  .withValues(alpha: 0.6),
-                              child: Text(
-                                '${hymn.number}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                                  fontWeight: FontWeight.bold,
+              body: Column(
+                children: [
+                  if (_isLoading) const LinearProgressIndicator(),
+                  Expanded(
+                    child: _results.isEmpty
+                        ? const Center(child: Text('No hymns found'))
+                        : ListView.builder(
+                            padding: const EdgeInsets.only(bottom: 80),
+                            itemCount: _results.length,
+                            itemBuilder: (context, index) {
+                              final hymn = _results[index];
+                              return ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer
+                                      .withOpacity(0.6),
+                                  child: Text(
+                                    '${hymn.number}',
+                                    style: TextStyle(
+                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            title: Text(hymn.title),
-                            subtitle: Text(
-                              hymn.content.replaceAll('\n', ' ').substring(
-                                  0, hymn.content.length > 100 ? 100 : hymn.content.length),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            onTap: () => _openHymn(hymn),
-                          );
-                        },
-                      ),
+                                title: Text(hymn.title),
+                                subtitle: Text(
+                                  hymn.content.replaceAll('\n', ' ').substring(
+                                      0, hymn.content.length > 100 ? 100 : hymn.content.length),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                onTap: () => _openHymn(hymn),
+                              );
+                            },
+                          ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ],
+            ),
+            const DraggablePlayer(
+              includeSafeArea: false,
+              bottomPadding: 20,
+            ),
+          ],
+        );
+      },
     );
   }
 }

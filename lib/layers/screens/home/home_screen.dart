@@ -40,7 +40,7 @@ class _HomeScreenState extends _HomeController {
               title: const Text('Hymnal'),
             ),
             body: SafeArea(
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -158,6 +158,7 @@ class _HomeScreenState extends _HomeController {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 100), // Bottom padding for player
                   ],
                 ),
               ),

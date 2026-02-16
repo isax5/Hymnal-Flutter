@@ -5,7 +5,7 @@ import 'package:hymnal_app/layers/screens/home/home_screen.dart';
 import 'package:hymnal_app/layers/screens/lists/lists_screen.dart';
 import 'package:hymnal_app/layers/screens/favorites/favorites_screen.dart';
 import 'package:hymnal_app/layers/screens/settings/settings_screen.dart';
-import 'package:hymnal_app/layers/screens/player/player_bar.dart';
+import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
 class MainTabsScreen extends StatefulWidget {
   const MainTabsScreen({super.key});
@@ -44,14 +44,7 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
             Scaffold(
               backgroundColor: Colors.transparent,
               resizeToAvoidBottomInset: false,
-              body: Column(
-                children: [
-                  Expanded(
-                    child: _screens[_currentIndex],
-                  ),
-                  const PlayerBar(),
-                ],
-              ),
+              body: _screens[_currentIndex],
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: _currentIndex,
                 onTap: (index) => setState(() => _currentIndex = index),
@@ -75,6 +68,7 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
                 ],
               ),
             ),
+            const DraggablePlayer(bottomOffset: 56.0), // Standard BottomNavigationBar height
           ],
         );
       },

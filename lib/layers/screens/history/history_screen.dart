@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
+import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -117,6 +118,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       ),
                     )
                   : ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 80),
                       itemCount: history.length,
                       itemBuilder: (context, index) {
                         final entry = history[index];
@@ -146,6 +148,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         );
                       },
                     ),
+            ),
+            const DraggablePlayer(
+              includeSafeArea: false,
+              bottomPadding: 20,
             ),
           ],
         );

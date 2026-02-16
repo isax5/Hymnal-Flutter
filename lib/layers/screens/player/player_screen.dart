@@ -5,7 +5,9 @@ import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 
 class PlayerScreen extends StatelessWidget {
-  const PlayerScreen({super.key});
+  final bool showBackground;
+  final VoidCallback? onClose;
+  const PlayerScreen({super.key, this.showBackground = true, this.onClose});
 
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -16,11 +18,6 @@ class PlayerScreen extends StatelessWidget {
   }
 
   void _openHymnPage(BuildContext context, String hymnalId, int hymnNumber) {
-    // Check if HymnScreen is already in the navigation stack
-    // Use pushAndRemoveUntil to replace the current hymn/player stack with the new hymn.
-    // This strictly removes any existing '/hymn' or '/player' routes from the top of the stack,
-    // essentially "swapping" the current view for the new hymn lyrics, while preserving
-    // the history (Home, Search, etc.) that effectively "launched" this flow.
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -28,13 +25,10 @@ class PlayerScreen extends StatelessWidget {
         builder: (_) => HymnScreen(
           hymnalId: hymnalId,
           hymnNumber: hymnNumber,
-          skipHistory: true, // Don't add to history since it's from current playback
+          skipHistory: true,
         ),
       ),
       (route) {
-        // Keep routes that are NOT '/hymn' or '/player'.
-        // This ensures check marks like "Home" or "Search" stay, but intermediate
-        // player/hymn pages are removed, preventing a deep loop stack.
         return route.settings.name != '/hymn' && route.settings.name != '/player';
       },
     );
@@ -44,6 +38,240 @@ class PlayerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
     final settingsService = GetIt.I<SettingsService>();
+
+    final content = Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          leading: onClose != null
+              ? IconButton(
+                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                  onPressed: onClose,
+                )
+              : null,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          titleTextStyle: TextStyle(
+            color: Theme.of(context).colorScheme.onSurface,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+          title: const Text('Now Playing'),
+        ),
+        body: AnimatedBuilder(
+          animation: audioService,
+          builder: (context, child) {
+            final hymn = audioService.currentHymn;
+            final hymnal = audioService.currentHymnal;
+
+            if (hymn == null) {
+              return const Center(
+                child: Text('No audio playing'),
+              );
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 220,
+                    height: 220,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.8),
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 16,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      audioService.isInstrumental ? Icons.piano : Icons.record_voice_over,
+                      size: 80,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    hymn.title,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '${hymnal?.name ?? ""} • #${hymn.number}',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      audioService.isInstrumental ? 'Instrumental' : 'Sung',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 48),
+                  Slider(
+                    value: audioService.position.inMilliseconds.toDouble().clamp(
+                          0,
+                          audioService.duration.inMilliseconds.toDouble().clamp(1, double.infinity),
+                        ),
+                    max: audioService.duration.inMilliseconds.toDouble().clamp(
+                          1,
+                          double.infinity,
+                        ),
+                    onChanged: (value) {
+                      audioService.seek(
+                        Duration(milliseconds: value.toInt()),
+                      );
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _formatDuration(audioService.position),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          _formatDuration(audioService.duration),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.skip_previous_rounded),
+                        iconSize: 42,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        onPressed: () => audioService.skipPrevious(),
+                      ),
+                      const SizedBox(width: 16),
+                      IconButton(
+                        icon: const Icon(Icons.replay_10_rounded),
+                        iconSize: 32,
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+                        onPressed: () {
+                          audioService.seek(
+                            audioService.position - const Duration(seconds: 10),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 16),
+                      GestureDetector(
+                        onTap: () => audioService.togglePlayPause(),
+                        child: Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
+                                blurRadius: 20,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            audioService.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                            size: 42,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      IconButton(
+                        icon: const Icon(Icons.forward_10_rounded),
+                        iconSize: 32,
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+                        onPressed: () {
+                          audioService.seek(
+                            audioService.position + const Duration(seconds: 10),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 16),
+                      IconButton(
+                        icon: const Icon(Icons.skip_next_rounded),
+                        iconSize: 42,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        onPressed: () => audioService.skipNext(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton.icon(
+                    onPressed: () => audioService.toggleContinuousPlay(),
+                    icon: Icon(
+                      Icons.playlist_play,
+                      color: audioService.continuousPlay
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey,
+                    ),
+                    label: Text(
+                      'Continuous Play',
+                      style: TextStyle(
+                        color: audioService.continuousPlay
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.grey,
+                        fontWeight:
+                            audioService.continuousPlay ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      if (hymnal != null) {
+                        _openHymnPage(context, hymnal.id, hymn.number);
+                      }
+                    },
+                    icon: const Icon(Icons.library_music),
+                    label: const Text('View Lyrics'),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+
+    if (!showBackground) return content;
 
     return AnimatedBuilder(
       animation: settingsService,
@@ -59,251 +287,7 @@ class PlayerScreen extends StatelessWidget {
                   opacity: const AlwaysStoppedAnimation(0.15),
                 ),
               ),
-            Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                iconTheme: IconThemeData(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                titleTextStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                title: const Text('Now Playing'),
-              ),
-              body: AnimatedBuilder(
-                animation: audioService,
-                builder: (context, child) {
-                  final hymn = audioService.currentHymn;
-                  final hymnal = audioService.currentHymnal;
-
-                  if (hymn == null) {
-                    return const Center(
-                      child: Text('No audio playing'),
-                    );
-                  }
-
-                  return Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 220,
-                          height: 220,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primaryContainer
-                                .withValues(alpha: 0.8),
-                            borderRadius: BorderRadius.circular(24),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.1),
-                                blurRadius: 16,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
-                          ),
-                          child: Icon(
-                            audioService.isInstrumental ? Icons.piano : Icons.record_voice_over,
-                            size: 80,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        const SizedBox(height: 32),
-                        Text(
-                          hymn.title,
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '${hymnal?.name ?? ""} • #${hymn.number}',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                              ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            audioService.isInstrumental ? 'Instrumental' : 'Sung',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 48),
-                        Slider(
-                          value: audioService.position.inMilliseconds.toDouble().clamp(
-                                0,
-                                audioService.duration.inMilliseconds
-                                    .toDouble()
-                                    .clamp(1, double.infinity),
-                              ),
-                          max: audioService.duration.inMilliseconds.toDouble().clamp(
-                                1,
-                                double.infinity,
-                              ),
-                          onChanged: (value) {
-                            audioService.seek(
-                              Duration(milliseconds: value.toInt()),
-                            );
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                _formatDuration(audioService.position),
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withValues(alpha: 0.7),
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Text(
-                                _formatDuration(audioService.duration),
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withValues(alpha: 0.7),
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Skip previous
-                            IconButton(
-                              icon: const Icon(Icons.skip_previous_rounded),
-                              iconSize: 42,
-                              color: Theme.of(context).colorScheme.onSurface,
-                              onPressed: () => audioService.skipPrevious(),
-                            ),
-                            const SizedBox(width: 16),
-                            // Rewind 10s
-                            IconButton(
-                              icon: const Icon(Icons.replay_10_rounded),
-                              iconSize: 32,
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
-                              onPressed: () {
-                                audioService.seek(
-                                  audioService.position - const Duration(seconds: 10),
-                                );
-                              },
-                            ),
-                            const SizedBox(width: 16),
-                            // Play/Pause
-                            GestureDetector(
-                              onTap: () => audioService.togglePlayPause(),
-                              child: Container(
-                                width: 72,
-                                height: 72,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary
-                                          .withValues(alpha: 0.4),
-                                      blurRadius: 20,
-                                      offset: const Offset(0, 8),
-                                    ),
-                                  ],
-                                ),
-                                child: Icon(
-                                  audioService.isPlaying
-                                      ? Icons.pause_rounded
-                                      : Icons.play_arrow_rounded,
-                                  size: 42,
-                                  color: Theme.of(context).colorScheme.onPrimary,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            // Forward 10s
-                            IconButton(
-                              icon: const Icon(Icons.forward_10_rounded),
-                              iconSize: 32,
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
-                              onPressed: () {
-                                audioService.seek(
-                                  audioService.position + const Duration(seconds: 10),
-                                );
-                              },
-                            ),
-                            const SizedBox(width: 16),
-                            // Skip next
-                            IconButton(
-                              icon: const Icon(Icons.skip_next_rounded),
-                              iconSize: 42,
-                              color: Theme.of(context).colorScheme.onSurface,
-                              onPressed: () => audioService.skipNext(),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        // Continuous play toggle
-                        TextButton.icon(
-                          onPressed: () => audioService.toggleContinuousPlay(),
-                          icon: Icon(
-                            Icons.playlist_play,
-                            color: audioService.continuousPlay
-                                ? Theme.of(context).colorScheme.primary
-                                : Colors.grey,
-                          ),
-                          label: Text(
-                            'Continuous Play',
-                            style: TextStyle(
-                              color: audioService.continuousPlay
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Colors.grey,
-                              fontWeight:
-                                  audioService.continuousPlay ? FontWeight.bold : FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            if (hymnal != null) {
-                              _openHymnPage(context, hymnal.id, hymn.number);
-                            }
-                          },
-                          icon: const Icon(Icons.library_music),
-                          label: const Text('View Lyrics'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+            content,
           ],
         );
       },

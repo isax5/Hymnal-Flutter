@@ -5,6 +5,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/settings_service.dart';
+import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
 class SheetsScreen extends StatefulWidget {
   final Hymnal hymnal;
@@ -179,6 +180,7 @@ class _SheetsScreenState extends State<SheetsScreen> {
                           ),
                         ),
             ),
+            const DraggablePlayer(),
           ],
         );
       },

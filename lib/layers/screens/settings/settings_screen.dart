@@ -58,6 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: const Text('Settings'),
           ),
           body: ListView(
+            padding: const EdgeInsets.only(bottom: 80),
             children: [
               _buildSection('Hymnal'),
               _buildHymnalSelector(),

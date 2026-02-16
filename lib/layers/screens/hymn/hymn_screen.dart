@@ -11,7 +11,7 @@ import 'package:hymnal_app/services/favorites_service.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/layers/screens/sheets/sheets_screen.dart';
-import 'package:hymnal_app/layers/screens/player/player_bar.dart';
+import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
 class HymnScreen extends StatefulWidget {
   final String hymnalId;
@@ -257,6 +257,9 @@ Shared from Hymnal App''';
     final hasSung = _musicSettings?.getSungUrl(_hymn!.number) != null;
     final hasAudio = hasInstrumental || hasSung;
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final audioButtonsHeight = (isLandscape ? 50.0 : 60.0);
+    // Only apply offset if bottomNavigationBar is showing
+    final bottomOffset = hasAudio ? audioButtonsHeight : 0.0;
 
     return Stack(
       children: [
@@ -307,23 +310,20 @@ Shared from Hymnal App''';
                 ),
             ],
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: _onPageChanged,
-                  itemCount: _allHymns?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final hymn = _allHymns![index];
-                    return _buildHymnContent(hymn);
-                  },
-                ),
-              ),
-              const PlayerBar(),
-            ],
+          body: PageView.builder(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            itemCount: _allHymns?.length ?? 0,
+            itemBuilder: (context, index) {
+              final hymn = _allHymns![index];
+              return _buildHymnContent(hymn);
+            },
           ),
           bottomNavigationBar: hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
+        ),
+        DraggablePlayer(
+          bottomOffset: bottomOffset,
+          includeSafeArea: false,
         ),
       ],
     );
@@ -336,7 +336,7 @@ Shared from Hymnal App''';
         return Container(
           // Background is now handled in the parent Stack
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

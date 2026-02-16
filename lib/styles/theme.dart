@@ -48,8 +48,10 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      primaryColor: accentColor,
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
+        primary: accentColor,
         brightness: Brightness.dark,
       ),
       textTheme: GoogleFonts.openSansTextTheme(ThemeData.dark().textTheme),

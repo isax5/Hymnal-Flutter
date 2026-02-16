@@ -9,7 +9,9 @@ abstract class _SheetsController extends State<SheetsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadSheets();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadSheets();
+    });
   }
 
   Future<void> _loadSheets() async {

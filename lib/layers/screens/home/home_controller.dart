@@ -37,8 +37,7 @@ abstract class _HomeController extends State<HomeScreen> {
       return;
     }
 
-    final hymn =
-        await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
+    final hymn = await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
     if (!mounted) return;
 
     if (hymn == null) {
@@ -72,20 +71,17 @@ abstract class _HomeController extends State<HomeScreen> {
               padding: const EdgeInsets.all(16),
               child: Text(
                 AppLocalizations.of(context)!.selectHymnal,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             ..._settingsService.hymnals.map((hymnal) {
-              final isSelected =
-                  hymnal.id == _settingsService.selectedHymnal?.id;
+              final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
               return ListTile(
                 leading: Text(
                   hymnal.twoLetterIsoLanguageName.toUpperCase(),
                   style: TextStyle(
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isSelected ? Theme.of(context).primaryColor : null,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    color: isSelected ? Theme.of(context).colorScheme.primary : null,
                   ),
                 ),
                 title: Text(hymnal.name),

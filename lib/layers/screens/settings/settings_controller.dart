@@ -111,15 +111,13 @@ abstract class _SettingsController extends State<SettingsScreen> {
               ),
             ),
             ..._settingsService.hymnals.map((hymnal) {
-              final isSelected =
-                  hymnal.id == _settingsService.selectedHymnal?.id;
+              final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
               return ListTile(
                 leading: Text(
                   hymnal.twoLetterIsoLanguageName.toUpperCase(),
                   style: TextStyle(
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isSelected ? Theme.of(context).primaryColor : null,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    color: isSelected ? Theme.of(context).colorScheme.primary : null,
                   ),
                 ),
                 title: Text(hymnal.name),
@@ -154,9 +152,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.brightness_auto),
               title: const Text('System'),
-              trailing: _settingsService.themeMode == 'system'
-                  ? const Icon(Icons.check)
-                  : null,
+              trailing: _settingsService.themeMode == 'system' ? const Icon(Icons.check) : null,
               onTap: () {
                 _settingsService.setThemeMode('system');
                 Navigator.pop(context);
@@ -165,9 +161,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.light_mode),
               title: const Text('Light'),
-              trailing: _settingsService.themeMode == 'light'
-                  ? const Icon(Icons.check)
-                  : null,
+              trailing: _settingsService.themeMode == 'light' ? const Icon(Icons.check) : null,
               onTap: () {
                 _settingsService.setThemeMode('light');
                 Navigator.pop(context);
@@ -176,9 +170,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.dark_mode),
               title: const Text('Dark'),
-              trailing: _settingsService.themeMode == 'dark'
-                  ? const Icon(Icons.check)
-                  : null,
+              trailing: _settingsService.themeMode == 'dark' ? const Icon(Icons.check) : null,
               onTap: () {
                 _settingsService.setThemeMode('dark');
                 Navigator.pop(context);

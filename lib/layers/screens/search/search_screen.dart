@@ -142,6 +142,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     hintStyle: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                     ),
+                    suffixIcon: _searchController.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear_rounded),
+                            color: Theme.of(context).colorScheme.onSurface,
+                            onPressed: () {
+                              _searchController.clear();
+                              _onSearchChanged();
+                            },
+                          )
+                        : null,
                   ),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurface,

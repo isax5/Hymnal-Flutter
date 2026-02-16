@@ -1,3 +1,4 @@
+import 'package:hymnal_app/core/utils/string_utils.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:hymnal_app/core/constants/app_assets.dart';
@@ -38,8 +39,7 @@ class HymnalRepositoryImpl implements HymnalRepository {
     final hymnals = await getHymnals();
     final hymnal = hymnals.firstWhere((h) => h.id == hymnalId);
 
-    final jsonString =
-        await rootBundle.loadString('assets/hymns/${hymnal.hymnsFileName}');
+    final jsonString = await rootBundle.loadString('assets/hymns/${hymnal.hymnsFileName}');
     final List<dynamic> jsonList = json.decode(jsonString);
     final hymns = jsonList.map((e) => Hymn.fromJson(e)).toList();
 
@@ -56,11 +56,9 @@ class HymnalRepositoryImpl implements HymnalRepository {
     final hymnals = await getHymnals();
     final hymnal = hymnals.firstWhere((h) => h.id == hymnalId);
 
-    final jsonString = await rootBundle
-        .loadString('assets/hymns/${hymnal.thematicHymnsFileName}');
+    final jsonString = await rootBundle.loadString('assets/hymns/${hymnal.thematicHymnsFileName}');
     final List<dynamic> jsonList = json.decode(jsonString);
-    final thematicList =
-        jsonList.map((e) => ThematicCategory.fromJson(e)).toList();
+    final thematicList = jsonList.map((e) => ThematicCategory.fromJson(e)).toList();
 
     _cachedThematicLists[hymnalId] = thematicList;
     return thematicList;
@@ -101,12 +99,22 @@ class HymnalRepositoryImpl implements HymnalRepository {
   @override
   Future<List<Hymn>> searchHymns(String hymnalId, String query) async {
     final hymns = await getHymns(hymnalId);
-    final lowerQuery = query.toLowerCase();
+    final normalizedQuery = StringUtils.normalize(query);
+
+    if (normalizedQuery.isEmpty && query.isNotEmpty) {
+      // If query only contains special chars, still try to match originally
+      final lowerQuery = query.toLowerCase();
+      return hymns.where((hymn) {
+        return hymn.title.toLowerCase().contains(lowerQuery) ||
+            hymn.content.toLowerCase().contains(lowerQuery) ||
+            hymn.number.toString().contains(lowerQuery);
+      }).toList();
+    }
 
     return hymns.where((hymn) {
-      return hymn.title.toLowerCase().contains(lowerQuery) ||
-          hymn.content.toLowerCase().contains(lowerQuery) ||
-          hymn.number.toString().contains(lowerQuery);
+      return hymn.normalizedTitle.contains(normalizedQuery) ||
+          hymn.normalizedContent.contains(normalizedQuery) ||
+          hymn.number.toString().contains(normalizedQuery);
     }).toList();
   }
 }

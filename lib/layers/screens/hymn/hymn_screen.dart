@@ -257,7 +257,7 @@ Shared from Hymnal App''';
     final hasSung = _musicSettings?.getSungUrl(_hymn!.number) != null;
     final hasAudio = hasInstrumental || hasSung;
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-    final audioButtonsHeight = (isLandscape ? 50.0 : 60.0);
+    final audioButtonsHeight = (isLandscape ? 35.0 : 60.0);
     // Only apply offset if bottomNavigationBar is showing
     final bottomOffset = hasAudio ? audioButtonsHeight : 0.0;
 
@@ -350,7 +350,7 @@ Shared from Hymnal App''';
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${_hymnal?.detail} • #${hymn.number}',
+                  '${_hymnal?.name}',
                   style: TextStyle(
                     fontSize: _settingsService.fontSize - 2,
                     color: Colors.grey,

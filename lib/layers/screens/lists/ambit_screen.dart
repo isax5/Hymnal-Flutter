@@ -52,14 +52,6 @@ class AmbitScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
                 title: Text(category),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.share),
-                    onPressed: () {
-                      // TODO: Implement share
-                    },
-                  ),
-                ],
               ),
               body: ListView.builder(
                 padding: const EdgeInsets.only(bottom: 80),

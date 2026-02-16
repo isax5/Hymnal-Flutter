@@ -109,7 +109,7 @@ class PlayerScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '${hymnal?.name ?? ""} • #${hymn.number}',
+                    '#${hymn.number} • ${hymnal?.name ?? ""}',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                         ),

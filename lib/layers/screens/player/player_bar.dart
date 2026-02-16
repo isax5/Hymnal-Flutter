@@ -55,7 +55,7 @@ class PlayerBar extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              audioService.currentHymn!.title,
+                              '#${audioService.currentHymn!.number} • ${audioService.currentHymn!.title}',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: isLandscape ? 12 : 14,
@@ -64,7 +64,7 @@ class PlayerBar extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              '#${audioService.currentHymn!.number}',
+                              audioService.currentHymnal!.name,
                               style: TextStyle(
                                 fontSize: isLandscape ? 10 : 12,
                                 color: Theme.of(context).colorScheme.onSurfaceVariant,

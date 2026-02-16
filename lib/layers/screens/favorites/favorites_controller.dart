@@ -40,22 +40,23 @@ abstract class _FavoritesController extends State<FavoritesScreen> {
   }
 
   Future<bool?> _confirmDismiss(FavoriteHymn favorite) async {
+    final l10n = AppLocalizations.of(context)!;
     return await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Remove Favorite'),
-        content: Text('Remove "${favorite.title}" from favorites?'),
+        title: Text(l10n.removeFavoriteTitle),
+        content: Text(l10n.removeFavorite(favorite.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(
               foregroundColor: Colors.red,
             ),
-            child: const Text('Remove'),
+            child: Text(l10n.remove),
           ),
         ],
       ),
@@ -63,15 +64,16 @@ abstract class _FavoritesController extends State<FavoritesScreen> {
   }
 
   void _onDismissed(FavoriteHymn favorite) {
+    final l10n = AppLocalizations.of(context)!;
     _favoritesService.removeFavorite(
       favorite.hymnalId,
       favorite.hymnNumber,
     );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${favorite.title} removed from favorites'),
+        content: Text(l10n.removedFromFavorites(favorite.title)),
         action: SnackBarAction(
-          label: 'Undo',
+          label: l10n.undo,
           onPressed: () {
             _favoritesService.addFavorite(
               favorite.hymnalId,

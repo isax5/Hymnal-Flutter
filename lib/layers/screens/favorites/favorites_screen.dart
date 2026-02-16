@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hymnal_app/services/history_service.dart';
-import 'package:hymnal_app/layers/domain/model/favorite_hymn.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/favorites_service.dart';
+import 'package:hymnal_app/services/history_service.dart';
+import 'package:hymnal_app/layers/domain/model/favorite_hymn.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
+import 'package:hymnal_app/l10n/app_localizations.dart';
 
 part 'favorites_controller.dart';
 
@@ -18,6 +19,7 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends _FavoritesController {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AnimatedBuilder(
       animation: Listenable.merge([_settingsService, _favoritesService]),
       builder: (context, child) {
@@ -37,23 +39,23 @@ class _FavoritesScreenState extends _FavoritesController {
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
-            title: const Text('Favorites'),
+            title: Text(l10n.favorites),
           ),
           body: favorites.isEmpty
-              ? const Center(
+              ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.favorite_border, size: 64, color: Colors.grey),
-                      SizedBox(height: 16),
+                      const Icon(Icons.favorite_border, size: 64, color: Colors.grey),
+                      const SizedBox(height: 16),
                       Text(
-                        'No favorites yet',
-                        style: TextStyle(color: Colors.grey),
+                        l10n.noFavoritesYet,
+                        style: const TextStyle(color: Colors.grey),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
-                        'Add hymns to your favorites from the hymn page',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        l10n.addHymnsToFavorites,
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                     ],
                   ),

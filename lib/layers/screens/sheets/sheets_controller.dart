@@ -13,10 +13,11 @@ abstract class _SheetsController extends State<SheetsScreen> {
   }
 
   Future<void> _loadSheets() async {
+    final l10n = AppLocalizations.of(context)!;
     if (widget.hymnal.hymnsSheetsFileName == null) {
       if (mounted) {
         setState(() {
-          _errorMessage = 'No sheet music available for this hymnal';
+          _errorMessage = l10n.noSheetMusicAvailable;
           _isLoading = false;
         });
       }
@@ -50,7 +51,7 @@ abstract class _SheetsController extends State<SheetsScreen> {
         _sheetUrls = urls;
         _isLoading = false;
         if (urls.isEmpty) {
-          _errorMessage = 'No sheet music found for hymn ${widget.hymnNumber}';
+          _errorMessage = l10n.noSheetMusicFound(widget.hymnNumber);
         }
       });
     }

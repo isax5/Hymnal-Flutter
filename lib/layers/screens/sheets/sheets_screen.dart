@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hymnal_app/l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:hymnal_app/layers/domain/model/hymnal.dart';
 import 'package:photo_view/photo_view.dart';
@@ -31,6 +32,7 @@ class _SheetsScreenState extends _SheetsController {
       animation: GetIt.I<SettingsService>(),
       builder: (context, child) {
         final settingsService = GetIt.I<SettingsService>();
+        final l10n = AppLocalizations.of(context)!;
         return Stack(
           children: [
             Container(color: Theme.of(context).scaffoldBackgroundColor),
@@ -56,7 +58,7 @@ class _SheetsScreenState extends _SheetsController {
                   fontWeight: FontWeight.w600,
                 ),
                 toolbarHeight: isLandscape ? 40 : null,
-                title: Text('Sheet Music - Hymn ${widget.hymnNumber}'),
+                title: Text(l10n.sheetMusicTitle(widget.hymnNumber)),
                 actions: [
                   if (_sheetUrls.length > 1)
                     Center(
@@ -105,7 +107,7 @@ class _SheetsScreenState extends _SheetsController {
                                       children: [
                                         const Icon(Icons.error, color: Colors.red),
                                         const SizedBox(height: 8),
-                                        Text('Failed to load image: $error'),
+                                        Text(l10n.failedToLoadImage(error.toString())),
                                       ],
                                     ),
                                   );

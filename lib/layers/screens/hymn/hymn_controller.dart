@@ -95,11 +95,12 @@ abstract class _HymnController extends State<HymnScreen> {
   }
 
   Future<void> _shareHymn() async {
+    final l10n = AppLocalizations.of(context)!;
     final text = '''${_hymn!.title}
 
 ${_hymn!.content}
 
-Shared from Hymnal App''';
+${l10n.sharedFromApp}''';
 
     await Share.share(text);
   }

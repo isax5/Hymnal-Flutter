@@ -5,6 +5,7 @@ import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/favorites_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
+import 'package:hymnal_app/l10n/app_localizations.dart';
 
 part 'player_controller.dart';
 
@@ -28,6 +29,7 @@ class _PlayerScreenState extends _PlayerController {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final content = Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Scaffold(
@@ -49,7 +51,7 @@ class _PlayerScreenState extends _PlayerController {
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
-          title: const Text('Now Playing'),
+          title: Text(l10n.nowPlaying),
         ),
         body: AnimatedBuilder(
           animation: _audioService,
@@ -58,8 +60,8 @@ class _PlayerScreenState extends _PlayerController {
             final hymnal = _audioService.currentHymnal;
 
             if (hymn == null) {
-              return const Center(
-                child: Text('No audio playing'),
+              return Center(
+                child: Text(l10n.noAudioPlaying),
               );
             }
 
@@ -113,7 +115,7 @@ class _PlayerScreenState extends _PlayerController {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    _audioService.isInstrumental ? 'Instrumental' : 'Sung',
+                    _audioService.isInstrumental ? l10n.instrumental : l10n.sung,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
@@ -249,7 +251,7 @@ class _PlayerScreenState extends _PlayerController {
                         size: isLandscape ? 18 : null,
                       ),
                       label: Text(
-                        'Continuous Play',
+                        l10n.continuousPlay,
                         style: TextStyle(
                           color: _audioService.continuousPlay
                               ? Theme.of(context).colorScheme.primary
@@ -278,7 +280,7 @@ class _PlayerScreenState extends _PlayerController {
                           visualDensity: VisualDensity.compact,
                         ),
                         icon: const Icon(Icons.library_music, size: 18),
-                        label: const Text('View Lyrics', style: TextStyle(fontSize: 12)),
+                        label: Text(l10n.viewLyrics, style: const TextStyle(fontSize: 12)),
                       ),
                     ],
                   ],
@@ -326,7 +328,7 @@ class _PlayerScreenState extends _PlayerController {
                       }
                     },
                     icon: const Icon(Icons.library_music),
-                    label: const Text('View Lyrics'),
+                    label: Text(l10n.viewLyrics),
                   ),
                 ],
               ),

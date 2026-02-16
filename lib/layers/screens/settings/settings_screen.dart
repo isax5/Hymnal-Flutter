@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hymnal_app/l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/favorites_service.dart';
@@ -23,6 +24,7 @@ class _SettingsScreenState extends _SettingsController {
     return AnimatedBuilder(
       animation: Listenable.merge([_settingsService]),
       builder: (context, child) {
+        final l10n = AppLocalizations.of(context)!;
         return Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -37,71 +39,71 @@ class _SettingsScreenState extends _SettingsController {
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
-            title: const Text('Settings'),
+            title: Text(l10n.settings),
           ),
           body: ListView(
             padding: const EdgeInsets.only(bottom: 80),
             children: [
-              _buildSection('Hymnal'),
+              _buildSection(l10n.sectionHymnal),
               _buildHymnalSelector(),
-              _buildSection('Appearance'),
+              _buildSection(l10n.sectionAppearance),
               _buildThemeSelector(),
               _buildFontSizeSlider(),
               SwitchListTile(
-                title: const Text('Background Image'),
-                subtitle: const Text('Show background image on screens'),
+                title: Text(l10n.backgroundImage),
+                subtitle: Text(l10n.backgroundImageSubtitle),
                 value: _settingsService.showBackgroundImage,
                 onChanged: (value) => _settingsService.setShowBackgroundImage(value),
               ),
-              _buildSection('Behavior'),
+              _buildSection(l10n.sectionBehavior),
               _buildSwitchTile(
-                'Keep Screen On',
+                l10n.keepScreenOn,
                 _settingsService.keepScreenOn,
                 (value) {
                   _settingsService.setKeepScreenOn(value);
                   WakelockPlus.toggle(enable: value);
                 },
               ),
-              _buildSection('Data Management'),
+              _buildSection(l10n.sectionDataManagement),
               ListTile(
                 leading: const Icon(Icons.refresh),
-                title: const Text('Clear History'),
-                subtitle: const Text('Remove all recently viewed hymns'),
+                title: Text(l10n.clearHistory),
+                subtitle: Text(l10n.clearHistorySubtitle),
                 onTap: _clearHistory,
               ),
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.delete_outline),
-                title: const Text('Clear Favorites'),
-                subtitle: const Text('Remove all favorite hymns'),
+                title: Text(l10n.clearFavorites),
+                subtitle: Text(l10n.clearFavoritesSubtitle),
                 onTap: _clearFavorites,
               ),
-              _buildSection('About'),
+              _buildSection(l10n.sectionAbout),
               ListTile(
                 leading: const Icon(Icons.web),
-                title: const Text('Website'),
+                title: Text(l10n.website),
                 subtitle: const Text(AppConstants.websiteUrl),
                 onTap: () => _launchUrl(AppConstants.websiteUrl),
               ),
               ListTile(
                 leading: const Icon(Icons.code),
-                title: const Text('Contribute'),
-                subtitle: const Text('GitHub Repository'),
+                title: Text(l10n.contribute),
+                subtitle: Text(l10n.githubRepo),
                 onTap: () => _launchUrl(AppConstants.repositoryUrl),
               ),
               ListTile(
                 leading: const Icon(Icons.star),
-                title: const Text('Rate the App'),
+                title: Text(l10n.rateApp),
                 onTap: _showRateOptions,
               ),
               ListTile(
                 leading: const Icon(Icons.info),
-                title: const Text('Version'),
+                title: Text(l10n.version),
                 subtitle: Text('$_appVersion ($_buildNumber)'),
               ),
               ListTile(
                 leading: const Icon(Icons.inventory_2),
-                title: const Text('Licenses'),
+                title: Text(l10n.licenses),
                 onTap: () => showLicensePage(context: context),
               ),
             ],
@@ -126,21 +128,23 @@ class _SettingsScreenState extends _SettingsController {
   }
 
   Widget _buildHymnalSelector() {
+    final l10n = AppLocalizations.of(context)!;
     return ListTile(
       leading: const Icon(Icons.book),
-      title: const Text('Selected Hymnal'),
+      title: Text(l10n.selectedHymnal),
       subtitle: Text(_settingsService.selectedHymnal != null
           ? '${_settingsService.selectedHymnal?.name} • ${_settingsService.selectedHymnal?.detail}'
-          : 'None'),
+          : l10n.none),
       trailing: const Icon(Icons.chevron_right),
       onTap: _showHymnalSelector,
     );
   }
 
   Widget _buildThemeSelector() {
+    final l10n = AppLocalizations.of(context)!;
     return ListTile(
       leading: const Icon(Icons.palette),
-      title: const Text('Theme'),
+      title: Text(l10n.theme),
       subtitle: Text(_capitalize(_settingsService.themeMode)),
       trailing: const Icon(Icons.chevron_right),
       onTap: _showThemeSelector,
@@ -148,9 +152,10 @@ class _SettingsScreenState extends _SettingsController {
   }
 
   Widget _buildFontSizeSlider() {
+    final l10n = AppLocalizations.of(context)!;
     return ListTile(
       leading: const Icon(Icons.format_size),
-      title: const Text('Font Size'),
+      title: Text(l10n.fontSize),
       subtitle: Slider(
         value: _settingsService.fontSize,
         min: 12,

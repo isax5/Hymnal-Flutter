@@ -13,6 +13,8 @@ import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/layers/screens/sheets/sheets_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
+import 'package:hymnal_app/l10n/app_localizations.dart';
+
 part 'hymn_controller.dart';
 
 class HymnScreen extends StatefulWidget {
@@ -33,6 +35,7 @@ class HymnScreen extends StatefulWidget {
 
 class _HymnScreenState extends _HymnController {
   Widget _buildAudioButtons(bool hasInstrumental, bool hasSung) {
+    final l10n = AppLocalizations.of(context)!;
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Container(
@@ -56,7 +59,7 @@ class _HymnScreenState extends _HymnController {
                           const Icon(Icons.piano, size: 20),
                           const SizedBox(width: 4),
                           Text(
-                            'Instrumental',
+                            l10n.instrumental,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -85,7 +88,7 @@ class _HymnScreenState extends _HymnController {
                           const Icon(Icons.record_voice_over, size: 20),
                           const SizedBox(width: 4),
                           Text(
-                            'Sung',
+                            l10n.sung,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -106,6 +109,7 @@ class _HymnScreenState extends _HymnController {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (_hymn == null) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -153,7 +157,7 @@ class _HymnScreenState extends _HymnController {
               fontWeight: FontWeight.w600,
             ),
             toolbarHeight: isLandscape ? 40 : null,
-            title: Text('Hymn ${_hymn!.number}'),
+            title: Text(l10n.hymnTitle(_hymn!.number)),
             actions: [
               IconButton(
                 icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),

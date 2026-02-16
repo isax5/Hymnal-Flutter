@@ -1,0 +1,288 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Russian (`ru`).
+class AppLocalizationsRu extends AppLocalizations {
+  AppLocalizationsRu([String locale = 'ru']) : super(locale);
+
+  @override
+  String get appName => 'Гимны';
+
+  @override
+  String get home => 'Главная';
+
+  @override
+  String get lists => 'Списки';
+
+  @override
+  String get favorites => 'Избранное';
+
+  @override
+  String get settings => 'Настройки';
+
+  @override
+  String get history => 'История';
+
+  @override
+  String get search => 'Поиск';
+
+  @override
+  String get searchHint => 'Поиск гимнов...';
+
+  @override
+  String get noHymnsFound => 'Гимны не найдены';
+
+  @override
+  String get numeric => 'По номеру';
+
+  @override
+  String get alpha => 'По алфавиту';
+
+  @override
+  String get thematic => 'По темам';
+
+  @override
+  String get selectedHymnal => 'Выбранный сборник';
+
+  @override
+  String get selectHymnal => 'Выбрать сборник';
+
+  @override
+  String get welcomeTitle => 'Добро пожаловать в приложение «Гимны»';
+
+  @override
+  String get welcomeSubtitle => 'Выберите сборник, чтобы начать просмотр';
+
+  @override
+  String get hymnNumber => 'Номер гимна';
+
+  @override
+  String get enterHymnNumber => 'Введите номер гимна';
+
+  @override
+  String get openHymn => 'Открыть гимн';
+
+  @override
+  String get go => 'Перейти';
+
+  @override
+  String get invalidHymnNumber => 'Пожалуйста, введите правильный номер гимна';
+
+  @override
+  String get hymnNotFound => 'Гимн не найден';
+
+  @override
+  String get hymnalNotSelected => 'Сборник не выбран';
+
+  @override
+  String get clearHistory => 'Очистить историю';
+
+  @override
+  String get clearHistoryConfirm =>
+      'Вы уверены, что хотите очистить историю? Это действие нельзя отменить.';
+
+  @override
+  String get historyCleared => 'История очищена';
+
+  @override
+  String get clearFavorites => 'Очистить избранное';
+
+  @override
+  String get clearFavoritesConfirm =>
+      'Вы уверены, что хотите очистить все избранное? Это действие нельзя отменить.';
+
+  @override
+  String get favoritesCleared => 'Избранное очищено';
+
+  @override
+  String get noFavoritesYet => 'В избранном пока ничего нет';
+
+  @override
+  String get addHymnsToFavorites =>
+      'Добавляйте гимны в избранное со страницы гимна';
+
+  @override
+  String get noHistoryYet => 'История пуста';
+
+  @override
+  String removeFavorite(String title) {
+    return 'Удалить «$title» из избранного?';
+  }
+
+  @override
+  String get removeFavoriteTitle => 'Удалить из избранного';
+
+  @override
+  String removedFromFavorites(String title) {
+    return '$title удалено из избранного';
+  }
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
+  String get remove => 'Удалить';
+
+  @override
+  String get undo => 'Отменить действие';
+
+  @override
+  String get actionReversed => 'Действие отменено';
+
+  @override
+  String hymnRange(int start, int end) {
+    return 'Гимны $start–$end';
+  }
+
+  @override
+  String get appearance => 'Внешний вид';
+
+  @override
+  String get theme => 'Тема';
+
+  @override
+  String get themeSystem => 'Системная';
+
+  @override
+  String get themeLight => 'Светлая';
+
+  @override
+  String get themeDark => 'Темная';
+
+  @override
+  String get fontSize => 'Размер шрифта';
+
+  @override
+  String get backgroundImage => 'Фоновое изображение';
+
+  @override
+  String get showBackgroundImage => 'Показывать фоновое изображение';
+
+  @override
+  String get playback => 'Воспроизведение';
+
+  @override
+  String get keepScreenOn => 'Не выключать экран';
+
+  @override
+  String get keepScreenOnDesc => 'Экран не будет гаснуть или выключаться';
+
+  @override
+  String get continuousPlay => 'Непрерывное воспроизведение';
+
+  @override
+  String get data => 'Данные';
+
+  @override
+  String get clearHistoryDesc => 'Удалить все недавно просмотренные гимны';
+
+  @override
+  String get clearFavoritesDesc => 'Удалить все избранные гимны';
+
+  @override
+  String get about => 'О приложении';
+
+  @override
+  String get website => 'Веб-сайт';
+
+  @override
+  String get contribute => 'Помочь проекту';
+
+  @override
+  String get repository => 'Репозиторий GitHub';
+
+  @override
+  String get rateApp => 'Оценить приложение';
+
+  @override
+  String get version => 'Версия';
+
+  @override
+  String get licenses => 'Лицензии';
+
+  @override
+  String sheetMusicTitle(int number) {
+    return 'Ноты — Гимн $number';
+  }
+
+  @override
+  String failedToLoadImage(String error) {
+    return 'Не удалось загрузить изображение: $error';
+  }
+
+  @override
+  String get noSheetMusicAvailable => 'Для этого сборника нет нот';
+
+  @override
+  String noSheetMusicFound(int number) {
+    return 'Ноты для гимна $number не найдены';
+  }
+
+  @override
+  String get share => 'Поделиться';
+
+  @override
+  String get viewLyrics => 'Посмотреть текст';
+
+  @override
+  String get instrumental => 'Инструментал';
+
+  @override
+  String get sung => 'Вокал';
+
+  @override
+  String get hymnalLanguage => 'Язык';
+
+  @override
+  String get clearAll => 'Очистить все';
+
+  @override
+  String get clear => 'Очистить';
+
+  @override
+  String hymnTitle(int number) {
+    return 'Гимн $number';
+  }
+
+  @override
+  String get sharedFromApp => 'Поделились из приложения «Гимны»';
+
+  @override
+  String get nowPlaying => 'Сейчас играет';
+
+  @override
+  String get noAudioPlaying => 'Аудио не воспроизводится';
+
+  @override
+  String get sectionHymnal => 'Гимны';
+
+  @override
+  String get sectionAppearance => 'Внешний вид';
+
+  @override
+  String get sectionBehavior => 'Поведение';
+
+  @override
+  String get sectionDataManagement => 'Управление данными';
+
+  @override
+  String get sectionAbout => 'О приложении';
+
+  @override
+  String get backgroundImageSubtitle => 'Показывать фон на экранах';
+
+  @override
+  String get clearHistorySubtitle => 'Удалить все недавно просмотренные гимны';
+
+  @override
+  String get clearFavoritesSubtitle => 'Удалить все избранные гимны';
+
+  @override
+  String get githubRepo => 'Репозиторий GitHub';
+
+  @override
+  String get none => 'Нет';
+}

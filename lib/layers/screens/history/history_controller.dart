@@ -28,19 +28,20 @@ abstract class _HistoryController extends State<HistoryScreen> {
   }
 
   Future<void> _clearHistory() async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear History'),
-        content: const Text('Are you sure you want to clear your history?'),
+        title: Text(l10n.clearHistory),
+        content: Text(l10n.clearHistoryConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Clear'),
+            child: Text(l10n.clear),
           ),
         ],
       ),

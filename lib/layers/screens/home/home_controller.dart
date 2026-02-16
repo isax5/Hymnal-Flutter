@@ -27,19 +27,19 @@ abstract class _HomeController extends State<HomeScreen> {
 
     final number = int.tryParse(numberText);
     if (number == null || number <= 0) {
-      _showError('Please enter a valid number');
+      _showError(AppLocalizations.of(context)!.invalidHymnNumber);
       return;
     }
 
     final hymnal = _settingsService.selectedHymnal;
     if (hymnal == null) {
-      _showError('No hymnal selected');
+      _showError(AppLocalizations.of(context)!.hymnalNotSelected);
       return;
     }
 
     final hymn = await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
     if (hymn == null) {
-      _showError('Hymn not found');
+      _showError(AppLocalizations.of(context)!.hymnNotFound);
       return;
     }
 
@@ -66,11 +66,11 @@ abstract class _HomeController extends State<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Text(
-                'Select Hymnal',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                AppLocalizations.of(context)!.selectHymnal,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             ..._settingsService.hymnals.map((hymnal) {

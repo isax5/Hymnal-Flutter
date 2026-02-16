@@ -6,6 +6,8 @@ import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
+import 'package:hymnal_app/l10n/app_localizations.dart';
+
 part 'search_controller.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends _SearchController {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AnimatedBuilder(
       animation: _settingsService,
       builder: (context, child) {
@@ -46,7 +49,7 @@ class _SearchScreenState extends _SearchController {
                   controller: _searchController,
                   autofocus: true,
                   decoration: InputDecoration(
-                    hintText: 'Search hymns...',
+                    hintText: l10n.searchHint,
                     border: InputBorder.none,
                     hintStyle: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
@@ -72,7 +75,7 @@ class _SearchScreenState extends _SearchController {
                   if (_isLoading) const LinearProgressIndicator(),
                   Expanded(
                     child: _results.isEmpty
-                        ? const Center(child: Text('No hymns found'))
+                        ? Center(child: Text(l10n.noHymnsFound))
                         : ListView.builder(
                             padding: const EdgeInsets.only(bottom: 80),
                             itemCount: _results.length,

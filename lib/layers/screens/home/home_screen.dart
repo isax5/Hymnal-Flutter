@@ -8,6 +8,8 @@ import 'package:hymnal_app/layers/screens/search/search_screen.dart';
 import 'package:hymnal_app/layers/screens/history/history_screen.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 
+import 'package:hymnal_app/l10n/app_localizations.dart';
+
 part 'home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends _HomeController {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AnimatedBuilder(
       animation: _settingsService,
       builder: (context, child) {
@@ -39,7 +42,7 @@ class _HomeScreenState extends _HomeController {
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
-              title: const Text('Hymnal'),
+              title: Text(l10n.appName),
             ),
             body: SafeArea(
               child: SingleChildScrollView(
@@ -96,8 +99,8 @@ class _HomeScreenState extends _HomeController {
                                 FilteringTextInputFormatter.digitsOnly,
                               ],
                               decoration: InputDecoration(
-                                labelText: 'Hymn Number',
-                                hintText: 'Enter hymn number',
+                                labelText: l10n.hymnNumber,
+                                hintText: l10n.enterHymnNumber,
                                 prefixIcon: const Icon(Icons.music_note),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -110,7 +113,7 @@ class _HomeScreenState extends _HomeController {
                             ElevatedButton.icon(
                               onPressed: _openHymn,
                               icon: const Icon(Icons.open_in_new),
-                              label: const Text('Open Hymn'),
+                              label: Text(l10n.openHymn),
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
@@ -135,7 +138,7 @@ class _HomeScreenState extends _HomeController {
                               );
                             },
                             icon: const Icon(Icons.search),
-                            label: const Text('Search'),
+                            label: Text(l10n.search),
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
@@ -152,7 +155,7 @@ class _HomeScreenState extends _HomeController {
                               );
                             },
                             icon: const Icon(Icons.history),
-                            label: const Text('History'),
+                            label: Text(l10n.history),
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                             ),

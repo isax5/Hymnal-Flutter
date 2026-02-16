@@ -1,0 +1,141 @@
+{
+  "appName": "Hymnal",
+  "home": "Home",
+  "lists": "Lists",
+  "favorites": "Favorites",
+  "settings": "Settings",
+  "history": "History",
+  "search": "Search",
+  "searchHint": "Search hymns...",
+  "noHymnsFound": "No hymns found",
+  "numeric": "Numeric",
+  "alpha": "Alphabetic",
+  "thematic": "Thematic",
+  "selectedHymnal": "Selected Hymnal",
+  "selectHymnal": "Select Hymnal",
+  "welcomeTitle": "Welcome to the Hymnal App",
+  "welcomeSubtitle": "Select a hymnal to start browsing",
+  "hymnNumber": "Hymn Number",
+  "enterHymnNumber": "Enter hymn number",
+  "openHymn": "Open Hymn",
+  "go": "Go",
+  "invalidHymnNumber": "Please enter a valid hymn number",
+  "hymnNotFound": "Hymn not found",
+  "hymnalNotSelected": "Selected hymnal is null",
+  "clearHistory": "Clear History",
+  "clearHistoryConfirm": "Are you sure you want to clear your history? This cannot be undone.",
+  "historyCleared": "History cleared",
+  "clearFavorites": "Clear Favorites",
+  "clearFavoritesConfirm": "Are you sure you want to clear all favorites? This cannot be undone.",
+  "favoritesCleared": "Favorites cleared",
+  "noFavoritesYet": "No favorites yet",
+  "addHymnsToFavorites": "Add hymns to your favorites from the hymn page",
+  "noHistoryYet": "No history yet",
+  "removeFavorite": "Remove \"{title}\" from favorites?",
+  "@removeFavorite": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFavoriteTitle": "Remove Favorite",
+  "removedFromFavorites": "{title} removed from favorites",
+  "@removedFromFavorites": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "remove": "Remove",
+  "undo": "Undo",
+  "actionReversed": "Action reversed",
+  "hymnRange": "Hymns {start}-{end}",
+  "@hymnRange": {
+    "placeholders": {
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "appearance": "Appearance",
+  "theme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "fontSize": "Font Size",
+  "backgroundImage": "Background Image",
+  "showBackgroundImage": "Show background image",
+  "playback": "Playback",
+  "keepScreenOn": "Keep Screen On",
+  "keepScreenOnDesc": "Don't dim or turn off screen",
+  "continuousPlay": "Continuous Play",
+  "data": "Data",
+  "clearHistoryDesc": "Remove all recently viewed hymns",
+  "clearFavoritesDesc": "Remove all favorite hymns",
+  "about": "About",
+  "website": "Website",
+  "contribute": "Contribute",
+  "repository": "GitHub Repository",
+  "rateApp": "Rate the App",
+  "version": "Version",
+  "licenses": "Licenses",
+  "sheetMusicTitle": "Sheet Music - Hymn {number}",
+  "@sheetMusicTitle": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "failedToLoadImage": "Failed to load image: {error}",
+  "@failedToLoadImage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noSheetMusicAvailable": "No sheet music available for this hymnal",
+  "noSheetMusicFound": "No sheet music found for hymn {number}",
+  "@noSheetMusicFound": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "share": "Share",
+  "viewLyrics": "View Lyrics",
+  "instrumental": "Instrumental",
+  "sung": "Sung",
+  "hymnalLanguage": "Language",
+  "clearAll": "Clear All",
+  "clear": "Clear",
+  "hymnTitle": "Hymn {number}",
+  "@hymnTitle": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "sharedFromApp": "Shared from Hymnal App",
+  "nowPlaying": "Now Playing",
+  "noAudioPlaying": "No audio playing",
+  "sectionHymnal": "Hymnal",
+  "sectionAppearance": "Appearance",
+  "sectionBehavior": "Behavior",
+  "sectionDataManagement": "Data Management",
+  "sectionAbout": "About",
+  "backgroundImageSubtitle": "Show background image on screens",
+  "clearHistorySubtitle": "Remove all recently viewed hymns",
+  "clearFavoritesSubtitle": "Remove all favorite hymns",
+  "githubRepo": "GitHub Repository",
+  "none": "None"
+}

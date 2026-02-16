@@ -8,6 +8,8 @@ import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/lists/ambit_screen.dart';
 
+import 'package:hymnal_app/l10n/app_localizations.dart';
+
 part 'lists_controller.dart';
 
 class ListsScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class ListsScreen extends StatefulWidget {
 class _ListsScreenState extends _ListsController {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -28,12 +31,12 @@ class _ListsScreenState extends _ListsController {
           toolbarHeight: 0,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          bottom: const TabBar(
+          bottom: TabBar(
             isScrollable: true,
             tabs: [
-              Tab(text: 'Numeric', icon: Icon(Icons.format_list_numbered)),
-              Tab(text: 'Alphabetic', icon: Icon(Icons.sort_by_alpha)),
-              Tab(text: 'Thematic', icon: Icon(Icons.category)),
+              Tab(text: l10n.numeric, icon: const Icon(Icons.format_list_numbered)),
+              Tab(text: l10n.alpha, icon: const Icon(Icons.sort_by_alpha)),
+              Tab(text: l10n.thematic, icon: const Icon(Icons.category)),
             ],
           ),
         ),
@@ -119,7 +122,7 @@ class _ListsScreenState extends _ListsController {
             return ListTile(
               dense: true,
               title: Text(ambit.name),
-              subtitle: Text('Hymns ${ambit.start}-${ambit.end}'),
+              subtitle: Text(AppLocalizations.of(context)!.hymnRange(ambit.start, ambit.end)),
               trailing: const Icon(Icons.chevron_right, size: 20),
               onTap: () => Navigator.push(
                 context,

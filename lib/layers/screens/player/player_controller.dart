@@ -45,10 +45,11 @@ abstract class _PlayerController extends State<PlayerScreen> {
   }
 
   void _shareHymn() {
+    final l10n = AppLocalizations.of(context)!;
     final hymn = _audioService.currentHymn;
     if (hymn != null) {
       Share.share(
-        '${hymn.title}\n\nShared from Hymnal App',
+        '${hymn.title}\n\n${l10n.sharedFromApp}',
         subject: hymn.title,
       );
     }

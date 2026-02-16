@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hymnal_app/l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/locator_service.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/styles/theme.dart';
 import 'package:hymnal_app/layers/screens/main_tabs_screen.dart';
-import 'package:get_it/get_it.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,11 +40,13 @@ class HymnalApp extends StatelessWidget {
         }
 
         return MaterialApp(
-          title: 'Hymnal',
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: themeMode,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: const MainTabsScreen(),
         );
       },

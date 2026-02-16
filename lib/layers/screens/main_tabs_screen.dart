@@ -7,6 +7,8 @@ import 'package:hymnal_app/layers/screens/favorites/favorites_screen.dart';
 import 'package:hymnal_app/layers/screens/settings/settings_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
+import 'package:hymnal_app/l10n/app_localizations.dart';
+
 part 'main_tabs_controller.dart';
 
 class MainTabsScreen extends StatefulWidget {
@@ -19,6 +21,7 @@ class MainTabsScreen extends StatefulWidget {
 class _MainTabsScreenState extends _MainTabsController {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AnimatedBuilder(
       animation: _settingsService,
       builder: (context, child) {
@@ -43,22 +46,22 @@ class _MainTabsScreenState extends _MainTabsController {
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: _currentIndex,
                 onTap: _onTabTapped,
-                items: const [
+                items: [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
+                    icon: const Icon(Icons.home),
+                    label: l10n.home,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.list),
-                    label: 'Lists',
+                    icon: const Icon(Icons.list),
+                    label: l10n.lists,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite),
-                    label: 'Favorites',
+                    icon: const Icon(Icons.favorite),
+                    label: l10n.favorites,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: 'Settings',
+                    icon: const Icon(Icons.settings),
+                    label: l10n.settings,
                   ),
                 ],
               ),

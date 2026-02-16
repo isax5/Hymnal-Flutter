@@ -24,7 +24,7 @@ class HymnalRepositoryImpl implements HymnalRepository {
   Future<List<Hymnal>> getHymnals() async {
     if (_cachedHymnals != null) return _cachedHymnals!;
 
-    final jsonString = await rootBundle.loadString('info_constants.json');
+    final jsonString = await rootBundle.loadString('assets/info_constants.json');
     final List<dynamic> jsonList = json.decode(jsonString);
     _cachedHymnals = jsonList.map((e) => Hymnal.fromJson(e)).toList();
     return _cachedHymnals!;
@@ -68,7 +68,7 @@ class HymnalRepositoryImpl implements HymnalRepository {
       return _cachedMusicSettings[hymnalId];
     }
 
-    final jsonString = await rootBundle.loadString('settings.json');
+    final jsonString = await rootBundle.loadString('assets/settings.json');
     final List<dynamic> jsonList = json.decode(jsonString);
     final settings = jsonList.map((e) => MusicSettings.fromJson(e)).toList();
 

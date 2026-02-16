@@ -5,6 +5,8 @@ import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
+import 'package:hymnal_app/l10n/app_localizations.dart';
+
 part 'history_controller.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -17,6 +19,7 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends _HistoryController {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AnimatedBuilder(
       animation: _historyService,
       builder: (context, child) {
@@ -48,7 +51,7 @@ class _HistoryScreenState extends _HistoryController {
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
-                title: const Text('History'),
+                title: Text(l10n.history),
                 actions: [
                   if (history.isNotEmpty)
                     IconButton(
@@ -58,15 +61,15 @@ class _HistoryScreenState extends _HistoryController {
                 ],
               ),
               body: history.isEmpty
-                  ? const Center(
+                  ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.history, size: 64, color: Colors.grey),
-                          SizedBox(height: 16),
+                          const Icon(Icons.history, size: 64, color: Colors.grey),
+                          const SizedBox(height: 16),
                           Text(
-                            'No history yet',
-                            style: TextStyle(color: Colors.grey),
+                            l10n.noHistoryYet,
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),

@@ -38,25 +38,26 @@ abstract class _HomeController extends State<HomeScreen> {
     }
 
     final hymn = await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
+    if (!mounted) return;
+
     if (hymn == null) {
       _showError(AppLocalizations.of(context)!.hymnNotFound);
       return;
     }
 
     await _historyService.addToHistory(hymnal.id, hymn.number, hymn.title);
+    if (!mounted) return;
 
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          settings: const RouteSettings(name: '/hymn'),
-          builder: (_) => HymnScreen(
-            hymnalId: hymnal.id,
-            hymnNumber: hymn.number,
-          ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        settings: const RouteSettings(name: '/hymn'),
+        builder: (_) => HymnScreen(
+          hymnalId: hymnal.id,
+          hymnNumber: hymn.number,
         ),
-      );
-    }
+      ),
+    );
   }
 
   Future<void> _showHymnalSelector() async {

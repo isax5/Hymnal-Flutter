@@ -28,7 +28,10 @@ class _FavoritesScreenState extends _FavoritesController {
         return Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            toolbarHeight: MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
+            toolbarHeight:
+                MediaQuery.of(context).orientation == Orientation.landscape
+                    ? 40
+                    : null,
             backgroundColor: Colors.transparent,
             elevation: 0,
             iconTheme: IconThemeData(
@@ -46,7 +49,8 @@ class _FavoritesScreenState extends _FavoritesController {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.favorite_border, size: 64, color: Colors.grey),
+                      const Icon(Icons.favorite_border,
+                          size: 64, color: Colors.grey),
                       const SizedBox(height: 16),
                       Text(
                         l10n.noFavoritesYet,
@@ -55,7 +59,8 @@ class _FavoritesScreenState extends _FavoritesController {
                       const SizedBox(height: 8),
                       Text(
                         l10n.addHymnsToFavorites,
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                     ],
                   ),
@@ -82,12 +87,16 @@ class _FavoritesScreenState extends _FavoritesController {
                       onDismissed: (_) => _onDismissed(favorite),
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.6),
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .primaryContainer
+                              .withValues(alpha: 0.6),
                           child: Text(
                             '${favorite.hymnNumber}',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

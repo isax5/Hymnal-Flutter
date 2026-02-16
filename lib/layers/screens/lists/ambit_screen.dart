@@ -47,7 +47,9 @@ class _AmbitScreenState extends _AmbitController {
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 toolbarHeight:
-                    MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? 40
+                        : null,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 iconTheme: IconThemeData(
@@ -67,12 +69,15 @@ class _AmbitScreenState extends _AmbitController {
                   final hymn = widget.hymns[index];
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.6),
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .primaryContainer
+                          .withValues(alpha: 0.6),
                       child: Text(
                         '${hymn.number}',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

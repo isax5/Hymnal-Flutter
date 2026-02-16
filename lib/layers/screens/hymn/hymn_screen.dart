@@ -37,7 +37,8 @@ class HymnScreen extends StatefulWidget {
 class _HymnScreenState extends _HymnController {
   Widget _buildAudioButtons(bool hasInstrumental, bool hasSung) {
     final l10n = AppLocalizations.of(context)!;
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Container(
       height: isLandscape ? 50 : 60,
@@ -53,7 +54,8 @@ class _HymnScreenState extends _HymnController {
                   child: InkWell(
                     onTap: () => _playAudio(instrumental: true),
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
+                      padding:
+                          EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -82,7 +84,8 @@ class _HymnScreenState extends _HymnController {
                   child: InkWell(
                     onTap: () => _playAudio(instrumental: false),
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
+                      padding:
+                          EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -118,10 +121,12 @@ class _HymnScreenState extends _HymnController {
     }
 
     final hasSheets = _hymnal?.hymnsSheetsFileName != null;
-    final hasInstrumental = _musicSettings?.getInstrumentalUrl(_hymn!.number) != null;
+    final hasInstrumental =
+        _musicSettings?.getInstrumentalUrl(_hymn!.number) != null;
     final hasSung = _musicSettings?.getSungUrl(_hymn!.number) != null;
     final hasAudio = hasInstrumental || hasSung;
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final audioButtonsHeight = (isLandscape ? 50.0 : 60.0);
     // Only apply offset if bottomNavigationBar is showing
     final bottomOffset = hasAudio ? audioButtonsHeight : 0.0;
@@ -161,7 +166,8 @@ class _HymnScreenState extends _HymnController {
             title: Text(l10n.hymnTitle(_hymn!.number)),
             actions: [
               IconButton(
-                icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
+                icon:
+                    Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
                 onPressed: _toggleFavorite,
               ),
               IconButton(
@@ -184,7 +190,8 @@ class _HymnScreenState extends _HymnController {
               return _buildHymnContent(hymn);
             },
           ),
-          bottomNavigationBar: hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
+          bottomNavigationBar:
+              hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
         ),
         DraggablePlayer(
           bottomOffset: bottomOffset,
@@ -200,7 +207,8 @@ class _HymnScreenState extends _HymnController {
       animation: _settingsService,
       builder: (context, child) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 100),
+          padding:
+              const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

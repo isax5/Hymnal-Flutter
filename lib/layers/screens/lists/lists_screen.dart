@@ -34,7 +34,9 @@ class _ListsScreenState extends _ListsController {
           bottom: TabBar(
             isScrollable: true,
             tabs: [
-              Tab(text: l10n.numeric, icon: const Icon(Icons.format_list_numbered)),
+              Tab(
+                  text: l10n.numeric,
+                  icon: const Icon(Icons.format_list_numbered)),
               Tab(text: l10n.alpha, icon: const Icon(Icons.sort_by_alpha)),
               Tab(text: l10n.thematic, icon: const Icon(Icons.category)),
             ],
@@ -61,7 +63,10 @@ class _ListsScreenState extends _ListsController {
         final hymn = _hymns![index];
         return ListTile(
           leading: CircleAvatar(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.6),
+            backgroundColor: Theme.of(context)
+                .colorScheme
+                .primaryContainer
+                .withValues(alpha: 0.6),
             child: Text(
               '${hymn.number}',
               style: TextStyle(
@@ -78,7 +83,8 @@ class _ListsScreenState extends _ListsController {
   }
 
   Widget _buildAlphabeticList() {
-    final sortedHymns = List<Hymn>.from(_hymns!)..sort((a, b) => a.title.compareTo(b.title));
+    final sortedHymns = List<Hymn>.from(_hymns!)
+      ..sort((a, b) => a.title.compareTo(b.title));
 
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 80),
@@ -87,7 +93,10 @@ class _ListsScreenState extends _ListsController {
         final hymn = sortedHymns[index];
         return ListTile(
           leading: CircleAvatar(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.6),
+            backgroundColor: Theme.of(context)
+                .colorScheme
+                .primaryContainer
+                .withValues(alpha: 0.6),
             child: Text(
               '${hymn.number}',
               style: TextStyle(
@@ -122,7 +131,8 @@ class _ListsScreenState extends _ListsController {
             return ListTile(
               dense: true,
               title: Text(ambit.name),
-              subtitle: Text(AppLocalizations.of(context)!.hymnRange(ambit.start, ambit.end)),
+              subtitle: Text(AppLocalizations.of(context)!
+                  .hymnRange(ambit.start, ambit.end)),
               trailing: const Icon(Icons.chevron_right, size: 20),
               onTap: () => Navigator.push(
                 context,
@@ -131,7 +141,8 @@ class _ListsScreenState extends _ListsController {
                     category: category.thematic,
                     ambit: ambit,
                     hymns: _hymns!
-                        .where((h) => h.number >= ambit.start && h.number <= ambit.end)
+                        .where((h) =>
+                            h.number >= ambit.start && h.number <= ambit.end)
                         .toList(),
                   ),
                 ),

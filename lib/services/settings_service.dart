@@ -77,6 +77,8 @@ class SettingsService extends ChangeNotifier {
   }
 
   List<Hymnal> getHymnalsByLanguage(String languageCode) {
-    return _hymnals.where((h) => h.twoLetterIsoLanguageName == languageCode).toList();
+    return _hymnals
+        .where((h) => h.twoLetterIsoLanguageName == languageCode)
+        .toList();
   }
 }

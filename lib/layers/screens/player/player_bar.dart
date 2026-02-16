@@ -16,7 +16,8 @@ class PlayerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return AnimatedBuilder(
       animation: audioService,
@@ -32,11 +33,16 @@ class PlayerBar extends StatelessWidget {
               filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 decoration: BoxDecoration(
-                  color:
-                      Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.1),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .surfaceContainerHighest
+                      .withValues(alpha: 0.1),
                   border: Border(
                     top: BorderSide(
-                      color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.2),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .outlineVariant
+                          .withValues(alpha: 0.2),
                     ),
                   ),
                 ),
@@ -59,7 +65,9 @@ class PlayerBar extends StatelessWidget {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: isLandscape ? 12 : 14,
-                                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -67,7 +75,9 @@ class PlayerBar extends StatelessWidget {
                               audioService.currentHymnal!.name,
                               style: TextStyle(
                                 fontSize: isLandscape ? 10 : 12,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
                               ),
                             ),
                           ],
@@ -76,7 +86,9 @@ class PlayerBar extends StatelessWidget {
                       IconButton(
                         iconSize: isLandscape ? 20 : 24,
                         icon: Icon(
-                          audioService.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                          audioService.isPlaying
+                              ? Icons.pause_rounded
+                              : Icons.play_arrow_rounded,
                         ),
                         onPressed: () => audioService.togglePlayPause(),
                       ),

@@ -13,7 +13,8 @@ final GetIt getIt = GetIt.instance;
 void setupLocator() {
   // Repositories
   getIt.registerLazySingleton<HymnalRepository>(() => HymnalRepositoryImpl());
-  getIt.registerLazySingleton<FavoritesRepository>(() => FavoritesRepositoryImpl());
+  getIt.registerLazySingleton<FavoritesRepository>(
+      () => FavoritesRepositoryImpl());
   getIt.registerLazySingleton<HistoryRepository>(() => HistoryRepositoryImpl());
   getIt.registerLazySingleton<SettingsRepository>(() => SettingsRepository());
 

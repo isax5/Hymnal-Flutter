@@ -58,7 +58,8 @@ class AudioService extends ChangeNotifier {
               '[AudioService] Playback completed, continuous play is ON — advancing to next hymn');
           skipNext();
         } else {
-          debugPrint('[AudioService] Playback completed, pausing and seeking to start');
+          debugPrint(
+              '[AudioService] Playback completed, pausing and seeking to start');
           // Pause first to stop playback, then seek to start
           _player.pause();
           _player.seek(Duration.zero);
@@ -100,7 +101,8 @@ class AudioService extends ChangeNotifier {
     try {
       final repository = GetIt.I<HymnalRepository>();
       final hymns = await repository.getHymns(_currentHymnal!.id);
-      final currentIndex = hymns.indexWhere((h) => h.number == _currentHymn!.number);
+      final currentIndex =
+          hymns.indexWhere((h) => h.number == _currentHymn!.number);
 
       if (currentIndex < 0) return null;
 
@@ -119,7 +121,8 @@ class AudioService extends ChangeNotifier {
 
     try {
       final repository = GetIt.I<HymnalRepository>();
-      final musicSettings = await repository.getMusicSettings(_currentHymnal!.id);
+      final musicSettings =
+          await repository.getMusicSettings(_currentHymnal!.id);
 
       String? url;
       if (_isInstrumental) {
@@ -129,7 +132,8 @@ class AudioService extends ChangeNotifier {
       }
 
       if (url != null) {
-        debugPrint('[AudioService] Playing adjacent hymn: ${hymn.number} "${hymn.title}"');
+        debugPrint(
+            '[AudioService] Playing adjacent hymn: ${hymn.number} "${hymn.title}"');
         // Reset _currentUrl so playHymn doesn't treat it as a toggle
         _currentUrl = null;
         await playHymn(_currentHymnal!, hymn, url);
@@ -142,7 +146,8 @@ class AudioService extends ChangeNotifier {
     }
   }
 
-  Future<void> playHymn(Hymnal hymnal, Hymn hymn, String url, {bool? instrumental}) async {
+  Future<void> playHymn(Hymnal hymnal, Hymn hymn, String url,
+      {bool? instrumental}) async {
     // Keep current instrumental setting if not explicitly provided
     final isInstrumental = instrumental ?? _isInstrumental;
 
@@ -167,14 +172,16 @@ class AudioService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      debugPrint('[AudioService] Setting audio source... (Request ID: $requestId)');
+      debugPrint(
+          '[AudioService] Setting audio source... (Request ID: $requestId)');
       await _player.setAudioSource(
         AudioSource.uri(Uri.parse(url)),
       );
 
       // Check if this request is still the latest one
       if (requestId != _playRequestId) {
-        debugPrint('[AudioService] Request ID $requestId is stale, ignoring success');
+        debugPrint(
+            '[AudioService] Request ID $requestId is stale, ignoring success');
         return;
       }
 
@@ -196,7 +203,8 @@ class AudioService extends ChangeNotifier {
         notifyListeners();
         debugPrint('[AudioService] ERROR playing audio: $e');
       } else {
-        debugPrint('[AudioService] Ignoring error from stale request ID $requestId: $e');
+        debugPrint(
+            '[AudioService] Ignoring error from stale request ID $requestId: $e');
       }
       // We don't rethrow here if it's stale, or maybe we shouldn't rethrow at all if we handled it?
       // The original code rethrowed. If it's stale, we definitely shouldn't rethrow to the current caller?
@@ -234,7 +242,8 @@ class AudioService extends ChangeNotifier {
   }
 
   Future<void> togglePlayPause() async {
-    debugPrint('[AudioService] togglePlayPause() — currently ${_isPlaying ? "playing" : "paused"}');
+    debugPrint(
+        '[AudioService] togglePlayPause() — currently ${_isPlaying ? "playing" : "paused"}');
     if (_isPlaying) {
       await pause();
     } else {

@@ -39,7 +39,8 @@ abstract class _PlayerController extends State<PlayerScreen> {
     final hymnal = _audioService.currentHymnal;
 
     if (hymn != null && hymnal != null) {
-      await _favoritesService.toggleFavorite(hymnal.id, hymn.number, hymn.title);
+      await _favoritesService.toggleFavorite(
+          hymnal.id, hymn.number, hymn.title);
       await _checkFavorite();
     }
   }
@@ -67,7 +68,8 @@ abstract class _PlayerController extends State<PlayerScreen> {
         ),
       ),
       (route) {
-        return route.settings.name != '/hymn' && route.settings.name != '/player';
+        return route.settings.name != '/hymn' &&
+            route.settings.name != '/player';
       },
     );
   }

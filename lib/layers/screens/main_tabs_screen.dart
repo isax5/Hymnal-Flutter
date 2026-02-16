@@ -67,7 +67,8 @@ class _MainTabsScreenState extends _MainTabsController {
                 ],
               ),
             ),
-            const DraggablePlayer(bottomOffset: 56.0), // Standard BottomNavigationBar height
+            const DraggablePlayer(
+                bottomOffset: 56.0), // Standard BottomNavigationBar height
           ],
         );
       },

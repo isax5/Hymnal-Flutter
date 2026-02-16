@@ -41,7 +41,9 @@ class _HistoryScreenState extends _HistoryController {
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 toolbarHeight:
-                    MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? 40
+                        : null,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 iconTheme: IconThemeData(
@@ -66,7 +68,8 @@ class _HistoryScreenState extends _HistoryController {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.history, size: 64, color: Colors.grey),
+                          const Icon(Icons.history,
+                              size: 64, color: Colors.grey),
                           const SizedBox(height: 16),
                           Text(
                             l10n.noHistoryYet,
@@ -89,7 +92,9 @@ class _HistoryScreenState extends _HistoryController {
                             child: Text(
                               '${entry.hymnNumber}',
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

@@ -20,7 +20,8 @@ class DraggablePlayer extends StatefulWidget {
   State<DraggablePlayer> createState() => _DraggablePlayerState();
 }
 
-class _DraggablePlayerState extends State<DraggablePlayer> with SingleTickerProviderStateMixin {
+class _DraggablePlayerState extends State<DraggablePlayer>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -57,8 +58,10 @@ class _DraggablePlayerState extends State<DraggablePlayer> with SingleTickerProv
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
     final screenHeight = MediaQuery.of(context).size.height;
-    final safeAreaBottom = widget.includeSafeArea ? MediaQuery.of(context).padding.bottom : 0.0;
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final safeAreaBottom =
+        widget.includeSafeArea ? MediaQuery.of(context).padding.bottom : 0.0;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     // Use shorter height and ignore bottomPadding in landscape to prevent gaps
     final baseMinHeight = isLandscape ? 45.0 : 72.0;
@@ -81,8 +84,8 @@ class _DraggablePlayerState extends State<DraggablePlayer> with SingleTickerProv
         final currentBottom = effectiveBottomOffset * (1.0 - expansionValue);
 
         // Height expands from effectiveMinHeight to full screenHeight
-        final currentHeight =
-            effectiveMinHeight + (screenHeight - effectiveMinHeight) * expansionValue;
+        final currentHeight = effectiveMinHeight +
+            (screenHeight - effectiveMinHeight) * expansionValue;
 
         return Positioned(
           left: 0,

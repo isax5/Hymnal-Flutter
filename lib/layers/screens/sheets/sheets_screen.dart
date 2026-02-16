@@ -28,7 +28,8 @@ class SheetsScreen extends StatefulWidget {
 class _SheetsScreenState extends _SheetsController {
   @override
   Widget build(BuildContext context) {
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return AnimatedBuilder(
       animation: GetIt.I<SettingsService>(),
       builder: (context, child) {
@@ -84,7 +85,8 @@ class _SheetsScreenState extends _SheetsController {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.music_off, size: 64, color: Colors.grey),
+                                const Icon(Icons.music_off,
+                                    size: 64, color: Colors.grey),
                                 const SizedBox(height: 16),
                                 Text(
                                   _errorMessage!,
@@ -104,11 +106,14 @@ class _SheetsScreenState extends _SheetsController {
                                 errorBuilder: (context, error, stackTrace) {
                                   return Center(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error, color: Colors.red),
+                                        const Icon(Icons.error,
+                                            color: Colors.red),
                                         const SizedBox(height: 8),
-                                        Text(l10n.failedToLoadImage(error.toString())),
+                                        Text(l10n.failedToLoadImage(
+                                            error.toString())),
                                       ],
                                     ),
                                   );

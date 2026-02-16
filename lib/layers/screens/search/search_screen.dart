@@ -40,7 +40,9 @@ class _SearchScreenState extends _SearchController {
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 toolbarHeight:
-                    MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? 40
+                        : null,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 iconTheme: IconThemeData(
@@ -53,7 +55,10 @@ class _SearchScreenState extends _SearchController {
                     hintText: l10n.searchHint,
                     border: InputBorder.none,
                     hintStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.5),
                     ),
                     suffixIcon: _searchController.text.isNotEmpty
                         ? IconButton(
@@ -91,7 +96,9 @@ class _SearchScreenState extends _SearchController {
                                   child: Text(
                                     '${hymn.number}',
                                     style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -99,7 +106,10 @@ class _SearchScreenState extends _SearchController {
                                 title: Text(hymn.title),
                                 subtitle: Text(
                                   hymn.content.replaceAll('\n', ' ').substring(
-                                      0, hymn.content.length > 100 ? 100 : hymn.content.length),
+                                      0,
+                                      hymn.content.length > 100
+                                          ? 100
+                                          : hymn.content.length),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),

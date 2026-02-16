@@ -34,7 +34,8 @@ abstract class _HymnController extends State<HymnScreen> {
       widget.hymnNumber,
     );
 
-    final initialPage = _allHymns!.indexWhere((h) => h.number == widget.hymnNumber);
+    final initialPage =
+        _allHymns!.indexWhere((h) => h.number == widget.hymnNumber);
     _pageController = PageController(initialPage: initialPage);
 
     // Only add to history if not skipped
@@ -126,7 +127,8 @@ ${l10n.sharedFromApp}''';
 
     if (url != null) {
       try {
-        await _audioService.playHymn(_hymnal!, _hymn!, url, instrumental: instrumental);
+        await _audioService.playHymn(_hymnal!, _hymn!, url,
+            instrumental: instrumental);
       } catch (e) {
         debugPrint('Failed to play audio: $e');
       }

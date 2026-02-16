@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hymnal_app/l10n/app_localizations.dart';
+import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:hymnal_app/layers/domain/model/hymnal.dart';
 import 'package:photo_view/photo_view.dart';

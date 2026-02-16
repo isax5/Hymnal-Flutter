@@ -5,7 +5,7 @@ import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/services/favorites_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
-import 'package:hymnal_app/l10n/app_localizations.dart';
+import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 
 part 'player_controller.dart';
 

@@ -5,7 +5,7 @@ import 'package:hymnal_app/services/favorites_service.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/domain/model/favorite_hymn.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
-import 'package:hymnal_app/l10n/app_localizations.dart';
+import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 
 part 'favorites_controller.dart';
 

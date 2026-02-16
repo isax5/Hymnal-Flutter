@@ -8,7 +8,7 @@ import 'package:hymnal_app/layers/screens/search/search_screen.dart';
 import 'package:hymnal_app/layers/screens/history/history_screen.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 
-import 'package:hymnal_app/l10n/app_localizations.dart';
+import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 
 part 'home_controller.dart';
 

@@ -7,7 +7,7 @@ import 'package:hymnal_app/layers/screens/favorites/favorites_screen.dart';
 import 'package:hymnal_app/layers/screens/settings/settings_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
-import 'package:hymnal_app/l10n/app_localizations.dart';
+import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 
 part 'main_tabs_controller.dart';
 

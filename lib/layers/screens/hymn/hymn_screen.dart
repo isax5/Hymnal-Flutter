@@ -13,7 +13,7 @@ import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/layers/screens/sheets/sheets_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
-import 'package:hymnal_app/l10n/app_localizations.dart';
+import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 
 part 'hymn_controller.dart';
 

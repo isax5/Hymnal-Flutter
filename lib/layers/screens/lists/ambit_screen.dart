@@ -1,3 +1,4 @@
+import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/layers/domain/model/thematic_category.dart';
@@ -37,7 +38,7 @@ class _AmbitScreenState extends _AmbitController {
             if (_settingsService.showBackgroundImage)
               Positioned.fill(
                 child: Image.asset(
-                  'assets/background_image.png',
+                  AppAssets.backgroundImage,
                   fit: BoxFit.cover,
                   opacity: const AlwaysStoppedAnimation(0.15),
                 ),

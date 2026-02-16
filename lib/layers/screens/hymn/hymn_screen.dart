@@ -1,3 +1,4 @@
+import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:share_plus/share_plus.dart';
@@ -136,7 +137,7 @@ class _HymnScreenState extends _HymnController {
             }
             return Positioned.fill(
               child: Image.asset(
-                'assets/background_image.png',
+                AppAssets.backgroundImage,
                 fit: BoxFit.cover,
                 opacity: const AlwaysStoppedAnimation(0.1),
               ),

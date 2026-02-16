@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:hymnal_app/layers/domain/model/hymn.dart';
 import 'package:hymnal_app/layers/domain/model/hymnal.dart';
 import 'package:hymnal_app/layers/domain/model/thematic_category.dart';
@@ -24,7 +25,7 @@ class HymnalRepositoryImpl implements HymnalRepository {
   Future<List<Hymnal>> getHymnals() async {
     if (_cachedHymnals != null) return _cachedHymnals!;
 
-    final jsonString = await rootBundle.loadString('assets/info_constants.json');
+    final jsonString = await rootBundle.loadString(AppAssets.infoConstants);
     final List<dynamic> jsonList = json.decode(jsonString);
     _cachedHymnals = jsonList.map((e) => Hymnal.fromJson(e)).toList();
     return _cachedHymnals!;
@@ -68,7 +69,7 @@ class HymnalRepositoryImpl implements HymnalRepository {
       return _cachedMusicSettings[hymnalId];
     }
 
-    final jsonString = await rootBundle.loadString('assets/settings.json');
+    final jsonString = await rootBundle.loadString(AppAssets.settings);
     final List<dynamic> jsonList = json.decode(jsonString);
     final settings = jsonList.map((e) => MusicSettings.fromJson(e)).toList();
 

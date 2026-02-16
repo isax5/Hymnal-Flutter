@@ -1,3 +1,4 @@
+import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 import 'package:flutter/services.dart';
@@ -39,7 +40,7 @@ class _SheetsScreenState extends _SheetsController {
             if (settingsService.showBackgroundImage)
               Positioned.fill(
                 child: Image.asset(
-                  'assets/background_image.png',
+                  AppAssets.backgroundImage,
                   fit: BoxFit.cover,
                   opacity: const AlwaysStoppedAnimation(0.15),
                 ),

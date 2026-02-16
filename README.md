@@ -72,8 +72,8 @@ lib/
 ### Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/isax5/Hymnal-Xamarin.git
-cd Hymnal-Xamarin
+git clone https://github.com/isax5/Hymnal-Flutter.git
+cd Hymnal-Flutter
 ```
 2. Install dependencies:
 ```bash
@@ -117,7 +117,7 @@ flutter build ios --release
 ---
 
 ## Contributing
-Contributions are welcome! Please visit our [GitHub Repository](https://github.com/isax5/Hymnal-Xamarin) for more information.
+Contributions are welcome! Please visit our [GitHub Repository](https://github.com/isax5/Hymnal-Flutter) for more information.
 You can also support by [donating on Paypal](https://www.paypal.me/isax5).
 
 ## Support

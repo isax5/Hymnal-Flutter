@@ -58,7 +58,11 @@ class _DraggablePlayerState extends State<DraggablePlayer> with SingleTickerProv
     final audioService = GetIt.I<AudioService>();
     final screenHeight = MediaQuery.of(context).size.height;
     final safeAreaBottom = widget.includeSafeArea ? MediaQuery.of(context).padding.bottom : 0.0;
-    final effectiveMinHeight = 72.0 + widget.bottomPadding;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    // Use shorter height and ignore bottomPadding in landscape to prevent gaps
+    final baseMinHeight = isLandscape ? 45.0 : 72.0;
+    final effectiveMinHeight = baseMinHeight + widget.bottomPadding;
 
     // Total bottom offset including safety and nav bar
     final effectiveBottomOffset = widget.bottomOffset + safeAreaBottom;
@@ -120,7 +124,7 @@ class _DraggablePlayerState extends State<DraggablePlayer> with SingleTickerProv
                     ignoring: expansionValue > 0.5,
                     child: PlayerBar(
                       onTap: () => _controller.forward(),
-                      bottomPadding: widget.bottomPadding,
+                      bottomPadding: isLandscape ? 10.0 : widget.bottomPadding,
                     ),
                   ),
                 ),

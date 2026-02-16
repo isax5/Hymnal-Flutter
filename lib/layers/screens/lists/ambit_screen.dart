@@ -91,7 +91,10 @@ class AmbitScreen extends StatelessWidget {
                 },
               ),
             ),
-            const DraggablePlayer(),
+            const DraggablePlayer(
+              includeSafeArea: false,
+              bottomPadding: 20,
+            ),
           ],
         );
       },

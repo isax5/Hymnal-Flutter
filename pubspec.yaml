@@ -63,7 +63,6 @@ flutter:
     - assets/hymns/
     - assets/musicSheets/
     - assets/background_image.png
-    - assets/app_icon.svg
     - assets/info_constants.json
     - assets/settings.json
 
@@ -85,14 +84,20 @@ flutter:
   #       - asset: assets/fonts/Nunito-Light.ttf
   #         weight: 300
 
-flutter_icons:
+# The following section configure flutter_launcher_icons
+# After setting up the configuration, all that is left to do is run the package.
+#> flutter pub get; flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/app_icon.svg"
+  # image_path: "assets/app_icon.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/app_icon.png"
+  remove_alpha_ios: true
 
 flutter_native_splash:
-  color: "#FFFFFF"
-  image: assets/app_icon.svg
+  color: "#000000"
+  image: assets/app_icon.png
   android: true
   ios: true
 

@@ -1,67 +1,92 @@
-# Hymnal App
+# Adventist Hymnal
+> New version of the adventist hymnal multi-platform.
+
+If you like this app, help me supporting this project:
+* [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="Paypal" />](https://www.paypal.me/isax5)
 
 A multi-language hymnal app supporting Spanish, English, Russian and Portuguese. Built with Flutter using Clean Architecture.
 
+## Table of contents
+<!--ts-->
+   * [Features](#features)
+   * [Presence in stores](#presence-in-stores)
+   * [Demo](#demo)
+   * [Architecture](#architecture)
+   * [Getting Started](#getting-started)
+   * [Build for Release](#build-for-release)
+   * [Main Packages](#main-packages)
+   * [Contributing](#contributing)
+   * [Support](#support)
+   * [License](#license)
+<!--te-->
+
 ## Features
 
-- **Multiple Hymnals**: Support for different language versions
-  - English (1985 & 1941 versions)
-  - Spanish (2009 & 1962 versions)
-  - Portuguese (1996 version)
-  - Russian (1997 version)
+- **Advanced Search**: Find hymns by title, lyrics, or number with text normalization (stripping accents and special characters).
+- **Multiple Hymnals**: Support for different language versions:
+  - **English**: 1985 & 1941 versions
+  - **Español**: 2009 & 1962 versions
+  - **Português**: 1996 version
+  - **Русский**: 1997 version
+- **Audio Playback**: Listen to instrumental and/or sung versions.
+- **Sheet Music**: View piano sheet music for hymns with zoom support.
+- **Favorites & History**: Save and reorder favorites, and view your recently opened hymns.
+- **Customization**: Adjust font size, toggle theme mode, and enable/disable background images.
 
-- **Home Screen**: Enter hymn number to open directly
-- **Search**: Find hymns by title, lyrics, or number
-- **History**: View last 50 opened hymns
-- **Lists**: Browse hymns by number, alphabetically, or by theme
-- **Favorites**: Save and reorder favorite hymns
-- **Audio Playback**: Listen to instrumental and/or sung versions
-- **Sheet Music**: View piano sheet music for hymns
-- **Customization**: Font size, theme mode, background image toggle
-- **Internationalization**: Supports EN, ES, PT, RU
+---
+
+## Presence in stores
+<a title="AppStore" href="https://apps.apple.com/us/app/adventist-hymnal/id1153114394" target="_blank"><img width="150" alt="AppStore" src="http://devimages.apple.com.edgekey.net/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg"></a>
+<a title="Google Play" href="https://play.google.com/store/apps/details?id=net.ddns.HimnarioAdventistaSPA" target="_blank"><img width="150" alt="Google Play" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/256px-Google_Play_Store_badge_EN.svg.png"></a>
+
+## Demo
+![Recordit GIF](https://recordit.co/IoYOhRUrmB.gif)
+
+---
 
 ## Architecture
 
-This app follows Clean Architecture with the following layers:
+This app follows Clean Architecture with a focus on reusability and maintainability:
 
 ```
 lib/
 ├── constants/          # App-wide constants
-├── services/           # Global services (DI, audio, settings)
-├── styles/             # Theme, fonts
-├── widgets/            # Reusable UI components
+├── core/               # Core utilities and shared logic (e.g., StringUtils)
+├── services/           # Global services (DI, audio, settings, favorites)
+├── styles/             # Theme, fonts, and common styles
+├── widgets/            # Reusable UI components (AppScaffold, HymnListTile)
 └── layers/             # Clean architecture layers
     ├── data/           # Repositories and data sources
-    ├── domain/         # Models
-    └── screens/        # UI screens
+    ├── domain/         # Domain models
+    └── screens/        # Feature-based UI screens and controllers
 ```
+
+---
 
 ## Getting Started
 
 ### Prerequisites
-
 - Flutter SDK (3.0.0 or higher)
 - Dart SDK
 
 ### Installation
-
 1. Clone the repository:
 ```bash
 git clone https://github.com/isax5/Hymnal-Xamarin.git
 cd Hymnal-Xamarin
 ```
-
 2. Install dependencies:
 ```bash
 flutter pub get
 ```
-
 3. Run the app:
 ```bash
 flutter run
 ```
 
-### Build for Release
+---
+
+## Build for Release
 
 **Android:**
 ```bash
@@ -74,26 +99,31 @@ flutter build appbundle --release
 flutter build ios --release
 ```
 
-## Dependencies
+---
 
-- `get_it` & `get_it_mixin`: Dependency injection
-- `just_audio` & `just_audio_background`: Audio playback with background support
-- `shared_preferences`: Local storage
-- `flutter_svg`: SVG support
-- `photo_view`: Zoomable images for sheet music
-- `share_plus`: Share functionality
-- `url_launcher`: Open URLs
+## Main Packages
+
+| Package | Purpose |
+|---------|---------|
+| `get_it` | Dependency injection |
+| `just_audio` | Audio playback engine |
+| `just_audio_background` | Background audio support |
+| `shared_preferences` | Local storage |
+| `flutter_svg` | SVG support |
+| `photo_view` | Zoomable images for sheet music |
+| `share_plus` | Share functionality |
+| `equatable` | Value-based equality for models |
+
+---
 
 ## Contributing
-
 Contributions are welcome! Please visit our [GitHub Repository](https://github.com/isax5/Hymnal-Xamarin) for more information.
+You can also support by [donating on Paypal](https://www.paypal.me/isax5).
+
+## Support
+Reach out to me at one of the following places:
+- **Twitter**: [@IsaacRebolledo](https://twitter.com/IsaacRebolledo)
+- **LinkedIn**: [Isaac Rebolledo](https://www.linkedin.com/in/isaac-rebolledo-leal-47387698/)
 
 ## License
-
 This project is open source. See the repository for license details.
-
-## Links
-
-- Website: https://isax5.github.io/hymnal/
-- App Store: https://apps.apple.com/cl/app/adventist-hymnal/id1153114394
-- Play Store: https://play.google.com/store/apps/details?id=net.ddns.HimnarioAdventistaSPA

@@ -7,6 +7,8 @@ import 'package:hymnal_app/layers/screens/favorites/favorites_screen.dart';
 import 'package:hymnal_app/layers/screens/settings/settings_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
+part 'main_tabs_controller.dart';
+
 class MainTabsScreen extends StatefulWidget {
   const MainTabsScreen({super.key});
 
@@ -14,17 +16,7 @@ class MainTabsScreen extends StatefulWidget {
   State<MainTabsScreen> createState() => _MainTabsScreenState();
 }
 
-class _MainTabsScreenState extends State<MainTabsScreen> {
-  int _currentIndex = 0;
-  final SettingsService _settingsService = GetIt.I<SettingsService>();
-
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const ListsScreen(),
-    const FavoritesScreen(),
-    const SettingsScreen(),
-  ];
-
+class _MainTabsScreenState extends _MainTabsController {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -47,7 +39,7 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
               body: _screens[_currentIndex],
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: _currentIndex,
-                onTap: (index) => setState(() => _currentIndex = index),
+                onTap: _onTabTapped,
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),

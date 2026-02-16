@@ -8,6 +8,8 @@ import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/lists/ambit_screen.dart';
 
+part 'lists_controller.dart';
+
 class ListsScreen extends StatefulWidget {
   const ListsScreen({super.key});
 
@@ -15,51 +17,7 @@ class ListsScreen extends StatefulWidget {
   State<ListsScreen> createState() => _ListsScreenState();
 }
 
-class _ListsScreenState extends State<ListsScreen> {
-  final HymnalRepository _repository = GetIt.I<HymnalRepository>();
-  final SettingsService _settingsService = GetIt.I<SettingsService>();
-  final HistoryService _historyService = GetIt.I<HistoryService>();
-
-  List<Hymn>? _hymns;
-  List<ThematicCategory>? _thematicList;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  Future<void> _loadData() async {
-    final hymnal = _settingsService.selectedHymnal;
-    if (hymnal == null) return;
-
-    final hymns = await _repository.getHymns(hymnal.id);
-    final thematic = await _repository.getThematicList(hymnal.id);
-
-    setState(() {
-      _hymns = hymns;
-      _thematicList = thematic;
-    });
-  }
-
-  Future<void> _openHymn(Hymn hymn) async {
-    final hymnal = _settingsService.selectedHymnal!;
-    await _historyService.addToHistory(hymnal.id, hymn.number, hymn.title);
-
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          settings: const RouteSettings(name: '/hymn'),
-          builder: (_) => HymnScreen(
-            hymnalId: hymnal.id,
-            hymnNumber: hymn.number,
-          ),
-        ),
-      );
-    }
-  }
-
+class _ListsScreenState extends _ListsController {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

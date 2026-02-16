@@ -7,7 +7,9 @@ import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
-class AmbitScreen extends StatelessWidget {
+part 'ambit_controller.dart';
+
+class AmbitScreen extends StatefulWidget {
   final String category;
   final Ambit ambit;
   final List<Hymn> hymns;
@@ -20,17 +22,19 @@ class AmbitScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final settingsService = GetIt.I<SettingsService>();
-    final historyService = GetIt.I<HistoryService>();
+  State<AmbitScreen> createState() => _AmbitScreenState();
+}
 
+class _AmbitScreenState extends _AmbitController {
+  @override
+  Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: settingsService,
+      animation: _settingsService,
       builder: (context, child) {
         return Stack(
           children: [
             Container(color: Theme.of(context).scaffoldBackgroundColor),
-            if (settingsService.showBackgroundImage)
+            if (_settingsService.showBackgroundImage)
               Positioned.fill(
                 child: Image.asset(
                   'assets/background_image.png',
@@ -53,17 +57,17 @@ class AmbitScreen extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
-                title: Text(category),
+                title: Text(widget.category),
               ),
               body: ListView.builder(
                 padding: const EdgeInsets.only(bottom: 80),
-                itemCount: hymns.length,
+                itemCount: widget.hymns.length,
                 itemBuilder: (context, index) {
-                  final hymn = hymns[index];
+                  final hymn = widget.hymns[index];
                   return ListTile(
                     leading: CircleAvatar(
                       backgroundColor:
-                          Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
+                          Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.6),
                       child: Text(
                         '${hymn.number}',
                         style: TextStyle(
@@ -73,22 +77,7 @@ class AmbitScreen extends StatelessWidget {
                       ),
                     ),
                     title: Text(hymn.title),
-                    onTap: () async {
-                      await historyService.addToHistory(
-                          settingsService.selectedHymnal!.id, hymn.number, hymn.title);
-                      if (context.mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            settings: const RouteSettings(name: '/hymn'),
-                            builder: (_) => HymnScreen(
-                              hymnalId: settingsService.selectedHymnal!.id,
-                              hymnNumber: hymn.number,
-                            ),
-                          ),
-                        );
-                      }
-                    },
+                    onTap: () => _onHymnTapped(hymn),
                   );
                 },
               ),

@@ -7,6 +7,8 @@ import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 
+part 'sheets_controller.dart';
+
 class SheetsScreen extends StatefulWidget {
   final Hymnal hymnal;
   final int hymnNumber;
@@ -21,67 +23,7 @@ class SheetsScreen extends StatefulWidget {
   State<SheetsScreen> createState() => _SheetsScreenState();
 }
 
-class _SheetsScreenState extends State<SheetsScreen> {
-  List<String> _sheetUrls = [];
-  int _currentIndex = 0;
-  bool _isLoading = true;
-  String? _errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSheets();
-  }
-
-  Future<void> _loadSheets() async {
-    if (widget.hymnal.hymnsSheetsFileName == null) {
-      setState(() {
-        _errorMessage = 'No sheet music available for this hymnal';
-        _isLoading = false;
-      });
-      return;
-    }
-
-    final baseName = widget.hymnal.hymnsSheetsFileName!.replaceAll(
-      '###',
-      widget.hymnNumber.toString().padLeft(3, '0'),
-    );
-
-    final urls = <String>[];
-
-    // Check for base sheet
-    final baseUrl = 'assets/musicSheets/$baseName';
-    if (await _assetExists(baseUrl)) {
-      urls.add(baseUrl);
-    }
-
-    // Check for additional pages
-    for (int i = 1; i <= 6; i++) {
-      final extraName = baseName.replaceAll('.png', '_$i.png');
-      final extraUrl = 'assets/musicSheets/$extraName';
-      if (await _assetExists(extraUrl)) {
-        urls.add(extraUrl);
-      }
-    }
-
-    setState(() {
-      _sheetUrls = urls;
-      _isLoading = false;
-      if (urls.isEmpty) {
-        _errorMessage = 'No sheet music found for hymn ${widget.hymnNumber}';
-      }
-    });
-  }
-
-  Future<bool> _assetExists(String assetPath) async {
-    try {
-      await rootBundle.load(assetPath);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
+class _SheetsScreenState extends _SheetsController {
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
@@ -170,11 +112,7 @@ class _SheetsScreenState extends State<SheetsScreen> {
                                 },
                               );
                             },
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentIndex = index;
-                              });
-                            },
+                            onPageChanged: _onPageChanged,
                             pageController: PageController(initialPage: 0),
                             scrollPhysics: const BouncingScrollPhysics(),
                             backgroundDecoration: const BoxDecoration(

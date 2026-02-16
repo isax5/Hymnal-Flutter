@@ -7,19 +7,6 @@ abstract class _HomeController extends State<HomeScreen> {
   final HistoryService _historyService = GetIt.I<HistoryService>();
   final FocusNode _numberFocusNode = FocusNode();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Auto-focus the input field when screen opens
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     Future.delayed(const Duration(milliseconds: 300), () {
-  //       if (mounted) {
-  //         _numberFocusNode.requestFocus();
-  //       }
-  //     });
-  //   });
-  // }
-
   @override
   void dispose() {
     _numberController.dispose();
@@ -50,8 +37,7 @@ abstract class _HomeController extends State<HomeScreen> {
       return;
     }
 
-    final hymn =
-        await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
+    final hymn = await GetIt.I<HymnalRepository>().getHymnByNumber(hymnal.id, number);
     if (hymn == null) {
       _showError('Hymn not found');
       return;
@@ -88,14 +74,12 @@ abstract class _HomeController extends State<HomeScreen> {
               ),
             ),
             ..._settingsService.hymnals.map((hymnal) {
-              final isSelected =
-                  hymnal.id == _settingsService.selectedHymnal?.id;
+              final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
               return ListTile(
                 leading: Text(
                   hymnal.twoLetterIsoLanguageName.toUpperCase(),
                   style: TextStyle(
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                     color: isSelected ? Theme.of(context).primaryColor : null,
                   ),
                 ),

@@ -31,7 +31,6 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
 
   @override
   Future<void> addFavorite(FavoriteHymn favorite) async {
-    final prefs = await SharedPreferences.getInstance();
     final favorites = await getFavorites();
 
     if (!await isFavorite(favorite.hymnalId, favorite.hymnNumber)) {
@@ -42,7 +41,6 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
 
   @override
   Future<void> removeFavorite(String hymnalId, int hymnNumber) async {
-    final prefs = await SharedPreferences.getInstance();
     final favorites = await getFavorites();
 
     favorites.removeWhere(

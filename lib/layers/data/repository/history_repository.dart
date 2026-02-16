@@ -25,7 +25,6 @@ class HistoryRepositoryImpl implements HistoryRepository {
 
   @override
   Future<void> addToHistory(HymnHistoryEntry entry) async {
-    final prefs = await SharedPreferences.getInstance();
     var history = await getHistory();
 
     history.removeWhere(

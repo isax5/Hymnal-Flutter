@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/layers/data/repository/hymnal_repository.dart';
 import 'package:hymnal_app/layers/domain/model/hymn.dart';
 import 'package:hymnal_app/services/settings_service.dart';
-import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
 

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/layers/data/repository/hymnal_repository.dart';
 import 'package:hymnal_app/layers/data/repository/favorites_repository.dart';
@@ -14,8 +13,7 @@ final GetIt getIt = GetIt.instance;
 void setupLocator() {
   // Repositories
   getIt.registerLazySingleton<HymnalRepository>(() => HymnalRepositoryImpl());
-  getIt.registerLazySingleton<FavoritesRepository>(
-      () => FavoritesRepositoryImpl());
+  getIt.registerLazySingleton<FavoritesRepository>(() => FavoritesRepositoryImpl());
   getIt.registerLazySingleton<HistoryRepository>(() => HistoryRepositoryImpl());
   getIt.registerLazySingleton<SettingsRepository>(() => SettingsRepository());
 

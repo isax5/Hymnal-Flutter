@@ -130,57 +130,63 @@ class _SheetsScreenState extends State<SheetsScreen> {
                     ),
                 ],
               ),
-              body: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : _errorMessage != null
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.music_off, size: 64, color: Colors.grey),
-                              const SizedBox(height: 16),
-                              Text(
-                                _errorMessage!,
-                                style: const TextStyle(color: Colors.grey),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+              body: Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : _errorMessage != null
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.music_off, size: 64, color: Colors.grey),
+                                const SizedBox(height: 16),
+                                Text(
+                                  _errorMessage!,
+                                  style: const TextStyle(color: Colors.grey),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          )
+                        : PhotoViewGallery.builder(
+                            itemCount: _sheetUrls.length,
+                            builder: (context, index) {
+                              return PhotoViewGalleryPageOptions(
+                                imageProvider: AssetImage(_sheetUrls[index]),
+                                minScale: PhotoViewComputedScale.contained,
+                                maxScale: PhotoViewComputedScale.covered * 2,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error, color: Colors.red),
+                                        const SizedBox(height: 8),
+                                        Text('Failed to load image: $error'),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentIndex = index;
+                              });
+                            },
+                            pageController: PageController(initialPage: 0),
+                            scrollPhysics: const BouncingScrollPhysics(),
+                            backgroundDecoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
                           ),
-                        )
-                      : PhotoViewGallery.builder(
-                          itemCount: _sheetUrls.length,
-                          builder: (context, index) {
-                            return PhotoViewGalleryPageOptions(
-                              imageProvider: AssetImage(_sheetUrls[index]),
-                              minScale: PhotoViewComputedScale.contained,
-                              maxScale: PhotoViewComputedScale.covered * 2,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(Icons.error, color: Colors.red),
-                                      const SizedBox(height: 8),
-                                      Text('Failed to load image: $error'),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          onPageChanged: (index) {
-                            setState(() {
-                              _currentIndex = index;
-                            });
-                          },
-                          pageController: PageController(initialPage: 0),
-                          scrollPhysics: const BouncingScrollPhysics(),
-                          backgroundDecoration: const BoxDecoration(
-                            color: Colors.transparent,
-                          ),
-                        ),
+              ),
             ),
-            const DraggablePlayer(),
+            DraggablePlayer(
+              includeSafeArea: false,
+              bottomPadding: isLandscape ? 20 : 10,
+            ),
           ],
         );
       },

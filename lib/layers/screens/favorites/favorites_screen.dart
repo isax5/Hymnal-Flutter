@@ -5,6 +5,7 @@ import 'package:hymnal_app/services/favorites_service.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/domain/model/favorite_hymn.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
+import 'package:hymnal_app/widgets/hymn_list_tile.dart';
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 
 part 'favorites_controller.dart';
@@ -28,10 +29,7 @@ class _FavoritesScreenState extends _FavoritesController {
         return Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            toolbarHeight:
-                MediaQuery.of(context).orientation == Orientation.landscape
-                    ? 40
-                    : null,
+            toolbarHeight: MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
             backgroundColor: Colors.transparent,
             elevation: 0,
             iconTheme: IconThemeData(
@@ -49,8 +47,7 @@ class _FavoritesScreenState extends _FavoritesController {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.favorite_border,
-                          size: 64, color: Colors.grey),
+                      const Icon(Icons.favorite_border, size: 64, color: Colors.grey),
                       const SizedBox(height: 16),
                       Text(
                         l10n.noFavoritesYet,
@@ -59,8 +56,7 @@ class _FavoritesScreenState extends _FavoritesController {
                       const SizedBox(height: 8),
                       Text(
                         l10n.addHymnsToFavorites,
-                        style:
-                            const TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                     ],
                   ),
@@ -85,24 +81,10 @@ class _FavoritesScreenState extends _FavoritesController {
                       ),
                       confirmDismiss: (_) => _confirmDismiss(favorite),
                       onDismissed: (_) => _onDismissed(favorite),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .primaryContainer
-                              .withValues(alpha: 0.6),
-                          child: Text(
-                            '${favorite.hymnNumber}',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        title: Text(favorite.title),
-                        subtitle: Text(_getHymnalName(favorite.hymnalId)),
+                      child: HymnListTile(
+                        number: favorite.hymnNumber,
+                        title: favorite.title,
+                        subtitle: _getHymnalName(favorite.hymnalId),
                         trailing: const Icon(Icons.drag_handle),
                         onTap: () => _onFavoriteTapped(favorite),
                       ),

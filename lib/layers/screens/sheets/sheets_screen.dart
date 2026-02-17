@@ -58,7 +58,9 @@ class _SheetsScreenState extends _SheetsController {
                       onTap: _toggleAppBar,
                       child: Padding(
                         padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewPadding.bottom,
+                          bottom: _isPlayerBottomVisible
+                              ? MediaQuery.of(context).viewPadding.bottom
+                              : 0,
                         ),
                         child: PhotoViewGallery.builder(
                           itemCount: _sheetUrls.length,

@@ -17,7 +17,22 @@ abstract class _HymnController extends State<HymnScreen> {
   @override
   void initState() {
     super.initState();
+    _favoritesService.addListener(_onFavoritesChanged);
     _loadData();
+  }
+
+  void _onFavoritesChanged() {
+    if (_hymn != null && mounted) {
+      _favoritesService
+          .isFavorite(widget.hymnalId, _hymn!.number)
+          .then((isFav) {
+        if (mounted && isFav != _isFavorite) {
+          setState(() {
+            _isFavorite = isFav;
+          });
+        }
+      });
+    }
   }
 
   Future<void> _loadData() async {
@@ -137,6 +152,7 @@ ${l10n.sharedFromApp}''';
 
   @override
   void dispose() {
+    _favoritesService.removeListener(_onFavoritesChanged);
     try {
       WakelockPlus.disable();
     } catch (e) {

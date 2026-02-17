@@ -12,11 +12,13 @@ abstract class _PlayerController extends State<PlayerScreen> {
     super.initState();
     _checkFavorite();
     _audioService.addListener(_checkFavorite);
+    _favoritesService.addListener(_checkFavorite);
   }
 
   @override
   void dispose() {
     _audioService.removeListener(_checkFavorite);
+    _favoritesService.removeListener(_checkFavorite);
     super.dispose();
   }
 

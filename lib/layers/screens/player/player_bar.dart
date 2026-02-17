@@ -77,15 +77,34 @@ class PlayerBar extends StatelessWidget {
                           ],
                         ),
                       ),
+                      (!audioService.isPlaying && audioService.isLoading)
+                          ? IconButton(
+                              icon: SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  padding: const EdgeInsets.all(4),
+                                  valueColor: AlwaysStoppedAnimation(
+                                    Theme.of(context).colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () => audioService.togglePlayPause(),
+                            )
+                          : IconButton(
+                              padding: EdgeInsets.zero,
+                              alignment: Alignment.center,
+                              icon: Icon(
+                                audioService.isPlaying
+                                    ? Icons.pause_rounded
+                                    : Icons.play_arrow_rounded,
+                              ),
+                              onPressed: () => audioService.togglePlayPause(),
+                            ),
                       IconButton(
-                        iconSize: isLandscape ? 20 : 24,
-                        icon: Icon(
-                          audioService.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                        ),
-                        onPressed: () => audioService.togglePlayPause(),
-                      ),
-                      IconButton(
-                        iconSize: isLandscape ? 20 : 24,
+                        padding: EdgeInsets.zero,
+                        alignment: Alignment.center,
                         icon: const Icon(Icons.close_rounded),
                         onPressed: () => audioService.stop(),
                       ),

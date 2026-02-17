@@ -78,32 +78,27 @@ class _SheetsScreenState extends _SheetsController {
                         ],
                       ),
                     )
-                  : PhotoViewGallery.builder(
-                      itemCount: _sheetUrls.length,
-                      builder: (context, index) {
-                        return PhotoViewGalleryPageOptions(
-                          imageProvider: AssetImage(_sheetUrls[index]),
-                          minScale: PhotoViewComputedScale.contained,
-                          maxScale: PhotoViewComputedScale.covered * 2,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.error, color: Colors.red),
-                                  const SizedBox(height: 8),
-                                  Text(l10n.failedToLoadImage(error.toString())),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      onPageChanged: _onPageChanged,
-                      pageController: PageController(initialPage: 0),
-                      scrollPhysics: const BouncingScrollPhysics(),
-                      backgroundDecoration: const BoxDecoration(
-                        color: Colors.transparent,
+                  : Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewPadding.bottom,
+                      ),
+                      child: PhotoViewGallery.builder(
+                        itemCount: _sheetUrls.length,
+                        builder: (context, index) {
+                          return PhotoViewGalleryPageOptions(
+                            imageProvider: AssetImage(_sheetUrls[index]),
+                            minScale: PhotoViewComputedScale.contained,
+                            maxScale: PhotoViewComputedScale.covered * 2,
+                            basePosition: Alignment.topCenter,
+                            tightMode: true,
+                          );
+                        },
+                        onPageChanged: _onPageChanged,
+                        pageController: PageController(initialPage: 0),
+                        scrollPhysics: const BouncingScrollPhysics(),
+                        backgroundDecoration: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
                       ),
                     ),
           playerBottomOffset: isLandscape ? 0 : 0,

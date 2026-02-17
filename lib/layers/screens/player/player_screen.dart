@@ -69,8 +69,8 @@ class _PlayerScreenState extends _PlayerController {
             final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
             final albumArt = Container(
-              width: isLandscape ? 180 : 200,
-              height: isLandscape ? 180 : 200,
+              width: isLandscape ? 180 : 100,
+              height: isLandscape ? 180 : 100,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.8),
                 borderRadius: BorderRadius.circular(24),
@@ -84,7 +84,7 @@ class _PlayerScreenState extends _PlayerController {
               ),
               child: Icon(
                 _audioService.isInstrumental ? Icons.piano : Icons.record_voice_over,
-                size: isLandscape ? 60 : 80,
+                size: isLandscape ? 30 : 40,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             );
@@ -194,8 +194,8 @@ class _PlayerScreenState extends _PlayerController {
                     GestureDetector(
                       onTap: () => _audioService.togglePlayPause(),
                       child: Container(
-                        width: isLandscape ? 56 : 72,
-                        height: isLandscape ? 56 : 72,
+                        width: isLandscape ? 56 : 62,
+                        height: isLandscape ? 56 : 62,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Theme.of(context).colorScheme.primary,
@@ -319,11 +319,11 @@ class _PlayerScreenState extends _PlayerController {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   albumArt,
-                  const SizedBox(height: 32),
+                  const Spacer(),
                   hymnInfo,
-                  const SizedBox(height: 24),
+                  const Spacer(),
                   controls,
-                  const SizedBox(height: 16),
+                  const Spacer(),
                   ElevatedButton.icon(
                     onPressed: () {
                       if (hymnal != null) {

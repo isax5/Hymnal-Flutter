@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:hymnal_app/services/settings_service.dart';
+import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
+import 'package:hymnal_app/core/constants/layout_constants.dart';
 
-class AppScaffold extends StatelessWidget {
+class AppScaffold extends StatefulWidget {
   final Widget body;
   final PreferredSizeWidget? appBar;
   final Widget? bottomNavigationBar;
@@ -18,17 +20,31 @@ class AppScaffold extends StatelessWidget {
     this.appBar,
     this.bottomNavigationBar,
     this.showPlayer = true,
-    this.playerBottomOffset = 20.0,
+    this.playerBottomOffset = 0.0,
     this.resizeToAvoidBottomInset = true,
   });
 
   @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
+  final GlobalKey<DraggablePlayerState> _playerKey = GlobalKey<DraggablePlayerState>();
+
+  @override
   Widget build(BuildContext context) {
     final settingsService = GetIt.I<SettingsService>();
+    final audioService = GetIt.I<AudioService>();
 
     return AnimatedBuilder(
-      animation: settingsService,
+      animation: Listenable.merge([settingsService, audioService]),
       builder: (context, child) {
+        final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+        final playerHeight = isLandscape
+            ? LayoutConstants.playerBarHeightLandscape
+            : LayoutConstants.playerBarHeight;
+        final hasActivePlayer = widget.showPlayer && audioService.currentHymn != null;
+
         return Stack(
           children: [
             Container(color: Theme.of(context).scaffoldBackgroundColor),
@@ -42,15 +58,24 @@ class AppScaffold extends StatelessWidget {
               ),
             Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: appBar,
-              body: body,
-              bottomNavigationBar: bottomNavigationBar,
-              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+              appBar: widget.appBar,
+              body: widget.body,
+              bottomNavigationBar: (widget.bottomNavigationBar == null && !hasActivePlayer)
+                  ? null
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (hasActivePlayer) SizedBox(height: playerHeight),
+                        if (widget.bottomNavigationBar != null) widget.bottomNavigationBar!,
+                      ],
+                    ),
+              resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
             ),
-            if (showPlayer)
+            if (widget.showPlayer)
               DraggablePlayer(
-                includeSafeArea: false,
-                bottomPadding: playerBottomOffset,
+                key: _playerKey,
+                includeSafeArea: true,
+                bottomOffset: widget.playerBottomOffset,
               ),
           ],
         );

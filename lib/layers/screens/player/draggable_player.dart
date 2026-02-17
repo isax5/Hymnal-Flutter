@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hymnal_app/core/constants/layout_constants.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/layers/screens/player/player_bar.dart';
@@ -17,11 +18,10 @@ class DraggablePlayer extends StatefulWidget {
   });
 
   @override
-  State<DraggablePlayer> createState() => _DraggablePlayerState();
+  State<DraggablePlayer> createState() => DraggablePlayerState();
 }
 
-class _DraggablePlayerState extends State<DraggablePlayer>
-    with SingleTickerProviderStateMixin {
+class DraggablePlayerState extends State<DraggablePlayer> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -32,6 +32,9 @@ class _DraggablePlayerState extends State<DraggablePlayer>
       duration: const Duration(milliseconds: 300),
     );
   }
+
+  void expand() => _controller.forward();
+  void collapse() => _controller.reverse();
 
   @override
   void dispose() {
@@ -58,17 +61,13 @@ class _DraggablePlayerState extends State<DraggablePlayer>
   Widget build(BuildContext context) {
     final audioService = GetIt.I<AudioService>();
     final screenHeight = MediaQuery.of(context).size.height;
-    final safeAreaBottom =
-        widget.includeSafeArea ? MediaQuery.of(context).padding.bottom : 0.0;
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final safeAreaBottom = widget.includeSafeArea ? MediaQuery.of(context).padding.bottom : 0.0;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
-    // Use shorter height and ignore bottomPadding in landscape to prevent gaps
-    final baseMinHeight = isLandscape ? 45.0 : 72.0;
+    // Use shorter height in landscape
+    final baseMinHeight =
+        isLandscape ? LayoutConstants.playerBarHeightLandscape : LayoutConstants.playerBarHeight;
     final effectiveMinHeight = baseMinHeight + widget.bottomPadding;
-
-    // Total bottom offset including safety and nav bar
-    final effectiveBottomOffset = widget.bottomOffset + safeAreaBottom;
 
     return AnimatedBuilder(
       animation: Listenable.merge([_controller, audioService]),
@@ -79,13 +78,13 @@ class _DraggablePlayerState extends State<DraggablePlayer>
 
         final expansionValue = _controller.value;
 
-        // When expansionValue is 0, we want bottom = effectiveBottomOffset
-        // When expansionValue is 1, we want bottom = 0
-        final currentBottom = effectiveBottomOffset * (1.0 - expansionValue);
+        // Total bottom offset including nav bar.
+        // We use safeAreaBottom if includeSafeArea is true.
+        final currentBottom = (widget.bottomOffset + safeAreaBottom) * (1.0 - expansionValue);
 
         // Height expands from effectiveMinHeight to full screenHeight
-        final currentHeight = effectiveMinHeight +
-            (screenHeight - effectiveMinHeight) * expansionValue;
+        final currentHeight =
+            effectiveMinHeight + (screenHeight - effectiveMinHeight) * expansionValue;
 
         return Positioned(
           left: 0,
@@ -104,33 +103,31 @@ class _DraggablePlayerState extends State<DraggablePlayer>
               children: [
                 // Solid background that fades in
                 Opacity(
-                  opacity: expansionValue,
+                  opacity: expansionValue.clamp(0.0, 1.0),
                   child: Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
                   ),
                 ),
                 // Full Player Screen
                 Opacity(
-                  opacity: expansionValue,
+                  opacity: expansionValue.clamp(0.0, 1.0),
                   child: IgnorePointer(
-                    ignoring: expansionValue < 0.5,
+                    ignoring: expansionValue < 0.1, // Show early during drag
                     child: PlayerScreen(
                       showBackground: false,
                       onClose: () => _controller.reverse(),
                     ),
                   ),
                 ),
-                // Mini Player Bar
-                Opacity(
-                  opacity: 1.0 - expansionValue,
-                  child: IgnorePointer(
-                    ignoring: expansionValue > 0.5,
+                // Mini Player Bar (only visible while dragging, Fades out quickly)
+                if (expansionValue < 0.5)
+                  Opacity(
+                    opacity: (1.0 - expansionValue * 2).clamp(0.0, 1.0),
                     child: PlayerBar(
                       onTap: () => _controller.forward(),
                       bottomPadding: isLandscape ? 10.0 : widget.bottomPadding,
                     ),
                   ),
-                ),
               ],
             ),
           ),

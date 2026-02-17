@@ -33,13 +33,10 @@ class _HomeScreenState extends _HomeController {
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               toolbarHeight:
-                  MediaQuery.of(context).orientation == Orientation.landscape
-                      ? 40
-                      : null,
+                  MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              iconTheme:
-                  IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+              iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
               titleTextStyle: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 20,
@@ -65,21 +62,15 @@ class _HomeScreenState extends _HomeController {
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         _settingsService.selectedHymnal!.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge,
+                                        style: Theme.of(context).textTheme.titleLarge,
                                       ),
                                       Text(
                                         '${_settingsService.selectedHymnal!.year} • ${_settingsService.selectedHymnal!.detail}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
+                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                               color: Colors.grey,
                                             ),
                                       ),
@@ -115,8 +106,7 @@ class _HomeScreenState extends _HomeController {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 filled: true,
-                                fillColor:
-                                    Theme.of(context).colorScheme.surface,
+                                fillColor: Theme.of(context).colorScheme.surface,
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -125,8 +115,7 @@ class _HomeScreenState extends _HomeController {
                               icon: const Icon(Icons.open_in_new),
                               label: Text(l10n.openHymn),
                               style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -145,8 +134,7 @@ class _HomeScreenState extends _HomeController {
                               _unfocusKeyboard();
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (_) => const SearchScreen()),
+                                MaterialPageRoute(builder: (_) => const SearchScreen()),
                               );
                             },
                             icon: const Icon(Icons.search),
@@ -163,8 +151,7 @@ class _HomeScreenState extends _HomeController {
                               _unfocusKeyboard();
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (_) => const HistoryScreen()),
+                                MaterialPageRoute(builder: (_) => const HistoryScreen()),
                               );
                             },
                             icon: const Icon(Icons.history),
@@ -176,7 +163,7 @@ class _HomeScreenState extends _HomeController {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 100), // Bottom padding for player
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),

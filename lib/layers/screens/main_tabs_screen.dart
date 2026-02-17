@@ -21,7 +21,7 @@ class _MainTabsScreenState extends _MainTabsController {
     final l10n = AppLocalizations.of(context)!;
 
     return AppScaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,

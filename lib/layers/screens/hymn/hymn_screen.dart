@@ -1,4 +1,3 @@
-import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:share_plus/share_plus.dart';
@@ -12,7 +11,7 @@ import 'package:hymnal_app/services/favorites_service.dart';
 import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/services/audio_service.dart';
 import 'package:hymnal_app/layers/screens/sheets/sheets_screen.dart';
-import 'package:hymnal_app/layers/screens/player/draggable_player.dart';
+import 'package:hymnal_app/widgets/app_scaffold.dart';
 
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 
@@ -37,8 +36,7 @@ class HymnScreen extends StatefulWidget {
 class _HymnScreenState extends _HymnController {
   Widget _buildAudioButtons(bool hasInstrumental, bool hasSung) {
     final l10n = AppLocalizations.of(context)!;
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Container(
       height: isLandscape ? 50 : 60,
@@ -54,8 +52,7 @@ class _HymnScreenState extends _HymnController {
                   child: InkWell(
                     onTap: () => _playAudio(instrumental: true),
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
+                      padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -84,8 +81,7 @@ class _HymnScreenState extends _HymnController {
                   child: InkWell(
                     onTap: () => _playAudio(instrumental: false),
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: isLandscape ? 0 : 8),
+                      padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -121,84 +117,55 @@ class _HymnScreenState extends _HymnController {
     }
 
     final hasSheets = _hymnal?.hymnsSheetsFileName != null;
-    final hasInstrumental =
-        _musicSettings?.getInstrumentalUrl(_hymn!.number) != null;
+    final hasInstrumental = _musicSettings?.getInstrumentalUrl(_hymn!.number) != null;
     final hasSung = _musicSettings?.getSungUrl(_hymn!.number) != null;
     final hasAudio = hasInstrumental || hasSung;
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-    final audioButtonsHeight = (isLandscape ? 50.0 : 60.0);
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final audioButtonsHeight = (isLandscape ? 30.0 : 30.0);
     // Only apply offset if bottomNavigationBar is showing
     final bottomOffset = hasAudio ? audioButtonsHeight : 0.0;
 
-    return Stack(
-      children: [
-        Container(color: Theme.of(context).scaffoldBackgroundColor),
-        AnimatedBuilder(
-          animation: _settingsService,
-          builder: (context, child) {
-            if (!_settingsService.showBackgroundImage) {
-              return const SizedBox.shrink();
-            }
-            return Positioned.fill(
-              child: Image.asset(
-                AppAssets.backgroundImage,
-                fit: BoxFit.cover,
-                opacity: const AlwaysStoppedAnimation(0.1),
-              ),
-            );
-          },
+    return AppScaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onSurface,
         ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            iconTheme: IconThemeData(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            titleTextStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-            toolbarHeight: isLandscape ? 40 : null,
-            title: Text(l10n.hymnTitle(_hymn!.number)),
-            actions: [
-              IconButton(
-                icon:
-                    Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
-                onPressed: _toggleFavorite,
-              ),
-              IconButton(
-                icon: const Icon(Icons.share),
-                onPressed: _shareHymn,
-              ),
-              if (hasSheets)
-                IconButton(
-                  icon: const Icon(Icons.music_note),
-                  onPressed: _openSheets,
-                ),
-            ],
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+        toolbarHeight: isLandscape ? 40 : null,
+        title: Text(l10n.hymnTitle(_hymn!.number)),
+        actions: [
+          IconButton(
+            icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border),
+            onPressed: _toggleFavorite,
           ),
-          body: PageView.builder(
-            controller: _pageController,
-            onPageChanged: _onPageChanged,
-            itemCount: _allHymns?.length ?? 0,
-            itemBuilder: (context, index) {
-              final hymn = _allHymns![index];
-              return _buildHymnContent(hymn);
-            },
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: _shareHymn,
           ),
-          bottomNavigationBar:
-              hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
-        ),
-        DraggablePlayer(
-          bottomOffset: bottomOffset,
-          bottomPadding: hasAudio ? 0 : (isLandscape ? 20 : 10),
-          includeSafeArea: false,
-        ),
-      ],
+          if (hasSheets)
+            IconButton(
+              icon: const Icon(Icons.music_note),
+              onPressed: _openSheets,
+            ),
+        ],
+      ),
+      body: PageView.builder(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        itemCount: _allHymns?.length ?? 0,
+        itemBuilder: (context, index) {
+          final hymn = _allHymns![index];
+          return _buildHymnContent(hymn);
+        },
+      ),
+      bottomNavigationBar: hasAudio ? _buildAudioButtons(hasInstrumental, hasSung) : null,
+      playerBottomOffset: bottomOffset,
     );
   }
 
@@ -207,8 +174,7 @@ class _HymnScreenState extends _HymnController {
       animation: _settingsService,
       builder: (context, child) {
         return SingleChildScrollView(
-          padding:
-              const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 100),
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

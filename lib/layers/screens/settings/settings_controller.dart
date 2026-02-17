@@ -99,6 +99,10 @@ abstract class _SettingsController extends State<SettingsScreen> {
   Future<void> _showHymnalSelector() async {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -110,25 +114,35 @@ abstract class _SettingsController extends State<SettingsScreen> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            ..._settingsService.hymnals.map((hymnal) {
-              final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
-              return ListTile(
-                leading: Text(
-                  hymnal.twoLetterIsoLanguageName.toUpperCase(),
-                  style: TextStyle(
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isSelected ? Theme.of(context).colorScheme.primary : null,
-                  ),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ..._settingsService.hymnals.map((hymnal) {
+                      final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
+                      return ListTile(
+                        leading: Text(
+                          hymnal.twoLetterIsoLanguageName.toUpperCase(),
+                          style: TextStyle(
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            color: isSelected ? Theme.of(context).colorScheme.primary : null,
+                          ),
+                        ),
+                        title: Text(hymnal.name),
+                        subtitle: Text('${hymnal.year} • ${hymnal.detail}'),
+                        trailing: isSelected ? const Icon(Icons.check) : null,
+                        onTap: () {
+                          _settingsService.selectHymnal(hymnal.id);
+                          Navigator.pop(context);
+                        },
+                      );
+                    }),
+                    const SizedBox(height: 8),
+                  ],
                 ),
-                title: Text(hymnal.name),
-                subtitle: Text('${hymnal.year} • ${hymnal.detail}'),
-                trailing: isSelected ? const Icon(Icons.check) : null,
-                onTap: () {
-                  _settingsService.selectHymnal(hymnal.id);
-                  Navigator.pop(context);
-                },
-              );
-            }),
+              ),
+            ),
           ],
         ),
       ),
@@ -138,6 +152,10 @@ abstract class _SettingsController extends State<SettingsScreen> {
   Future<void> _showThemeSelector() async {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -149,32 +167,45 @@ abstract class _SettingsController extends State<SettingsScreen> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.brightness_auto),
-              title: const Text('System'),
-              trailing: _settingsService.themeMode == 'system' ? const Icon(Icons.check) : null,
-              onTap: () {
-                _settingsService.setThemeMode('system');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.light_mode),
-              title: const Text('Light'),
-              trailing: _settingsService.themeMode == 'light' ? const Icon(Icons.check) : null,
-              onTap: () {
-                _settingsService.setThemeMode('light');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.dark_mode),
-              title: const Text('Dark'),
-              trailing: _settingsService.themeMode == 'dark' ? const Icon(Icons.check) : null,
-              onTap: () {
-                _settingsService.setThemeMode('dark');
-                Navigator.pop(context);
-              },
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.brightness_auto),
+                      title: const Text('System'),
+                      trailing:
+                          _settingsService.themeMode == 'system' ? const Icon(Icons.check) : null,
+                      onTap: () {
+                        _settingsService.setThemeMode('system');
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.light_mode),
+                      title: const Text('Light'),
+                      trailing:
+                          _settingsService.themeMode == 'light' ? const Icon(Icons.check) : null,
+                      onTap: () {
+                        _settingsService.setThemeMode('light');
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.dark_mode),
+                      title: const Text('Dark'),
+                      trailing:
+                          _settingsService.themeMode == 'dark' ? const Icon(Icons.check) : null,
+                      onTap: () {
+                        _settingsService.setThemeMode('dark');
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -185,6 +216,10 @@ abstract class _SettingsController extends State<SettingsScreen> {
   Future<void> _showRateOptions() async {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -196,21 +231,31 @@ abstract class _SettingsController extends State<SettingsScreen> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.apple),
-              title: const Text('App Store'),
-              onTap: () {
-                _launchUrl(AppConstants.appStoreUrl);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.android),
-              title: const Text('Play Store'),
-              onTap: () {
-                _launchUrl(AppConstants.playStoreUrl);
-                Navigator.pop(context);
-              },
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.apple),
+                      title: const Text('App Store'),
+                      onTap: () {
+                        _launchUrl(AppConstants.appStoreUrl);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.android),
+                      title: const Text('Play Store'),
+                      onTap: () {
+                        _launchUrl(AppConstants.playStoreUrl);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

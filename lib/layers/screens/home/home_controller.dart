@@ -63,39 +63,56 @@ abstract class _HomeController extends State<HomeScreen> {
   Future<void> _showHymnalSelector() async {
     showModalBottomSheet(
       context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                AppLocalizations.of(context)!.selectHymnal,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  l10n.selectHymnal,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            ..._settingsService.hymnals.map((hymnal) {
-              final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
-              return ListTile(
-                leading: Text(
-                  hymnal.twoLetterIsoLanguageName.toUpperCase(),
-                  style: TextStyle(
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isSelected ? Theme.of(context).colorScheme.primary : null,
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ..._settingsService.hymnals.map((hymnal) {
+                        final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
+                        return ListTile(
+                          leading: Text(
+                            hymnal.twoLetterIsoLanguageName.toUpperCase(),
+                            style: TextStyle(
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              color: isSelected ? Theme.of(context).colorScheme.primary : null,
+                            ),
+                          ),
+                          title: Text(hymnal.name),
+                          subtitle: Text('${hymnal.year} • ${hymnal.detail}'),
+                          trailing: isSelected ? const Icon(Icons.check) : null,
+                          onTap: () {
+                            _settingsService.selectHymnal(hymnal.id);
+                            Navigator.pop(context);
+                          },
+                        );
+                      }),
+                      const SizedBox(height: 8),
+                    ],
                   ),
                 ),
-                title: Text(hymnal.name),
-                subtitle: Text('${hymnal.year} • ${hymnal.detail}'),
-                trailing: isSelected ? const Icon(Icons.check) : null,
-                onTap: () {
-                  _settingsService.selectHymnal(hymnal.id);
-                  Navigator.pop(context);
-                },
-              );
-            }),
-          ],
-        ),
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

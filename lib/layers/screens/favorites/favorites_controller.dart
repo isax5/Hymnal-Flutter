@@ -8,7 +8,10 @@ abstract class _FavoritesController extends State<FavoritesScreen> {
   @override
   void initState() {
     super.initState();
-    _favoritesService.loadFavorites();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _favoritesService.loadFavorites();
+    });
   }
 
   String _getHymnalName(String hymnalId) {

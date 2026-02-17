@@ -10,8 +10,11 @@ abstract class _SettingsController extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadAppInfo();
-    _favoritesService.loadFavorites();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadAppInfo();
+      _favoritesService.loadFavorites();
+    });
   }
 
   Future<void> _loadAppInfo() async {

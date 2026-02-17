@@ -28,12 +28,14 @@ class _SheetsScreenState extends _SheetsController {
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
     return AnimatedBuilder(
       animation: GetIt.I<SettingsService>(),
       builder: (context, child) {
         final l10n = AppLocalizations.of(context)!;
         return AppScaffold(
           appBar: _buildAnimatedAppBar(context, l10n, isLandscape),
+          showPlayer: _isPlayerBottomVisible,
           body: _isLoading
               ? const Center(child: CircularProgressIndicator())
               : _errorMessage != null
@@ -79,7 +81,6 @@ class _SheetsScreenState extends _SheetsController {
                         ),
                       ),
                     ),
-          playerBottomOffset: isLandscape ? 0 : 0,
         );
       },
     );

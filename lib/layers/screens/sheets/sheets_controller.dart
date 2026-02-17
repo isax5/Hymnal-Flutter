@@ -6,11 +6,13 @@ abstract class _SheetsController extends State<SheetsScreen> {
   bool _isLoading = true;
   String? _errorMessage;
   bool _isAppBarVisible = true;
+  bool _isPlayerBottomVisible = true;
 
   void _toggleAppBar() {
     if (mounted) {
       setState(() {
         _isAppBarVisible = !_isAppBarVisible;
+        _isPlayerBottomVisible = !_isPlayerBottomVisible;
       });
     }
   }

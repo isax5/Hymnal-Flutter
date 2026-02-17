@@ -33,34 +33,7 @@ class _SheetsScreenState extends _SheetsController {
       builder: (context, child) {
         final l10n = AppLocalizations.of(context)!;
         return AppScaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            iconTheme: IconThemeData(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            titleTextStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-            toolbarHeight: isLandscape ? 40 : null,
-            title: Text(l10n.sheetMusicTitle(widget.hymnNumber)),
-            actions: [
-              if (_sheetUrls.length > 1)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      '${_currentIndex + 1}/${_sheetUrls.length}',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
+          appBar: _buildAnimatedAppBar(context, l10n, isLandscape),
           body: _isLoading
               ? const Center(child: CircularProgressIndicator())
               : _errorMessage != null
@@ -78,32 +51,83 @@ class _SheetsScreenState extends _SheetsController {
                         ],
                       ),
                     )
-                  : Padding(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewPadding.bottom,
-                      ),
-                      child: PhotoViewGallery.builder(
-                        itemCount: _sheetUrls.length,
-                        builder: (context, index) {
-                          return PhotoViewGalleryPageOptions(
-                            imageProvider: AssetImage(_sheetUrls[index]),
-                            minScale: PhotoViewComputedScale.contained,
-                            maxScale: PhotoViewComputedScale.covered * 2,
-                            basePosition: Alignment.topCenter,
-                            tightMode: true,
-                          );
-                        },
-                        onPageChanged: _onPageChanged,
-                        pageController: PageController(initialPage: 0),
-                        scrollPhysics: const BouncingScrollPhysics(),
-                        backgroundDecoration: const BoxDecoration(
-                          color: Colors.transparent,
+                  : GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: _toggleAppBar,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewPadding.bottom,
+                        ),
+                        child: PhotoViewGallery.builder(
+                          itemCount: _sheetUrls.length,
+                          builder: (context, index) {
+                            return PhotoViewGalleryPageOptions(
+                              imageProvider: AssetImage(_sheetUrls[index]),
+                              minScale: PhotoViewComputedScale.contained,
+                              maxScale: PhotoViewComputedScale.covered * 2,
+                              basePosition: Alignment.topCenter,
+                              tightMode: true,
+                              gestureDetectorBehavior: HitTestBehavior.translucent,
+                            );
+                          },
+                          onPageChanged: _onPageChanged,
+                          pageController: PageController(initialPage: 0),
+                          scrollPhysics: const BouncingScrollPhysics(),
+                          backgroundDecoration: const BoxDecoration(
+                            color: Colors.transparent,
+                          ),
                         ),
                       ),
                     ),
           playerBottomOffset: isLandscape ? 0 : 0,
         );
       },
+    );
+  }
+
+  PreferredSizeWidget? _buildAnimatedAppBar(
+      BuildContext context, AppLocalizations l10n, bool isLandscape) {
+    final appBarHeight = 56 + (isLandscape ? 40.0 : kToolbarHeight);
+
+    return PreferredSize(
+      preferredSize: Size.fromHeight(_isAppBarVisible ? appBarHeight : 0),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+        height: _isAppBarVisible ? appBarHeight : 0,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 200),
+          opacity: _isAppBarVisible ? 1.0 : 0.0,
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            titleTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            toolbarHeight: appBarHeight,
+            title: Text(l10n.sheetMusicTitle(widget.hymnNumber)),
+            actions: [
+              if (_sheetUrls.length > 1)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      '${_currentIndex + 1}/${_sheetUrls.length}',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

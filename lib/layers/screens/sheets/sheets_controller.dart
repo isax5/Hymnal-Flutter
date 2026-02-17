@@ -5,6 +5,15 @@ abstract class _SheetsController extends State<SheetsScreen> {
   int _currentIndex = 0;
   bool _isLoading = true;
   String? _errorMessage;
+  bool _isAppBarVisible = true;
+
+  void _toggleAppBar() {
+    if (mounted) {
+      setState(() {
+        _isAppBarVisible = !_isAppBarVisible;
+      });
+    }
+  }
 
   @override
   void initState() {

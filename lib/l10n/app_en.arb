@@ -40,14 +40,6 @@
     }
   },
   "removeFavoriteTitle": "Remove Favorite",
-  "removedFromFavorites": "{title} removed from favorites",
-  "@removedFromFavorites": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "cancel": "Cancel",
   "remove": "Remove",
   "undo": "Undo",

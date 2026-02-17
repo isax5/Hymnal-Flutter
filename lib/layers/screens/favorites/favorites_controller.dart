@@ -64,25 +64,9 @@ abstract class _FavoritesController extends State<FavoritesScreen> {
   }
 
   void _onDismissed(FavoriteHymn favorite) {
-    final l10n = AppLocalizations.of(context)!;
     _favoritesService.removeFavorite(
       favorite.hymnalId,
       favorite.hymnNumber,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.removedFromFavorites(favorite.title)),
-        action: SnackBarAction(
-          label: l10n.undo,
-          onPressed: () {
-            _favoritesService.addFavorite(
-              favorite.hymnalId,
-              favorite.hymnNumber,
-              favorite.title,
-            );
-          },
-        ),
-      ),
     );
   }
 }

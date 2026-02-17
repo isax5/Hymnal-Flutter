@@ -306,12 +306,6 @@ abstract class AppLocalizations {
   /// **'Remove Favorite'**
   String get removeFavoriteTitle;
 
-  /// No description provided for @removedFromFavorites.
-  ///
-  /// In en, this message translates to:
-  /// **'{title} removed from favorites'**
-  String removedFromFavorites(String title);
-
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:

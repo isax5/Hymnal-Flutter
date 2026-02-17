@@ -116,11 +116,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get removeFavoriteTitle => 'Удалить из избранного';
 
   @override
-  String removedFromFavorites(String title) {
-    return '$title удалено из избранного';
-  }
-
-  @override
   String get cancel => 'Отмена';
 
   @override

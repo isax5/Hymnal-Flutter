@@ -116,11 +116,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get removeFavoriteTitle => 'Remover Favorito';
 
   @override
-  String removedFromFavorites(String title) {
-    return '$title removido dos favoritos';
-  }
-
-  @override
   String get cancel => 'Cancelar';
 
   @override

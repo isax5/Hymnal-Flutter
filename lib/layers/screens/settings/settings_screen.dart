@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hymnal_app/constants/app_links.dart';
+import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/services/settings_service.dart';
@@ -7,7 +9,6 @@ import 'package:hymnal_app/services/history_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import 'package:hymnal_app/constants/app_constants.dart';
 import 'package:hymnal_app/utils/platform_helper.dart';
 
 part 'settings_controller.dart';
@@ -29,10 +30,7 @@ class _SettingsScreenState extends _SettingsController {
         return Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            toolbarHeight:
-                MediaQuery.of(context).orientation == Orientation.landscape
-                    ? 40
-                    : null,
+            toolbarHeight: MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
             backgroundColor: Colors.transparent,
             elevation: 0,
             iconTheme: IconThemeData(
@@ -57,8 +55,7 @@ class _SettingsScreenState extends _SettingsController {
                 title: Text(l10n.backgroundImage),
                 subtitle: Text(l10n.backgroundImageSubtitle),
                 value: _settingsService.showBackgroundImage,
-                onChanged: (value) =>
-                    _settingsService.setShowBackgroundImage(value),
+                onChanged: (value) => _settingsService.setShowBackgroundImage(value),
               ),
               _buildSection(l10n.sectionBehavior),
               _buildSwitchTile(
@@ -87,14 +84,14 @@ class _SettingsScreenState extends _SettingsController {
               ListTile(
                 leading: const Icon(Icons.web),
                 title: Text(l10n.website),
-                subtitle: const Text(AppConstants.websiteUrl),
-                onTap: () => _launchUrl(AppConstants.websiteUrl),
+                subtitle: const Text(AppLinks.websiteUrl),
+                onTap: () => _launchUrl(AppLinks.websiteUrl),
               ),
               ListTile(
                 leading: const Icon(Icons.code),
                 title: Text(l10n.contribute),
                 subtitle: Text(l10n.githubRepo),
-                onTap: () => _launchUrl(AppConstants.repositoryUrl),
+                onTap: () => _launchUrl(AppLinks.repositoryUrl),
               ),
               ListTile(
                 leading: const Icon(Icons.star),
@@ -109,7 +106,19 @@ class _SettingsScreenState extends _SettingsController {
               ListTile(
                 leading: const Icon(Icons.inventory_2),
                 title: Text(l10n.licenses),
-                onTap: () => showLicensePage(context: context),
+                onTap: () => showAboutDialog(
+                  context: context,
+                  applicationIcon: Image.asset(AppAssets.appIcon, width: 100, height: 100),
+                  applicationName: l10n.appName,
+                  applicationVersion: '$_appVersion ($_buildNumber)',
+                  applicationLegalese: l10n.aboutDevelopers,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text(l10n.applicationLegalese(DateTime.now().year.toString())),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -184,8 +193,7 @@ class _SettingsScreenState extends _SettingsController {
     );
   }
 
-  Widget _buildSwitchTile(
-      String title, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchTile(String title, bool value, ValueChanged<bool> onChanged) {
     return SwitchListTile(
       secondary: const Icon(Icons.settings),
       title: Text(title),

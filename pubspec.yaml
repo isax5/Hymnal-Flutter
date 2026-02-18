@@ -63,6 +63,7 @@ flutter:
     - assets/hymns/
     - assets/musicSheets/
     - assets/background_image.png
+    - assets/app_icon.png
     - assets/info_constants.json
     - assets/settings.json
 

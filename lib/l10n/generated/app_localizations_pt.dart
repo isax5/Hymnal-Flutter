@@ -307,4 +307,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get none => 'Nenhum';
+
+  @override
+  String applicationLegalese(String year) {
+    return '© $year GoGoShift';
+  }
+
+  @override
+  String get aboutDevelopers =>
+      'Criado com dedicação por Katherin Castillo e Isaac Rebolledo.';
 }

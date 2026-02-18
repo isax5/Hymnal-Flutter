@@ -653,6 +653,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'None'**
   String get none;
+
+  /// No description provided for @applicationLegalese.
+  ///
+  /// In en, this message translates to:
+  /// **'© {year} GoGoShift'**
+  String applicationLegalese(String year);
+
+  /// No description provided for @aboutDevelopers.
+  ///
+  /// In en, this message translates to:
+  /// **'Created with dedication by Katherin Castillo and Isaac Rebolledo.'**
+  String get aboutDevelopers;
 }
 
 class _AppLocalizationsDelegate

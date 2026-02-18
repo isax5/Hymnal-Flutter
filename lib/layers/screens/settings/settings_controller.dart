@@ -113,8 +113,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
               padding: const EdgeInsets.all(16),
               child: Text(
                 l10n.selectHymnal,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Flexible(
@@ -123,18 +122,13 @@ abstract class _SettingsController extends State<SettingsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ..._settingsService.hymnals.map((hymnal) {
-                      final isSelected =
-                          hymnal.id == _settingsService.selectedHymnal?.id;
+                      final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
                       return ListTile(
                         leading: Text(
                           hymnal.twoLetterIsoLanguageName.toUpperCase(),
                           style: TextStyle(
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            color: isSelected
-                                ? Theme.of(context).colorScheme.primary
-                                : null,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            color: isSelected ? Theme.of(context).colorScheme.primary : null,
                           ),
                         ),
                         title: Text(hymnal.name),
@@ -173,8 +167,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
               padding: const EdgeInsets.all(16),
               child: Text(
                 l10n.selectTheme,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Flexible(
@@ -185,9 +178,8 @@ abstract class _SettingsController extends State<SettingsScreen> {
                     ListTile(
                       leading: const Icon(Icons.brightness_auto),
                       title: Text(l10n.themeSystem),
-                      trailing: _settingsService.themeMode == 'system'
-                          ? const Icon(Icons.check)
-                          : null,
+                      trailing:
+                          _settingsService.themeMode == 'system' ? const Icon(Icons.check) : null,
                       onTap: () {
                         _settingsService.setThemeMode('system');
                         Navigator.pop(context);
@@ -196,9 +188,8 @@ abstract class _SettingsController extends State<SettingsScreen> {
                     ListTile(
                       leading: const Icon(Icons.light_mode),
                       title: Text(l10n.themeLight),
-                      trailing: _settingsService.themeMode == 'light'
-                          ? const Icon(Icons.check)
-                          : null,
+                      trailing:
+                          _settingsService.themeMode == 'light' ? const Icon(Icons.check) : null,
                       onTap: () {
                         _settingsService.setThemeMode('light');
                         Navigator.pop(context);
@@ -207,9 +198,8 @@ abstract class _SettingsController extends State<SettingsScreen> {
                     ListTile(
                       leading: const Icon(Icons.dark_mode),
                       title: Text(l10n.themeDark),
-                      trailing: _settingsService.themeMode == 'dark'
-                          ? const Icon(Icons.check)
-                          : null,
+                      trailing:
+                          _settingsService.themeMode == 'dark' ? const Icon(Icons.check) : null,
                       onTap: () {
                         _settingsService.setThemeMode('dark');
                         Navigator.pop(context);
@@ -247,8 +237,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
               padding: const EdgeInsets.all(16),
               child: Text(
                 l10n.rateApp,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Flexible(
@@ -260,7 +249,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
                       leading: const Icon(Icons.apple),
                       title: Text(l10n.appStore),
                       onTap: () {
-                        _launchUrl(AppConstants.appStoreUrl);
+                        _launchUrl(AppLinks.appStoreUrl);
                         Navigator.pop(context);
                       },
                     ),
@@ -268,7 +257,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
                       leading: const Icon(Icons.android),
                       title: Text(l10n.playStore),
                       onTap: () {
-                        _launchUrl(AppConstants.playStoreUrl);
+                        _launchUrl(AppLinks.playStoreUrl);
                         Navigator.pop(context);
                       },
                     ),

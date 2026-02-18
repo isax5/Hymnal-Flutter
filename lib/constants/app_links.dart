@@ -1,4 +1,7 @@
 class AppLinks {
+  static const String websiteUrl = 'https://gogoshift.com'; // TODO: Update with actual website
+  static const String repositoryUrl = 'https://github.com/isax5/Hymnal-Flutter';
+  static const String settingsUrl = 'https://isax5.github.io/hymnal/backend-data/v1/settings.json';
   static const String appStoreUrl = 'https://apps.apple.com/us/app/adventist-hymnal/id1153114394';
   static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=net.ddns.HimnarioAdventistaSPA';

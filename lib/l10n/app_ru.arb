@@ -83,7 +83,6 @@
   "clearHistorySubtitle": "Удалить все недавно просмотренные гимны",
   "clearFavoritesSubtitle": "Удалить все избранные гимны",
   "githubRepo": "Репозиторий GitHub",
-  "selectHymnal": "Выбрать сборник",
   "selectTheme": "Выбрать тему",
   "appStore": "App Store",
   "playStore": "Play Маркет",
@@ -105,5 +104,14 @@
   },
   "none": "Нет",
   "noSheetMusicAvailable": "Для этого сборника нет нот",
-  "noSheetMusicFound": "Ноты для гимна {number} не найдены"
+  "noSheetMusicFound": "Ноты для гимна {number} не найдены",
+  "applicationLegalese": "© {year} GoGoShift",
+  "@applicationLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutDevelopers": "Создано с преданностью Кэтрин Кастильо и Исааком Ребольедо."
 }

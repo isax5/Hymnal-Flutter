@@ -140,7 +140,6 @@
   "clearHistorySubtitle": "Remove all recently viewed hymns",
   "clearFavoritesSubtitle": "Remove all favorite hymns",
   "githubRepo": "GitHub Repository",
-  "selectHymnal": "Select Hymnal",
   "selectTheme": "Select Theme",
   "appStore": "App Store",
   "playStore": "Play Store",
@@ -160,5 +159,14 @@
       }
     }
   },
-  "none": "None"
+  "none": "None",
+  "applicationLegalese": "© {year} GoGoShift",
+  "@applicationLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutDevelopers": "Created with dedication by Katherin Castillo and Isaac Rebolledo."
 }

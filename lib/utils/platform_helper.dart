@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:hymnal_app/constants/app_constants.dart';
+import 'package:hymnal_app/constants/app_links.dart';
 
 enum AppPlatform { ios, android, unsupported }
 
@@ -14,11 +14,11 @@ class PlatformHelper {
   static String get storeUrl {
     switch (currentPlatform) {
       case AppPlatform.ios:
-        return AppConstants.appStoreUrl;
+        return AppLinks.appStoreUrl;
       case AppPlatform.android:
-        return AppConstants.playStoreUrl;
+        return AppLinks.playStoreUrl;
       case AppPlatform.unsupported:
-        return AppConstants.playStoreUrl;
+        return AppLinks.playStoreUrl;
     }
   }
 

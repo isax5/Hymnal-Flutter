@@ -305,4 +305,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get none => 'None';
+
+  @override
+  String applicationLegalese(String year) {
+    return '© $year GoGoShift';
+  }
+
+  @override
+  String get aboutDevelopers =>
+      'Created with dedication by Katherin Castillo and Isaac Rebolledo.';
 }

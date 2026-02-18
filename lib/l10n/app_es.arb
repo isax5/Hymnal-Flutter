@@ -83,7 +83,6 @@
   "clearHistorySubtitle": "Eliminar todos los himnos vistos recientemente",
   "clearFavoritesSubtitle": "Eliminar todos los himnos favoritos",
   "githubRepo": "Repositorio GitHub",
-  "selectHymnal": "Seleccionar himnario",
   "selectTheme": "Seleccionar tema",
   "appStore": "App Store",
   "playStore": "Play Store",
@@ -105,5 +104,14 @@
   },
   "none": "Ninguno",
   "noSheetMusicAvailable": "No hay partituras disponibles para este himnario",
-  "noSheetMusicFound": "No se encontró partitura para el himno {number}"
+  "noSheetMusicFound": "No se encontró partitura para el himno {number}",
+  "applicationLegalese": "© {year} GoGoShift",
+  "@applicationLegalese": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutDevelopers": "Creada con dedicación por Katherin Castillo e Isaac Rebolledo."
 }

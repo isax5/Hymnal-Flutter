@@ -304,4 +304,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get none => 'Нет';
+
+  @override
+  String applicationLegalese(String year) {
+    return '© $year GoGoShift';
+  }
+
+  @override
+  String get aboutDevelopers =>
+      'Создано с преданностью Кэтрин Кастильо и Исааком Ребольедо.';
 }

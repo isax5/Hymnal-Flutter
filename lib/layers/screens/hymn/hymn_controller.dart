@@ -114,7 +114,11 @@ abstract class _HymnController extends State<HymnScreen> {
 ${_hymn!.content}''';
 
     final message = AppLinks.getShareMessage(
-        text, l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl));
+      text,
+      l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl),
+      hymnNumber: _hymn!.number.toString(),
+      hymnTitle: _hymnal!.name,
+    );
     await SharePlus.instance.share(ShareParams(text: message));
   }
 

@@ -49,13 +49,19 @@ abstract class _PlayerController extends State<PlayerScreen> {
   void _shareHymn() {
     final l10n = AppLocalizations.of(context)!;
     final hymn = _audioService.currentHymn;
+    final hymnal = _audioService.currentHymnal;
+
     if (hymn != null) {
       final text = '''${hymn.title}
 
 ${hymn.content}''';
 
       final message = AppLinks.getShareMessage(
-          text, l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl));
+        text,
+        l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl),
+        hymnNumber: hymn.number.toString(),
+        hymnTitle: hymnal!.name,
+      );
       SharePlus.instance.share(ShareParams(text: message));
     }
   }

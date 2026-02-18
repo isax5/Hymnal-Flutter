@@ -6,8 +6,13 @@ class AppLinks {
   static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=net.ddns.HimnarioAdventistaSPA';
 
-  static String getShareMessage(String selectedText, String sharedFromApp) {
-    return '''$selectedText
+  static String getShareMessage(
+    String selectedText,
+    String sharedFromApp, {
+    String? hymnNumber,
+    String? hymnTitle,
+  }) {
+    return '''${hymnNumber != null && hymnTitle != null ? '#$hymnNumber - $hymnTitle\n\n' : ''}$selectedText
 $sharedFromApp''';
   }
 }

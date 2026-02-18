@@ -142,10 +142,22 @@ class _SettingsScreenState extends _SettingsController {
 
   Widget _buildThemeSelector() {
     final l10n = AppLocalizations.of(context)!;
+    String themeLabel;
+    switch (_settingsService.themeMode) {
+      case 'light':
+        themeLabel = l10n.themeLight;
+        break;
+      case 'dark':
+        themeLabel = l10n.themeDark;
+        break;
+      default:
+        themeLabel = l10n.themeSystem;
+    }
+
     return ListTile(
       leading: const Icon(Icons.palette),
       title: Text(l10n.theme),
-      subtitle: Text(_capitalize(_settingsService.themeMode)),
+      subtitle: Text(themeLabel),
       trailing: const Icon(Icons.chevron_right),
       onTap: _showThemeSelector,
     );

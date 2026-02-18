@@ -285,5 +285,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get githubRepo => 'GitHub Repository';
 
   @override
+  String get selectTheme => 'Select Theme';
+
+  @override
+  String get appStore => 'App Store';
+
+  @override
+  String get playStore => 'Play Store';
+
+  @override
+  String couldNotLaunch(String url) {
+    return 'Could not launch $url';
+  }
+
+  @override
+  String errorOpeningLink(String error) {
+    return 'Error opening link: $error';
+  }
+
+  @override
   String get none => 'None';
 }

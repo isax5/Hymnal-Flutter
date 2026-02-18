@@ -28,24 +28,23 @@ abstract class _SettingsController extends State<SettingsScreen> {
   }
 
   Future<void> _clearHistory() async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear History'),
-        content: const Text(
-          'Are you sure you want to clear your history? This cannot be undone.',
-        ),
+        title: Text(l10n.clearHistory),
+        content: Text(l10n.clearHistoryConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(
               foregroundColor: Colors.red,
             ),
-            child: const Text('Clear'),
+            child: Text(l10n.clear),
           ),
         ],
       ),
@@ -55,8 +54,8 @@ abstract class _SettingsController extends State<SettingsScreen> {
       await GetIt.I<HistoryService>().clearHistory();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('History cleared'),
+          SnackBar(
+            content: Text(l10n.historyCleared),
           ),
         );
       }
@@ -64,24 +63,23 @@ abstract class _SettingsController extends State<SettingsScreen> {
   }
 
   Future<void> _clearFavorites() async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear Favorites'),
-        content: const Text(
-          'Are you sure you want to clear all favorites? This cannot be undone.',
-        ),
+        title: Text(l10n.clearFavorites),
+        content: Text(l10n.clearFavoritesConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(
               foregroundColor: Colors.red,
             ),
-            child: const Text('Clear'),
+            child: Text(l10n.clear),
           ),
         ],
       ),
@@ -91,8 +89,8 @@ abstract class _SettingsController extends State<SettingsScreen> {
       await _favoritesService.clearFavorites();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Favorites cleared'),
+          SnackBar(
+            content: Text(l10n.favoritesCleared),
           ),
         );
       }
@@ -100,6 +98,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
   }
 
   Future<void> _showHymnalSelector() async {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -110,11 +109,12 @@ abstract class _SettingsController extends State<SettingsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Text(
-                'Select Hymnal',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                l10n.selectHymnal,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Flexible(
@@ -123,13 +123,18 @@ abstract class _SettingsController extends State<SettingsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ..._settingsService.hymnals.map((hymnal) {
-                      final isSelected = hymnal.id == _settingsService.selectedHymnal?.id;
+                      final isSelected =
+                          hymnal.id == _settingsService.selectedHymnal?.id;
                       return ListTile(
                         leading: Text(
                           hymnal.twoLetterIsoLanguageName.toUpperCase(),
                           style: TextStyle(
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                            color: isSelected ? Theme.of(context).colorScheme.primary : null,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color: isSelected
+                                ? Theme.of(context).colorScheme.primary
+                                : null,
                           ),
                         ),
                         title: Text(hymnal.name),
@@ -153,6 +158,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
   }
 
   Future<void> _showThemeSelector() async {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -163,11 +169,12 @@ abstract class _SettingsController extends State<SettingsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Text(
-                'Select Theme',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                l10n.selectTheme,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Flexible(
@@ -177,9 +184,10 @@ abstract class _SettingsController extends State<SettingsScreen> {
                   children: [
                     ListTile(
                       leading: const Icon(Icons.brightness_auto),
-                      title: const Text('System'),
-                      trailing:
-                          _settingsService.themeMode == 'system' ? const Icon(Icons.check) : null,
+                      title: Text(l10n.themeSystem),
+                      trailing: _settingsService.themeMode == 'system'
+                          ? const Icon(Icons.check)
+                          : null,
                       onTap: () {
                         _settingsService.setThemeMode('system');
                         Navigator.pop(context);
@@ -187,9 +195,10 @@ abstract class _SettingsController extends State<SettingsScreen> {
                     ),
                     ListTile(
                       leading: const Icon(Icons.light_mode),
-                      title: const Text('Light'),
-                      trailing:
-                          _settingsService.themeMode == 'light' ? const Icon(Icons.check) : null,
+                      title: Text(l10n.themeLight),
+                      trailing: _settingsService.themeMode == 'light'
+                          ? const Icon(Icons.check)
+                          : null,
                       onTap: () {
                         _settingsService.setThemeMode('light');
                         Navigator.pop(context);
@@ -197,9 +206,10 @@ abstract class _SettingsController extends State<SettingsScreen> {
                     ),
                     ListTile(
                       leading: const Icon(Icons.dark_mode),
-                      title: const Text('Dark'),
-                      trailing:
-                          _settingsService.themeMode == 'dark' ? const Icon(Icons.check) : null,
+                      title: Text(l10n.themeDark),
+                      trailing: _settingsService.themeMode == 'dark'
+                          ? const Icon(Icons.check)
+                          : null,
                       onTap: () {
                         _settingsService.setThemeMode('dark');
                         Navigator.pop(context);
@@ -217,6 +227,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
   }
 
   Future<void> _showRateOptions() async {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -227,11 +238,12 @@ abstract class _SettingsController extends State<SettingsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Text(
-                'Rate the App',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                l10n.rateApp,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Flexible(
@@ -241,7 +253,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
                   children: [
                     ListTile(
                       leading: const Icon(Icons.apple),
-                      title: const Text('App Store'),
+                      title: Text(l10n.appStore),
                       onTap: () {
                         _launchUrl(AppConstants.appStoreUrl);
                         Navigator.pop(context);
@@ -249,7 +261,7 @@ abstract class _SettingsController extends State<SettingsScreen> {
                     ),
                     ListTile(
                       leading: const Icon(Icons.android),
-                      title: const Text('Play Store'),
+                      title: Text(l10n.playStore),
                       onTap: () {
                         _launchUrl(AppConstants.playStoreUrl);
                         Navigator.pop(context);
@@ -267,19 +279,20 @@ abstract class _SettingsController extends State<SettingsScreen> {
   }
 
   Future<void> _launchUrl(String url) async {
+    final l10n = AppLocalizations.of(context)!;
     try {
       final uri = Uri.parse(url);
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Could not launch $url')),
+            SnackBar(content: Text(l10n.couldNotLaunch(url))),
           );
         }
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error opening link: $e')),
+          SnackBar(content: Text(l10n.errorOpeningLink(e.toString()))),
         );
       }
     }

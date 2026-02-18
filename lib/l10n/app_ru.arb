@@ -83,6 +83,26 @@
   "clearHistorySubtitle": "Удалить все недавно просмотренные гимны",
   "clearFavoritesSubtitle": "Удалить все избранные гимны",
   "githubRepo": "Репозиторий GitHub",
+  "selectHymnal": "Выбрать сборник",
+  "selectTheme": "Выбрать тему",
+  "appStore": "App Store",
+  "playStore": "Play Маркет",
+  "couldNotLaunch": "Не удалось открыть {url}",
+  "@couldNotLaunch": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "errorOpeningLink": "Ошибка при открытии ссылки: {error}",
+  "@errorOpeningLink": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "none": "Нет",
   "noSheetMusicAvailable": "Для этого сборника нет нот",
   "noSheetMusicFound": "Ноты для гимна {number} не найдены"

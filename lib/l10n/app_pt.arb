@@ -83,6 +83,26 @@
   "clearHistorySubtitle": "Remover todos os hinos vistos recentemente",
   "clearFavoritesSubtitle": "Remover todos os hinos favoritos",
   "githubRepo": "Repositório GitHub",
+  "selectHymnal": "Selecionar hinário",
+  "selectTheme": "Selecionar tema",
+  "appStore": "App Store",
+  "playStore": "Play Store",
+  "couldNotLaunch": "Não foi possível abrir {url}",
+  "@couldNotLaunch": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "errorOpeningLink": "Erro ao abrir o link: {error}",
+  "@errorOpeningLink": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "none": "Nenhum",
   "noSheetMusicAvailable": "Nenhuma partitura disponível para este hinário",
   "noSheetMusicFound": "Nenhuma partitura encontrada para o hino {number}"

@@ -284,5 +284,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get githubRepo => 'Репозиторий GitHub';
 
   @override
+  String get selectTheme => 'Выбрать тему';
+
+  @override
+  String get appStore => 'App Store';
+
+  @override
+  String get playStore => 'Play Маркет';
+
+  @override
+  String couldNotLaunch(String url) {
+    return 'Не удалось открыть $url';
+  }
+
+  @override
+  String errorOpeningLink(String error) {
+    return 'Ошибка при открытии ссылки: $error';
+  }
+
+  @override
   String get none => 'Нет';
 }

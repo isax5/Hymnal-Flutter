@@ -618,6 +618,36 @@ abstract class AppLocalizations {
   /// **'GitHub Repository'**
   String get githubRepo;
 
+  /// No description provided for @selectTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Theme'**
+  String get selectTheme;
+
+  /// No description provided for @appStore.
+  ///
+  /// In en, this message translates to:
+  /// **'App Store'**
+  String get appStore;
+
+  /// No description provided for @playStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Play Store'**
+  String get playStore;
+
+  /// No description provided for @couldNotLaunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch {url}'**
+  String couldNotLaunch(String url);
+
+  /// No description provided for @errorOpeningLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Error opening link: {error}'**
+  String errorOpeningLink(String error);
+
   /// No description provided for @none.
   ///
   /// In en, this message translates to:

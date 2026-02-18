@@ -140,5 +140,25 @@
   "clearHistorySubtitle": "Remove all recently viewed hymns",
   "clearFavoritesSubtitle": "Remove all favorite hymns",
   "githubRepo": "GitHub Repository",
+  "selectHymnal": "Select Hymnal",
+  "selectTheme": "Select Theme",
+  "appStore": "App Store",
+  "playStore": "Play Store",
+  "couldNotLaunch": "Could not launch {url}",
+  "@couldNotLaunch": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "errorOpeningLink": "Error opening link: {error}",
+  "@errorOpeningLink": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "none": "None"
 }

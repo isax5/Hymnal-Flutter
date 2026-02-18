@@ -83,6 +83,26 @@
   "clearHistorySubtitle": "Eliminar todos los himnos vistos recientemente",
   "clearFavoritesSubtitle": "Eliminar todos los himnos favoritos",
   "githubRepo": "Repositorio GitHub",
+  "selectHymnal": "Seleccionar himnario",
+  "selectTheme": "Seleccionar tema",
+  "appStore": "App Store",
+  "playStore": "Play Store",
+  "couldNotLaunch": "No se pudo abrir {url}",
+  "@couldNotLaunch": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "errorOpeningLink": "Error al abrir el enlace: {error}",
+  "@errorOpeningLink": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "none": "Ninguno",
   "noSheetMusicAvailable": "No hay partituras disponibles para este himnario",
   "noSheetMusicFound": "No se encontró partitura para el himno {number}"

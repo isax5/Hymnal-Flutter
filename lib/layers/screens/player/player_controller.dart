@@ -41,8 +41,7 @@ abstract class _PlayerController extends State<PlayerScreen> {
     final hymnal = _audioService.currentHymnal;
 
     if (hymn != null && hymnal != null) {
-      await _favoritesService.toggleFavorite(
-          hymnal.id, hymn.number, hymn.title);
+      await _favoritesService.toggleFavorite(hymnal.id, hymn.number, hymn.title);
       await _checkFavorite();
     }
   }
@@ -51,10 +50,13 @@ abstract class _PlayerController extends State<PlayerScreen> {
     final l10n = AppLocalizations.of(context)!;
     final hymn = _audioService.currentHymn;
     if (hymn != null) {
-      Share.share(
-        '${hymn.title}\n\n${l10n.sharedFromApp}',
-        subject: hymn.title,
-      );
+      final text = '''${hymn.title}
+
+${hymn.content}''';
+
+      final message = AppLinks.getShareMessage(
+          text, l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl));
+      SharePlus.instance.share(ShareParams(text: message));
     }
   }
 
@@ -70,8 +72,7 @@ abstract class _PlayerController extends State<PlayerScreen> {
         ),
       ),
       (route) {
-        return route.settings.name != '/hymn' &&
-            route.settings.name != '/player';
+        return route.settings.name != '/hymn' && route.settings.name != '/player';
       },
     );
   }

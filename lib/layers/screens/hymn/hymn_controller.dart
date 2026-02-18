@@ -113,8 +113,9 @@ abstract class _HymnController extends State<HymnScreen> {
 
 ${_hymn!.content}''';
 
-    await Share.share(AppLinks.getShareMessage(
-        text, l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl)));
+    final message = AppLinks.getShareMessage(
+        text, l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl));
+    await SharePlus.instance.share(ShareParams(text: message));
   }
 
   void _openSheets() {

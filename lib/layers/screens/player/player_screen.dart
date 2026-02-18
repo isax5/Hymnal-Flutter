@@ -1,3 +1,4 @@
+import 'package:hymnal_app/constants/app_links.dart';
 import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';

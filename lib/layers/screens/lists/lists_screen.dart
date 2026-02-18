@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:azlistview/azlistview.dart';
 import 'package:hymnal_app/layers/data/repository/hymnal_repository.dart';
 import 'package:hymnal_app/layers/domain/model/hymn.dart';
 import 'package:hymnal_app/layers/domain/model/thematic_category.dart';
@@ -8,8 +9,10 @@ import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/lists/ambit_screen.dart';
 import 'package:hymnal_app/widgets/hymn_list_tile.dart';
+import 'package:hymnal_app/widgets/numeric_index_list.dart';
 
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
+import 'package:hymnal_app/core/utils/string_utils.dart';
 
 part 'lists_controller.dart';
 
@@ -55,9 +58,11 @@ class _ListsScreenState extends _ListsController {
   }
 
   Widget _buildNumericList() {
-    return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 80),
+    return NumericIndexListView(
       itemCount: _hymns!.length,
+      jumpInterval: 50,
+      itemHeight: 72,
+      padding: const EdgeInsets.only(bottom: 80, right: 24),
       itemBuilder: (context, index) {
         final hymn = _hymns![index];
         return HymnListTile(
@@ -70,17 +75,101 @@ class _ListsScreenState extends _ListsController {
   }
 
   Widget _buildAlphabeticList() {
-    final sortedHymns = List<Hymn>.from(_hymns!)..sort((a, b) => a.title.compareTo(b.title));
+    String getFirstLetter(String title) {
+      final norm = StringUtils.normalize(title);
+      if (norm.isEmpty) return '#';
+      for (int i = 0; i < norm.length; i++) {
+        final char = norm[i].toUpperCase();
+        if (RegExp(r'\p{L}', unicode: true).hasMatch(char)) {
+          return char;
+        }
+      }
+      return '#';
+    }
 
-    return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 80),
+    final sortedHymns = List<Hymn>.from(_hymns!)
+      ..sort((a, b) {
+        final tagA = getFirstLetter(a.title);
+        final tagB = getFirstLetter(b.title);
+        final comparison = tagA.compareTo(tagB);
+        if (comparison != 0) return comparison;
+
+        String normalizeTitle(String s) {
+          var t = s.trim();
+          // Remove leading punctuation or non-alphanumeric ASCII characters (e.g. '¡', '"', etc.)
+          t = t.replaceFirst(RegExp(r'^[^A-Za-z0-9]+'), '');
+          return t.toLowerCase();
+        }
+
+        return normalizeTitle(a.title).compareTo(normalizeTitle(b.title));
+      });
+
+    SuspensionUtil.setShowSuspensionStatus(sortedHymns);
+
+    // Build index bar data only with letters present in the list.
+    // Use the suspension tags (already normalized in Hymn) and sort them.
+    final presentTags = <String>{};
+    for (final hymn in sortedHymns) {
+      presentTags.add(hymn.getSuspensionTag());
+    }
+    final List<String> indexBarData = presentTags.where((t) => t != '#').toList()
+      ..sort((a, b) {
+        // Use normalized forms for stable ordering across accents/scripts
+        final na = StringUtils.normalize(a);
+        final nb = StringUtils.normalize(b);
+        return na.compareTo(nb);
+      });
+    if (presentTags.contains('#')) indexBarData.add('#');
+
+    return AzListView(
+      data: sortedHymns,
       itemCount: sortedHymns.length,
+      padding: const EdgeInsets.only(bottom: 80),
       itemBuilder: (context, index) {
         final hymn = sortedHymns[index];
         return HymnListTile(
           number: hymn.number,
           title: hymn.title,
           onTap: () => _openHymn(hymn),
+        );
+      },
+      indexBarData: indexBarData,
+      indexBarItemHeight: 18,
+      indexBarMargin: const EdgeInsets.only(right: 4),
+      susItemBuilder: (context, index) {
+        final hymn = sortedHymns[index];
+        if (!hymn.isShowSuspension) {
+          return const SizedBox.shrink();
+        }
+        return Container(
+          height: 32,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            hymn.getSuspensionTag(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        );
+      },
+      susItemHeight: 32,
+      indexHintBuilder: (context, hint) {
+        return Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            hint,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         );
       },
     );

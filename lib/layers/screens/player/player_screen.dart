@@ -69,8 +69,8 @@ class _PlayerScreenState extends _PlayerController {
             final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
             final albumArt = Container(
-              width: isLandscape ? 180 : 100,
-              height: isLandscape ? 180 : 100,
+              width: isLandscape ? 140 : 100,
+              height: isLandscape ? 140 : 100,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.8),
                 borderRadius: BorderRadius.circular(24),
@@ -84,7 +84,7 @@ class _PlayerScreenState extends _PlayerController {
               ),
               child: Icon(
                 _audioService.isInstrumental ? Icons.piano : Icons.record_voice_over,
-                size: isLandscape ? 30 : 40,
+                size: isLandscape ? 50 : 40,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             );

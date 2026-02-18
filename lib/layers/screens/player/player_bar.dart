@@ -61,9 +61,11 @@ class PlayerBar extends StatelessWidget {
                             Text(
                               '#${audioService.currentHymn!.number} • ${audioService.currentHymn!.title}',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: isLandscape ? 12 : 14,
-                                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+                                fontWeight: FontWeight.bold,
+                                fontSize: isLandscape ? 12 : 14,
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                decoration: TextDecoration.none,
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -72,6 +74,7 @@ class PlayerBar extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: isLandscape ? 10 : 12,
                                 color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                decoration: TextDecoration.none,
                               ),
                             ),
                           ],

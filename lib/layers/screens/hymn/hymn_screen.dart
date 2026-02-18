@@ -195,7 +195,7 @@ class _HymnScreenState extends _HymnController {
                 ),
               ),
               const SizedBox(height: 24),
-              Text(
+              SelectableText(
                 hymn.content,
                 style: TextStyle(
                   fontSize: _settingsService.fontSize,

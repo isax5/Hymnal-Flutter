@@ -222,6 +222,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get share => 'Compartilhar';
 
   @override
+  String get copy => 'Copiar';
+
+  @override
   String get viewLyrics => 'Ver letra';
 
   @override
@@ -245,7 +248,9 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get sharedFromApp => 'Compartilhado do App Hinário';
+  String sharedFromApp(String iOSLink, String androidLink) {
+    return '\n---\n✨ Descubra mais hinos no aplicativo Hinário\nBaixe aqui:\niOS: $iOSLink\nAndroid: $androidLink';
+  }
 
   @override
   String get nowPlaying => 'Reproduzindo agora';

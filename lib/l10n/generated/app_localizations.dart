@@ -498,6 +498,12 @@ abstract class AppLocalizations {
   /// **'Share'**
   String get share;
 
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
   /// No description provided for @viewLyrics.
   ///
   /// In en, this message translates to:
@@ -543,8 +549,8 @@ abstract class AppLocalizations {
   /// No description provided for @sharedFromApp.
   ///
   /// In en, this message translates to:
-  /// **'Shared from Hymnal App'**
-  String get sharedFromApp;
+  /// **'\n---\n✨ Discover more hymns in the Hymnal App\nDownload here:\niOS: {iOSLink}\nAndroid: {androidLink}'**
+  String sharedFromApp(String iOSLink, String androidLink);
 
   /// No description provided for @nowPlaying.
   ///

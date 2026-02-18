@@ -223,6 +223,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get share => 'Compartir';
 
   @override
+  String get copy => 'Copiar';
+
+  @override
   String get viewLyrics => 'Ver letra';
 
   @override
@@ -246,7 +249,9 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get sharedFromApp => 'Compartido desde la App de Himnario';
+  String sharedFromApp(String iOSLink, String androidLink) {
+    return '\n---\n✨ Descubre más himnos en la app Himnario\nDescárgala aquí:\niOS: $iOSLink\nAndroid: $androidLink';
+  }
 
   @override
   String get nowPlaying => 'Reproduciendo ahora';

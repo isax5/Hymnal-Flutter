@@ -220,6 +220,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get share => 'Поделиться';
 
   @override
+  String get copy => 'Копировать';
+
+  @override
   String get viewLyrics => 'Посмотреть текст';
 
   @override
@@ -243,7 +246,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get sharedFromApp => 'Поделились из приложения «Гимны»';
+  String sharedFromApp(String iOSLink, String androidLink) {
+    return '\n---\n✨ Откройте для себя больше гимнов в приложении «Сборник гимнов»\nСкачать здесь:\niOS: $iOSLink\nAndroid: $androidLink';
+  }
 
   @override
   String get nowPlaying => 'Сейчас играет';

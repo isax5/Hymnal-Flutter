@@ -103,6 +103,7 @@
     }
   },
   "share": "Share",
+  "copy": "Copy",
   "viewLyrics": "View Lyrics",
   "instrumental": "Instrumental",
   "sung": "Sung",
@@ -117,7 +118,17 @@
       }
     }
   },
-  "sharedFromApp": "Shared from Hymnal App",
+  "sharedFromApp": "\n---\n✨ Discover more hymns in the Hymnal App\nDownload here:\niOS: {iOSLink}\nAndroid: {androidLink}",
+  "@sharedFromApp": {
+    "placeholders": {
+      "iOSLink": {
+        "type": "String"
+      },
+      "androidLink": {
+        "type": "String"
+      }
+    }
+  },
   "nowPlaying": "Now Playing",
   "noAudioPlaying": "No audio playing",
   "sectionHymnal": "Hymnal",

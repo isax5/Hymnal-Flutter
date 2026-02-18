@@ -23,9 +23,7 @@ abstract class _HymnController extends State<HymnScreen> {
 
   void _onFavoritesChanged() {
     if (_hymn != null && mounted) {
-      _favoritesService
-          .isFavorite(widget.hymnalId, _hymn!.number)
-          .then((isFav) {
+      _favoritesService.isFavorite(widget.hymnalId, _hymn!.number).then((isFav) {
         if (mounted && isFav != _isFavorite) {
           setState(() {
             _isFavorite = isFav;
@@ -49,8 +47,7 @@ abstract class _HymnController extends State<HymnScreen> {
       widget.hymnNumber,
     );
 
-    final initialPage =
-        _allHymns!.indexWhere((h) => h.number == widget.hymnNumber);
+    final initialPage = _allHymns!.indexWhere((h) => h.number == widget.hymnNumber);
     _pageController = PageController(initialPage: initialPage);
 
     // Only add to history if not skipped
@@ -114,11 +111,10 @@ abstract class _HymnController extends State<HymnScreen> {
     final l10n = AppLocalizations.of(context)!;
     final text = '''${_hymn!.title}
 
-${_hymn!.content}
+${_hymn!.content}''';
 
-${l10n.sharedFromApp}''';
-
-    await Share.share(text);
+    await Share.share(AppLinks.getShareMessage(
+        text, l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl)));
   }
 
   void _openSheets() {
@@ -142,8 +138,7 @@ ${l10n.sharedFromApp}''';
 
     if (url != null) {
       try {
-        await _audioService.playHymn(_hymnal!, _hymn!, url,
-            instrumental: instrumental);
+        await _audioService.playHymn(_hymnal!, _hymn!, url, instrumental: instrumental);
       } catch (e) {
         debugPrint('Failed to play audio: $e');
       }

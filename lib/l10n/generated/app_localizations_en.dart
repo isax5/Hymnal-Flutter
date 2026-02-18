@@ -221,6 +221,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get share => 'Share';
 
   @override
+  String get copy => 'Copy';
+
+  @override
   String get viewLyrics => 'View Lyrics';
 
   @override
@@ -244,7 +247,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get sharedFromApp => 'Shared from Hymnal App';
+  String sharedFromApp(String iOSLink, String androidLink) {
+    return '\n---\n✨ Discover more hymns in the Hymnal App\nDownload here:\niOS: $iOSLink\nAndroid: $androidLink';
+  }
 
   @override
   String get nowPlaying => 'Now Playing';

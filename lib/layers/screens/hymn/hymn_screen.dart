@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -14,6 +15,7 @@ import 'package:hymnal_app/layers/screens/sheets/sheets_screen.dart';
 import 'package:hymnal_app/widgets/app_scaffold.dart';
 
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
+import 'package:hymnal_app/constants/app_links.dart';
 
 part 'hymn_controller.dart';
 
@@ -202,6 +204,46 @@ class _HymnScreenState extends _HymnController {
                   height: 1.6,
                 ),
                 textAlign: TextAlign.left,
+                contextMenuBuilder: (context, editableTextState) {
+                  final l10n = AppLocalizations.of(context)!;
+                  final selectedText = editableTextState.textEditingValue.selection
+                      .textInside(editableTextState.textEditingValue.text);
+                  final hasSelection = selectedText.isNotEmpty;
+
+                  return AdaptiveTextSelectionToolbar(
+                    anchors: editableTextState.contextMenuAnchors,
+                    children: [
+                      TextButton.icon(
+                        icon: const Icon(Icons.copy, size: 18),
+                        label: Text(l10n.copy),
+                        onPressed: hasSelection
+                            ? () {
+                                Clipboard.setData(ClipboardData(
+                                    text: AppLinks.getShareMessage(
+                                        selectedText,
+                                        l10n.sharedFromApp(
+                                            AppLinks.appStoreUrl, AppLinks.playStoreUrl))));
+                                ContextMenuController.removeAny();
+                              }
+                            : null,
+                      ),
+                      TextButton.icon(
+                        icon: const Icon(Icons.share, size: 18),
+                        label: Text(l10n.share),
+                        onPressed: hasSelection
+                            ? () {
+                                ContextMenuController.removeAny();
+                                final message = AppLinks.getShareMessage(
+                                  selectedText,
+                                  l10n.sharedFromApp(AppLinks.appStoreUrl, AppLinks.playStoreUrl),
+                                );
+                                SharePlus.instance.share(ShareParams(text: message));
+                              }
+                            : null,
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),

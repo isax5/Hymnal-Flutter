@@ -3,7 +3,7 @@ description: A multi-language hymnal app supporting Spanish, English, Russian an
 
 publish_to: "none"
 
-version: 5.0.0+1
+version: 5.0.0+3
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -18,10 +18,10 @@ dependencies:
   get_it_mixin: ^4.2.0
 
   # Audio
-  just_audio: ^0.9.35
+  just_audio: ^0.10.5
 
   # Storage
-  flutter_secure_storage: ^9.0.0
+  flutter_secure_storage: ^10.0.0
   shared_preferences: ^2.2.2
 
   # Networking
@@ -30,13 +30,13 @@ dependencies:
   # UI
   flutter_svg: ^2.0.9
   cached_network_image: ^3.3.1
-  photo_view: ^0.14.0
-  share_plus: ^7.2.1
+  photo_view: ^0.15.0
+  share_plus: ^12.0.1
   url_launcher: ^6.2.2
-  package_info_plus: ^5.0.1
-  device_info_plus: ^9.1.1
+  package_info_plus: ^9.0.0
+  device_info_plus: ^12.3.0
   wakelock_plus: ^1.1.4
-  google_fonts: ^6.1.0
+  google_fonts: ^8.0.1
 
   # Localization
   flutter_localizations:
@@ -104,8 +104,8 @@ flutter_native_splash:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^6.0.0
   json_serializable: ^6.7.1
   build_runner: ^2.4.7
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.3.9

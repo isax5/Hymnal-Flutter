@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:hymnal_app/constants/app_constants.dart';
+import 'package:hymnal_app/utils/platform_helper.dart';
 
 part 'settings_controller.dart';
 
@@ -28,7 +29,10 @@ class _SettingsScreenState extends _SettingsController {
         return Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            toolbarHeight: MediaQuery.of(context).orientation == Orientation.landscape ? 40 : null,
+            toolbarHeight:
+                MediaQuery.of(context).orientation == Orientation.landscape
+                    ? 40
+                    : null,
             backgroundColor: Colors.transparent,
             elevation: 0,
             iconTheme: IconThemeData(
@@ -53,7 +57,8 @@ class _SettingsScreenState extends _SettingsController {
                 title: Text(l10n.backgroundImage),
                 subtitle: Text(l10n.backgroundImageSubtitle),
                 value: _settingsService.showBackgroundImage,
-                onChanged: (value) => _settingsService.setShowBackgroundImage(value),
+                onChanged: (value) =>
+                    _settingsService.setShowBackgroundImage(value),
               ),
               _buildSection(l10n.sectionBehavior),
               _buildSwitchTile(
@@ -179,7 +184,8 @@ class _SettingsScreenState extends _SettingsController {
     );
   }
 
-  Widget _buildSwitchTile(String title, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchTile(
+      String title, bool value, ValueChanged<bool> onChanged) {
     return SwitchListTile(
       secondary: const Icon(Icons.settings),
       title: Text(title),

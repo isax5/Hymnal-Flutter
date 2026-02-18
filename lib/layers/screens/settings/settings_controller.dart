@@ -227,6 +227,11 @@ abstract class _SettingsController extends State<SettingsScreen> {
   }
 
   Future<void> _showRateOptions() async {
+    if (PlatformHelper.canAutoOpenStore) {
+      await _launchUrl(PlatformHelper.storeUrl);
+      return;
+    }
+
     final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
@@ -297,6 +302,4 @@ abstract class _SettingsController extends State<SettingsScreen> {
       }
     }
   }
-
-  String _capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

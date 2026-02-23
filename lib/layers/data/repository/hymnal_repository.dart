@@ -1,7 +1,9 @@
 import 'package:hymnal_app/core/utils/string_utils.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/core/constants/app_assets.dart';
+import 'package:hymnal_app/layers/data/repository/remote_settings_repository.dart';
 import 'package:hymnal_app/layers/domain/model/hymn.dart';
 import 'package:hymnal_app/layers/domain/model/hymnal.dart';
 import 'package:hymnal_app/layers/domain/model/thematic_category.dart';
@@ -20,7 +22,6 @@ class HymnalRepositoryImpl implements HymnalRepository {
   List<Hymnal>? _cachedHymnals;
   final Map<String, List<Hymn>> _cachedHymns = {};
   final Map<String, List<ThematicCategory>> _cachedThematicLists = {};
-  final Map<String, MusicSettings> _cachedMusicSettings = {};
 
   @override
   Future<List<Hymnal>> getHymnals() async {
@@ -66,24 +67,15 @@ class HymnalRepositoryImpl implements HymnalRepository {
 
   @override
   Future<MusicSettings?> getMusicSettings(String hymnalId) async {
-    if (_cachedMusicSettings.containsKey(hymnalId)) {
-      return _cachedMusicSettings[hymnalId];
-    }
+    final remoteRepo = GetIt.I<RemoteSettingsRepository>();
 
-    final jsonString = await rootBundle.loadString(AppAssets.settings);
-    final List<dynamic> jsonList = json.decode(jsonString);
-    final settings = jsonList.map((e) => MusicSettings.fromJson(e)).toList();
+    // If settings are already cached, return immediately.
+    final cached = remoteRepo.getMusicSettingsForHymnal(hymnalId);
+    if (cached != null) return cached;
 
-    final musicSetting = settings.cast<MusicSettings?>().firstWhere(
-          (s) => s?.id == hymnalId,
-          orElse: () => null,
-        );
-
-    if (musicSetting != null) {
-      _cachedMusicSettings[hymnalId] = musicSetting;
-    }
-
-    return musicSetting;
+    // Otherwise, attempt to fetch from the network.
+    await remoteRepo.fetchSettings();
+    return remoteRepo.getMusicSettingsForHymnal(hymnalId);
   }
 
   @override

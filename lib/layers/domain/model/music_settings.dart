@@ -15,10 +15,11 @@ class MusicSettings extends Equatable {
 
   factory MusicSettings.fromJson(Map<String, dynamic> json) {
     return MusicSettings(
-      id: json['id'] as String,
+      id: (json['id'] ?? json['Id']) as String,
       isoLanguage: json['ISOLanguage'] as String,
-      instrumentalMusicUrl: json['instrumentalMusicUrl'] as String?,
-      sungMusicUrl: json['sungMusicUrl'] as String?,
+      instrumentalMusicUrl:
+          (json['instrumentalMusicUrl'] ?? json['InstrumentalMusicUrl']) as String?,
+      sungMusicUrl: (json['sungMusicUrl'] ?? json['SungMusicUrl']) as String?,
     );
   }
 
@@ -39,6 +40,5 @@ class MusicSettings extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [id, isoLanguage, instrumentalMusicUrl, sungMusicUrl];
+  List<Object?> get props => [id, isoLanguage, instrumentalMusicUrl, sungMusicUrl];
 }

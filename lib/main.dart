@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hymnal_app/layers/data/repository/remote_settings_repository.dart';
 import 'package:hymnal_app/services/locator_service.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/styles/theme.dart';
@@ -10,6 +11,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setupLocator();
+
+  // Pre-fetch remote settings (non-blocking — app launches even if offline)
+  GetIt.I<RemoteSettingsRepository>().fetchSettings().ignore();
 
   final settingsService = GetIt.I<SettingsService>();
   await settingsService.initialize();

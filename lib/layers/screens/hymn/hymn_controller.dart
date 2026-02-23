@@ -18,7 +18,10 @@ abstract class _HymnController extends State<HymnScreen> {
   void initState() {
     super.initState();
     _favoritesService.addListener(_onFavoritesChanged);
-    _loadData();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
+    });
   }
 
   void _onFavoritesChanged() {
@@ -40,7 +43,13 @@ abstract class _HymnController extends State<HymnScreen> {
     _allHymns = await _repository.getHymns(widget.hymnalId);
     _hymn = _allHymns!.firstWhere((h) => h.number == widget.hymnNumber);
 
-    _musicSettings = await _repository.getMusicSettings(widget.hymnalId);
+    try {
+      _musicSettings = await _repository.getMusicSettings(widget.hymnalId);
+    } catch (_) {
+      // Settings unavailable (e.g. offline on first launch).
+      // Music controls will be hidden; the hymn is still usable.
+      _musicSettings = null;
+    }
 
     _isFavorite = await _favoritesService.isFavorite(
       widget.hymnalId,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hymnal_app/core/constants/app_assets.dart';
 import 'package:hymnal_app/services/settings_service.dart';
@@ -44,40 +45,47 @@ class _AppScaffoldState extends State<AppScaffold> {
             ? LayoutConstants.playerBarHeightLandscape
             : LayoutConstants.playerBarHeight;
         final hasActivePlayer = widget.showPlayer && audioService.currentHymn != null;
+        final theme = Theme.of(context);
 
-        return Stack(
-          children: [
-            Container(color: Theme.of(context).scaffoldBackgroundColor),
-            if (settingsService.showBackgroundImage)
-              Positioned.fill(
-                child: Image.asset(
-                  AppAssets.backgroundImage,
-                  fit: BoxFit.cover,
-                  opacity: const AlwaysStoppedAnimation(0.15),
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: theme.appBarTheme.systemOverlayStyle ??
+              (theme.brightness == Brightness.dark
+                  ? SystemUiOverlayStyle.light
+                  : SystemUiOverlayStyle.dark),
+          child: Stack(
+            children: [
+              Container(color: Theme.of(context).scaffoldBackgroundColor),
+              if (settingsService.showBackgroundImage)
+                Positioned.fill(
+                  child: Image.asset(
+                    AppAssets.backgroundImage,
+                    fit: BoxFit.cover,
+                    opacity: const AlwaysStoppedAnimation(0.15),
+                  ),
                 ),
+              Scaffold(
+                backgroundColor: Colors.transparent,
+                appBar: widget.appBar,
+                body: widget.body,
+                bottomNavigationBar: (widget.bottomNavigationBar == null && !hasActivePlayer)
+                    ? null
+                    : Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (hasActivePlayer) SizedBox(height: playerHeight),
+                          if (widget.bottomNavigationBar != null) widget.bottomNavigationBar!,
+                        ],
+                      ),
+                resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
               ),
-            Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: widget.appBar,
-              body: widget.body,
-              bottomNavigationBar: (widget.bottomNavigationBar == null && !hasActivePlayer)
-                  ? null
-                  : Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (hasActivePlayer) SizedBox(height: playerHeight),
-                        if (widget.bottomNavigationBar != null) widget.bottomNavigationBar!,
-                      ],
-                    ),
-              resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-            ),
-            if (widget.showPlayer)
-              DraggablePlayer(
-                key: _playerKey,
-                includeSafeArea: true,
-                bottomOffset: widget.playerBottomOffset,
-              ),
-          ],
+              if (widget.showPlayer)
+                DraggablePlayer(
+                  key: _playerKey,
+                  includeSafeArea: true,
+                  bottomOffset: widget.playerBottomOffset,
+                ),
+            ],
+          ),
         );
       },
     );

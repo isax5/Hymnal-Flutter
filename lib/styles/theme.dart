@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
@@ -20,6 +21,11 @@ class AppTheme {
         elevation: 0,
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
         titleTextStyle: GoogleFonts.openSans(
           fontSize: 20,
           fontWeight: FontWeight.w600,
@@ -60,6 +66,11 @@ class AppTheme {
         elevation: 0,
         backgroundColor: Colors.grey[900],
         foregroundColor: Colors.white,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        ),
         titleTextStyle: GoogleFonts.openSans(
           fontSize: 20,
           fontWeight: FontWeight.w600,

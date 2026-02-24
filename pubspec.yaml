@@ -19,6 +19,7 @@ dependencies:
 
   # Audio
   just_audio: ^0.10.5
+  audio_service: ^0.18.12
 
   # Storage
   flutter_secure_storage: ^10.0.0

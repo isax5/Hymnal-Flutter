@@ -6,6 +6,8 @@ import 'package:hymnal_app/services/locator_service.dart';
 import 'package:hymnal_app/services/settings_service.dart';
 import 'package:hymnal_app/styles/theme.dart';
 import 'package:hymnal_app/layers/screens/main_tabs_screen.dart';
+import 'package:audio_service/audio_service.dart';
+import 'package:hymnal_app/services/audio_handler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +19,18 @@ Future<void> main() async {
 
   final settingsService = GetIt.I<SettingsService>();
   await settingsService.initialize();
+
+  // Initialize background audio service
+  final audioHandler = await AudioService.init(
+    builder: () => MyAudioHandler(),
+    config: const AudioServiceConfig(
+      androidNotificationChannelId: 'com.isax5.hymnal.channel.audio',
+      androidNotificationChannelName: 'Music Playback',
+      androidNotificationOngoing: true,
+      androidStopForegroundOnPause: true,
+    ),
+  );
+  GetIt.I.registerSingleton<AudioHandler>(audioHandler);
 
   runApp(const HymnalApp());
 }

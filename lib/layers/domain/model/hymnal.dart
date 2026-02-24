@@ -23,9 +23,9 @@ class Hymnal extends Equatable {
 
   factory Hymnal.fromJson(Map<String, dynamic> json) {
     return Hymnal(
-      id: json['Id'] as String,
+      id: json['id'] as String,
       name: json['name'] as String,
-      detail: json['Detail'] as String,
+      detail: json['detail'] as String,
       year: json['year'] as int,
       twoLetterIsoLanguageName: json['twoLetterIsoLanguageName'] as String,
       hymnsFileName: json['hymnsFileName'] as String,
@@ -36,9 +36,9 @@ class Hymnal extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'Id': id,
+      'id': id,
       'name': name,
-      'Detail': detail,
+      'detail': detail,
       'year': year,
       'twoLetterIsoLanguageName': twoLetterIsoLanguageName,
       'hymnsFileName': hymnsFileName,

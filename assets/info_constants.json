@@ -1,8 +1,8 @@
 [
   {
-    "Id": "en-newVersion",
+    "id": "en-newVersion",
     "name": "New Version 1985",
-    "Detail": "English",
+    "detail": "English",
     "year": 1985,
     "twoLetterIsoLanguageName": "en",
     "hymnsFileName": "new_hymnal_en.json",
@@ -10,18 +10,18 @@
     "hymnsSheetsFileName": "piano_sheet_en_###.png"
   },
   {
-    "Id": "en-oldVersion",
+    "id": "en-oldVersion",
     "name": "Old Version 1941",
-    "Detail": "English",
+    "detail": "English",
     "year": 1941,
     "twoLetterIsoLanguageName": "en",
     "hymnsFileName": "old_hymnal_en.json",
     "thematicHymnsFileName": "old_hymnal_thematic_list_en.json"
   },
   {
-    "Id": "es-newVersion",
+    "id": "es-newVersion",
     "name": "Nueva Versión 2009",
-    "Detail": "Español",
+    "detail": "Español",
     "year": 2009,
     "twoLetterIsoLanguageName": "es",
     "hymnsFileName": "new_hymnal_es.json",
@@ -29,27 +29,27 @@
     "hymnsSheetsFileName": "piano_sheet_es_###.png"
   },
   {
-    "Id": "es-oldVersion",
+    "id": "es-oldVersion",
     "name": "Antigua Versión 1962",
-    "Detail": "Español",
+    "detail": "Español",
     "year": 1962,
     "twoLetterIsoLanguageName": "es",
     "hymnsFileName": "old_hymnal_es.json",
     "thematicHymnsFileName": "old_hymnal_thematic_list_es.json"
   },
   {
-    "Id": "pt-newVersion",
+    "id": "pt-newVersion",
     "name": "Nova versão 1996",
-    "Detail": "Português",
+    "detail": "Português",
     "year": 1996,
     "twoLetterIsoLanguageName": "pt",
     "hymnsFileName": "new_hymnal_pt.json",
     "thematicHymnsFileName": "new_hymnal_thematic_list_pt.json"
   },
   {
-    "Id": "ru-newVersion",
+    "id": "ru-newVersion",
     "name": "Гимны Надежды 1997",
-    "Detail": "Русский",
+    "detail": "Русский",
     "year": 1997,
     "twoLetterIsoLanguageName": "ru",
     "hymnsFileName": "new_hymnal_ru.json",

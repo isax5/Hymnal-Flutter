@@ -34,7 +34,23 @@ class SettingsService extends ChangeNotifier {
         orElse: () => _hymnals.first,
       );
     } else {
-      _selectedHymnal = _hymnals.first;
+      // First launch: Auto-select based on language
+      final locale = WidgetsBinding.instance.platformDispatcher.locale;
+      final langCode = locale.languageCode;
+
+      debugPrint('[SettingsService] First launch detected. Locale: $langCode');
+
+      // Selection Rules: Auto-select first hymnbook matching the language code
+      final match = _hymnals.where((h) => h.twoLetterIsoLanguageName == langCode).firstOrNull;
+
+      _selectedHymnal = _hymnals.firstWhere((h) => h.id == match?.id, orElse: () => _hymnals.first);
+
+      debugPrint('[SettingsService] Auto-selected hymnal: ${_selectedHymnal?.id}');
+
+      // Persist the auto-selected choice
+      if (_selectedHymnal != null) {
+        await _settingsRepository.setSelectedHymnalId(_selectedHymnal!.id);
+      }
     }
 
     _fontSize = await _settingsRepository.getFontSize();
@@ -77,8 +93,6 @@ class SettingsService extends ChangeNotifier {
   }
 
   List<Hymnal> getHymnalsByLanguage(String languageCode) {
-    return _hymnals
-        .where((h) => h.twoLetterIsoLanguageName == languageCode)
-        .toList();
+    return _hymnals.where((h) => h.twoLetterIsoLanguageName == languageCode).toList();
   }
 }

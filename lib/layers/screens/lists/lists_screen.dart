@@ -75,69 +75,27 @@ class _ListsScreenState extends _ListsController {
   }
 
   Widget _buildAlphabeticList() {
-    String getFirstLetter(String title) {
-      final norm = StringUtils.normalize(title);
-      if (norm.isEmpty) return '#';
-      for (int i = 0; i < norm.length; i++) {
-        final char = norm[i].toUpperCase();
-        if (RegExp(r'\p{L}', unicode: true).hasMatch(char)) {
-          return char;
-        }
-      }
-      return '#';
+    if (_sortedHymns == null || _indexBarData == null) {
+      return const Center(child: CircularProgressIndicator());
     }
-
-    final sortedHymns = List<Hymn>.from(_hymns!)
-      ..sort((a, b) {
-        final tagA = getFirstLetter(a.title);
-        final tagB = getFirstLetter(b.title);
-        final comparison = tagA.compareTo(tagB);
-        if (comparison != 0) return comparison;
-
-        String normalizeTitle(String s) {
-          var t = s.trim();
-          // Remove leading punctuation or non-alphanumeric ASCII characters (e.g. '¡', '"', etc.)
-          t = t.replaceFirst(RegExp(r'^[^A-Za-z0-9]+'), '');
-          return t.toLowerCase();
-        }
-
-        return normalizeTitle(a.title).compareTo(normalizeTitle(b.title));
-      });
-
-    SuspensionUtil.setShowSuspensionStatus(sortedHymns);
-
-    // Build index bar data only with letters present in the list.
-    // Use the suspension tags (already normalized in Hymn) and sort them.
-    final presentTags = <String>{};
-    for (final hymn in sortedHymns) {
-      presentTags.add(hymn.getSuspensionTag());
-    }
-    final List<String> indexBarData = presentTags.where((t) => t != '#').toList()
-      ..sort((a, b) {
-        // Use normalized forms for stable ordering across accents/scripts
-        final na = StringUtils.normalize(a);
-        final nb = StringUtils.normalize(b);
-        return na.compareTo(nb);
-      });
-    if (presentTags.contains('#')) indexBarData.add('#');
 
     return AzListView(
-      data: sortedHymns,
-      itemCount: sortedHymns.length,
+      data: _sortedHymns!,
+      itemCount: _sortedHymns!.length,
       padding: const EdgeInsets.only(bottom: 80),
       itemBuilder: (context, index) {
-        final hymn = sortedHymns[index];
+        final hymn = _sortedHymns![index];
         return HymnListTile(
           number: hymn.number,
           title: hymn.title,
           onTap: () => _openHymn(hymn),
         );
       },
-      indexBarData: indexBarData,
+      indexBarData: _indexBarData!,
       indexBarItemHeight: 18,
       indexBarMargin: const EdgeInsets.only(right: 4),
       susItemBuilder: (context, index) {
-        final hymn = sortedHymns[index];
+        final hymn = _sortedHymns![index];
         if (!hymn.isShowSuspension) {
           return const SizedBox.shrink();
         }

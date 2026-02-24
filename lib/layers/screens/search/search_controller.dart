@@ -11,8 +11,12 @@ abstract class _SearchController extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
+
     _searchController.addListener(_onSearchChanged);
-    _loadInitialData();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialData();
+    });
   }
 
   Future<void> _loadInitialData() async {

@@ -17,6 +17,7 @@ abstract class _HymnController extends State<HymnScreen> {
   @override
   void initState() {
     super.initState();
+
     _favoritesService.addListener(_onFavoritesChanged);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {

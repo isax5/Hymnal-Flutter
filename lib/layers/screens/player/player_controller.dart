@@ -10,9 +10,13 @@ abstract class _PlayerController extends State<PlayerScreen> {
   @override
   void initState() {
     super.initState();
-    _checkFavorite();
+
     _audioService.addListener(_checkFavorite);
     _favoritesService.addListener(_checkFavorite);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkFavorite();
+    });
   }
 
   @override

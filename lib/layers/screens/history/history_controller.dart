@@ -7,7 +7,10 @@ abstract class _HistoryController extends State<HistoryScreen> {
   @override
   void initState() {
     super.initState();
-    _historyService.loadHistory();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _historyService.loadHistory();
+    });
   }
 
   Future<void> _openHymn(String hymnalId, int hymnNumber, String title) async {

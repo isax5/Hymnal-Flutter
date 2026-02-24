@@ -27,6 +27,7 @@ class DraggablePlayerState extends State<DraggablePlayer> with SingleTickerProvi
   @override
   void initState() {
     super.initState();
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),

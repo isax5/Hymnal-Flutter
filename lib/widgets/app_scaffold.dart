@@ -78,7 +78,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                       ),
                 resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
               ),
-              if (widget.showPlayer)
+              if (hasActivePlayer)
                 DraggablePlayer(
                   key: _playerKey,
                   includeSafeArea: true,

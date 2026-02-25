@@ -32,7 +32,13 @@ class AudioService extends ChangeNotifier {
   bool get hasAudio => _currentUrl != null;
   bool get continuousPlay => _continuousPlay;
 
-  AudioService() {
+  static final AudioService _instance = AudioService._internal();
+
+  factory AudioService() => _instance;
+
+  AudioService.test();
+
+  AudioService._internal() {
     debugPrint('[AudioService] Initializing...');
 
     _handler.onSkipNext = skipNext;
@@ -233,12 +239,18 @@ class AudioService extends ChangeNotifier {
 
   Future<void> stop() async {
     debugPrint('[AudioService] stop()');
-    await _handler.stop();
+    // Clear state immediately to update UI without waiting for the handler
     _currentHymn = null;
     _currentHymnal = null;
     _currentUrl = null;
     _isPlaying = false;
     notifyListeners();
+
+    try {
+      await _handler.stop();
+    } catch (e) {
+      debugPrint('[AudioService] Error stopping audio handler: $e');
+    }
   }
 
   Future<void> seek(Duration position) async {

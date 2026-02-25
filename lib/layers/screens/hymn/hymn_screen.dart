@@ -54,6 +54,7 @@ class _HymnScreenState extends _HymnController {
                   child: InkWell(
                     onTap: () => _playAudio(instrumental: true),
                     child: Container(
+                      height: 50,
                       padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -83,6 +84,7 @@ class _HymnScreenState extends _HymnController {
                   child: InkWell(
                     onTap: () => _playAudio(instrumental: false),
                     child: Container(
+                      height: 50,
                       padding: EdgeInsets.symmetric(vertical: isLandscape ? 0 : 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

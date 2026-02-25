@@ -9,7 +9,6 @@ import 'package:hymnal_app/services/history_service.dart';
 import 'package:hymnal_app/layers/screens/hymn/hymn_screen.dart';
 import 'package:hymnal_app/layers/screens/lists/ambit_screen.dart';
 import 'package:hymnal_app/widgets/hymn_list_tile.dart';
-import 'package:hymnal_app/widgets/numeric_index_list.dart';
 
 import 'package:hymnal_app/l10n/generated/app_localizations.dart';
 import 'package:hymnal_app/core/utils/string_utils.dart';
@@ -58,44 +57,86 @@ class _ListsScreenState extends _ListsController {
   }
 
   Widget _buildNumericList() {
-    return NumericIndexListView(
-      itemCount: _hymns!.length,
-      jumpInterval: 50,
-      itemHeight: 72,
-      padding: const EdgeInsets.only(bottom: 80, right: 24),
+    if (_numericHymns == null || _numericIndexBarData == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return AzListView(
+      data: _numericHymns!,
+      itemCount: _numericHymns!.length,
+      padding: const EdgeInsets.only(bottom: 80),
       itemBuilder: (context, index) {
-        final hymn = _hymns![index];
+        final hymn = _numericHymns![index].hymn;
         return HymnListTile(
           number: hymn.number,
           title: hymn.title,
           onTap: () => _openHymn(hymn),
+        );
+      },
+      indexBarData: _numericIndexBarData!,
+      indexBarItemHeight: 18,
+      indexBarMargin: const EdgeInsets.only(right: 4),
+      susItemBuilder: (context, index) {
+        final numericHymn = _numericHymns![index];
+        if (!numericHymn.isShowSuspension) {
+          return const SizedBox.shrink();
+        }
+        return Container(
+          height: 32,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            numericHymn.getSuspensionTag(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        );
+      },
+      susItemHeight: 32,
+      indexHintBuilder: (context, hint) {
+        return Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            hint,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         );
       },
     );
   }
 
   Widget _buildAlphabeticList() {
-    if (_sortedHymns == null || _indexBarData == null) {
+    if (_alphabeticHymns == null || _alphabeticIndexBarData == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
     return AzListView(
-      data: _sortedHymns!,
-      itemCount: _sortedHymns!.length,
+      data: _alphabeticHymns!,
+      itemCount: _alphabeticHymns!.length,
       padding: const EdgeInsets.only(bottom: 80),
       itemBuilder: (context, index) {
-        final hymn = _sortedHymns![index];
+        final hymn = _alphabeticHymns![index];
         return HymnListTile(
           number: hymn.number,
           title: hymn.title,
           onTap: () => _openHymn(hymn),
         );
       },
-      indexBarData: _indexBarData!,
+      indexBarData: _alphabeticIndexBarData!,
       indexBarItemHeight: 18,
       indexBarMargin: const EdgeInsets.only(right: 4),
       susItemBuilder: (context, index) {
-        final hymn = _sortedHymns![index];
+        final hymn = _alphabeticHymns![index];
         if (!hymn.isShowSuspension) {
           return const SizedBox.shrink();
         }

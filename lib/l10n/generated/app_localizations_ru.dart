@@ -166,7 +166,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get keepScreenOnDesc => 'Экран не будет гаснуть или выключаться';
 
   @override
-  String get continuousPlay => 'Непрерывное воспроизведение';
+  String get continuousPlay => 'Автовоспроизведение';
 
   @override
   String get data => 'Данные';

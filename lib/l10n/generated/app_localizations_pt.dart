@@ -188,6 +188,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contribute => 'Contribuir';
 
   @override
+  String get contactUs => 'Contate-nos';
+
+  @override
   String get repository => 'Repositório GitHub';
 
   @override

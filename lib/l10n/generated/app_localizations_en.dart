@@ -187,6 +187,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contribute => 'Contribute';
 
   @override
+  String get contactUs => 'Contact Us';
+
+  @override
   String get repository => 'GitHub Repository';
 
   @override

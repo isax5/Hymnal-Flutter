@@ -94,6 +94,12 @@ class _SettingsScreenState extends _SettingsController {
                 onTap: () => _launchUrl(AppLinks.repositoryUrl),
               ),
               ListTile(
+                leading: const Icon(Icons.mail_outline),
+                title: Text(l10n.contactUs),
+                subtitle: const Text(AppLinks.contactUrl),
+                onTap: () => _launchUrl(AppLinks.contactUrl),
+              ),
+              ListTile(
                 leading: const Icon(Icons.star),
                 title: Text(l10n.rateApp),
                 onTap: _showRateOptions,

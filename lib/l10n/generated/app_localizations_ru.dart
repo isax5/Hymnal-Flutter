@@ -187,6 +187,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contribute => 'Помочь проекту';
 
   @override
+  String get contactUs => 'Связаться с нами';
+
+  @override
   String get repository => 'Репозиторий GitHub';
 
   @override

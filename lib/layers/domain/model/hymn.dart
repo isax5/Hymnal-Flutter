@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:azlistview/azlistview.dart';
 import 'package:hymnal_app/core/utils/string_utils.dart';
 
+// ignore: must_be_immutable
 class Hymn extends Equatable implements ISuspensionBean {
   final int number;
   final String title;

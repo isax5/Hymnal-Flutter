@@ -444,6 +444,12 @@ abstract class AppLocalizations {
   /// **'Contribute'**
   String get contribute;
 
+  /// No description provided for @contactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contactUs;
+
   /// No description provided for @repository.
   ///
   /// In en, this message translates to:

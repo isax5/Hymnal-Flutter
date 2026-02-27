@@ -102,571 +102,571 @@ abstract class AppLocalizations {
     Locale('ru')
   ];
 
-  /// No description provided for @appName.
+  /// The name of the application
   ///
   /// In en, this message translates to:
   /// **'Hymnal'**
   String get appName;
 
-  /// No description provided for @home.
+  /// Label for the home screen or navigation tab
   ///
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
 
-  /// No description provided for @lists.
+  /// Label for the lists screen or navigation tab
   ///
   /// In en, this message translates to:
   /// **'Lists'**
   String get lists;
 
-  /// No description provided for @favorites.
+  /// Label for the favorites screen or navigation tab
   ///
   /// In en, this message translates to:
   /// **'Favorites'**
   String get favorites;
 
-  /// No description provided for @settings.
+  /// Label for the settings screen or navigation tab
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
 
-  /// No description provided for @history.
+  /// Label for the history screen or navigation tab
   ///
   /// In en, this message translates to:
   /// **'History'**
   String get history;
 
-  /// No description provided for @search.
+  /// Label for the search functionality
   ///
   /// In en, this message translates to:
   /// **'Search'**
   String get search;
 
-  /// No description provided for @searchHint.
+  /// Hint text shown in the search bar
   ///
   /// In en, this message translates to:
   /// **'Search hymns...'**
   String get searchHint;
 
-  /// No description provided for @noHymnsFound.
+  /// Message shown when a search results in no matches
   ///
   /// In en, this message translates to:
   /// **'No hymns found'**
   String get noHymnsFound;
 
-  /// No description provided for @numeric.
+  /// Option to sort or view hymns numerically
   ///
   /// In en, this message translates to:
   /// **'Numeric'**
   String get numeric;
 
-  /// No description provided for @alpha.
+  /// Option to sort or view hymns alphabetically
   ///
   /// In en, this message translates to:
   /// **'Alphabetic'**
   String get alpha;
 
-  /// No description provided for @thematic.
+  /// Option to sort or view hymns by theme
   ///
   /// In en, this message translates to:
   /// **'Thematic'**
   String get thematic;
 
-  /// No description provided for @selectedHymnal.
+  /// Label for the currently selected hymnal
   ///
   /// In en, this message translates to:
   /// **'Selected Hymnal'**
   String get selectedHymnal;
 
-  /// No description provided for @selectHymnal.
+  /// Action to open the hymnal selection screen
   ///
   /// In en, this message translates to:
   /// **'Select Hymnal'**
   String get selectHymnal;
 
-  /// No description provided for @welcomeTitle.
+  /// Title shown on the welcome or onboarding screen
   ///
   /// In en, this message translates to:
   /// **'Welcome to the Hymnal App'**
   String get welcomeTitle;
 
-  /// No description provided for @welcomeSubtitle.
+  /// Subtitle shown on the welcome or onboarding screen
   ///
   /// In en, this message translates to:
   /// **'Select a hymnal to start browsing'**
   String get welcomeSubtitle;
 
-  /// No description provided for @hymnNumber.
+  /// Label for the hymn number input field
   ///
   /// In en, this message translates to:
   /// **'Hymn Number'**
   String get hymnNumber;
 
-  /// No description provided for @enterHymnNumber.
+  /// Hint text for the hymn number input field
   ///
   /// In en, this message translates to:
   /// **'Enter hymn number'**
   String get enterHymnNumber;
 
-  /// No description provided for @openHymn.
+  /// Action to open a specific hymn by its number
   ///
   /// In en, this message translates to:
   /// **'Open Hymn'**
   String get openHymn;
 
-  /// No description provided for @go.
+  /// Generic 'Go' or 'Proceed' action
   ///
   /// In en, this message translates to:
   /// **'Go'**
   String get go;
 
-  /// No description provided for @invalidHymnNumber.
+  /// Error message for invalid hymn number input
   ///
   /// In en, this message translates to:
   /// **'Please enter a valid hymn number'**
   String get invalidHymnNumber;
 
-  /// No description provided for @hymnNotFound.
+  /// Error message when a specific hymn number doesn't exist
   ///
   /// In en, this message translates to:
   /// **'Hymn not found'**
   String get hymnNotFound;
 
-  /// No description provided for @hymnalNotSelected.
+  /// Error message when no hymnal is selected
   ///
   /// In en, this message translates to:
   /// **'Selected hymnal is null'**
   String get hymnalNotSelected;
 
-  /// No description provided for @clearHistory.
+  /// Action to clear the user's view history
   ///
   /// In en, this message translates to:
   /// **'Clear History'**
   String get clearHistory;
 
-  /// No description provided for @clearHistoryConfirm.
+  /// Confirmation dialog message for clearing history
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to clear your history? This cannot be undone.'**
   String get clearHistoryConfirm;
 
-  /// No description provided for @historyCleared.
+  /// Success message after clearing history
   ///
   /// In en, this message translates to:
   /// **'History cleared'**
   String get historyCleared;
 
-  /// No description provided for @clearFavorites.
+  /// Action to clear all user favorites
   ///
   /// In en, this message translates to:
   /// **'Clear Favorites'**
   String get clearFavorites;
 
-  /// No description provided for @clearFavoritesConfirm.
+  /// Confirmation dialog message for clearing favorites
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to clear all favorites? This cannot be undone.'**
   String get clearFavoritesConfirm;
 
-  /// No description provided for @favoritesCleared.
+  /// Success message after clearing favorites
   ///
   /// In en, this message translates to:
   /// **'Favorites cleared'**
   String get favoritesCleared;
 
-  /// No description provided for @noFavoritesYet.
+  /// Message shown when the favorites list is empty
   ///
   /// In en, this message translates to:
   /// **'No favorites yet'**
   String get noFavoritesYet;
 
-  /// No description provided for @addHymnsToFavorites.
+  /// Instructional text shown when the favorites list is empty
   ///
   /// In en, this message translates to:
   /// **'Add hymns to your favorites from the hymn page'**
   String get addHymnsToFavorites;
 
-  /// No description provided for @noHistoryYet.
+  /// Message shown when the history list is empty
   ///
   /// In en, this message translates to:
   /// **'No history yet'**
   String get noHistoryYet;
 
-  /// No description provided for @removeFavorite.
+  /// Confirmation message to remove a specific hymn from favorites
   ///
   /// In en, this message translates to:
   /// **'Remove \"{title}\" from favorites?'**
   String removeFavorite(String title);
 
-  /// No description provided for @removeFavoriteTitle.
+  /// Title for the remove favorite confirmation dialog
   ///
   /// In en, this message translates to:
   /// **'Remove Favorite'**
   String get removeFavoriteTitle;
 
-  /// No description provided for @cancel.
+  /// Generic 'Cancel' action
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
 
-  /// No description provided for @remove.
+  /// Generic 'Remove' action
   ///
   /// In en, this message translates to:
   /// **'Remove'**
   String get remove;
 
-  /// No description provided for @undo.
+  /// Action to undo the previous operation
   ///
   /// In en, this message translates to:
   /// **'Undo'**
   String get undo;
 
-  /// No description provided for @actionReversed.
+  /// Success message after an action is undone
   ///
   /// In en, this message translates to:
   /// **'Action reversed'**
   String get actionReversed;
 
-  /// No description provided for @hymnRange.
+  /// Text showing a range of hymn numbers
   ///
   /// In en, this message translates to:
   /// **'Hymns {start}-{end}'**
   String hymnRange(int start, int end);
 
-  /// No description provided for @appearance.
+  /// Category label for app appearance settings
   ///
   /// In en, this message translates to:
   /// **'Appearance'**
   String get appearance;
 
-  /// No description provided for @theme.
+  /// Label for theme selection setting
   ///
   /// In en, this message translates to:
   /// **'Theme'**
   String get theme;
 
-  /// No description provided for @themeSystem.
+  /// Option to follow the system theme
   ///
   /// In en, this message translates to:
   /// **'System'**
   String get themeSystem;
 
-  /// No description provided for @themeLight.
+  /// Option for light theme
   ///
   /// In en, this message translates to:
   /// **'Light'**
   String get themeLight;
 
-  /// No description provided for @themeDark.
+  /// Option for dark theme
   ///
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
 
-  /// No description provided for @fontSize.
+  /// Label for font size setting
   ///
   /// In en, this message translates to:
   /// **'Font Size'**
   String get fontSize;
 
-  /// No description provided for @backgroundImage.
+  /// Label for background image setting
   ///
   /// In en, this message translates to:
   /// **'Background Image'**
   String get backgroundImage;
 
-  /// No description provided for @showBackgroundImage.
+  /// Toggle to show or hide the background image
   ///
   /// In en, this message translates to:
   /// **'Show background image'**
   String get showBackgroundImage;
 
-  /// No description provided for @playback.
+  /// Category label for audio playback settings
   ///
   /// In en, this message translates to:
   /// **'Playback'**
   String get playback;
 
-  /// No description provided for @keepScreenOn.
+  /// Toggle to keep the screen from going to sleep
   ///
   /// In en, this message translates to:
   /// **'Keep Screen On'**
   String get keepScreenOn;
 
-  /// No description provided for @keepScreenOnDesc.
+  /// Description for the 'Keep Screen On' setting
   ///
   /// In en, this message translates to:
   /// **'Don\'t dim or turn off screen'**
   String get keepScreenOnDesc;
 
-  /// No description provided for @continuousPlay.
+  /// Toggle for continuous audio playback
   ///
   /// In en, this message translates to:
   /// **'Continuous Play'**
   String get continuousPlay;
 
-  /// No description provided for @data.
+  /// Category label for data management settings
   ///
   /// In en, this message translates to:
   /// **'Data'**
   String get data;
 
-  /// No description provided for @clearHistoryDesc.
+  /// Description for the 'Clear History' action
   ///
   /// In en, this message translates to:
   /// **'Remove all recently viewed hymns'**
   String get clearHistoryDesc;
 
-  /// No description provided for @clearFavoritesDesc.
+  /// Description for the 'Clear Favorites' action
   ///
   /// In en, this message translates to:
   /// **'Remove all favorite hymns'**
   String get clearFavoritesDesc;
 
-  /// No description provided for @about.
+  /// Category label for information about the app
   ///
   /// In en, this message translates to:
   /// **'About'**
   String get about;
 
-  /// No description provided for @website.
+  /// Link to the app's website
   ///
   /// In en, this message translates to:
   /// **'Website'**
   String get website;
 
-  /// No description provided for @contribute.
+  /// Link to contribute to the project
   ///
   /// In en, this message translates to:
   /// **'Contribute'**
   String get contribute;
 
-  /// No description provided for @contactUs.
+  /// Action to contact the developers
   ///
   /// In en, this message translates to:
   /// **'Contact Us'**
   String get contactUs;
 
-  /// No description provided for @repository.
+  /// Link to the GitHub repository
   ///
   /// In en, this message translates to:
   /// **'GitHub Repository'**
   String get repository;
 
-  /// No description provided for @rateApp.
+  /// Action to rate the app in the store
   ///
   /// In en, this message translates to:
   /// **'Rate the App'**
   String get rateApp;
 
-  /// No description provided for @version.
+  /// Label for the app version number
   ///
   /// In en, this message translates to:
   /// **'Version'**
   String get version;
 
-  /// No description provided for @licenses.
+  /// Action to view open source licenses
   ///
   /// In en, this message translates to:
   /// **'Licenses'**
   String get licenses;
 
-  /// No description provided for @sheetMusicTitle.
+  /// Title for the sheet music view
   ///
   /// In en, this message translates to:
   /// **'Sheet Music - Hymn {number}'**
   String sheetMusicTitle(int number);
 
-  /// No description provided for @failedToLoadImage.
+  /// Error message when an image fails to load
   ///
   /// In en, this message translates to:
   /// **'Failed to load image: {error}'**
   String failedToLoadImage(String error);
 
-  /// No description provided for @noSheetMusicAvailable.
+  /// Message shown when the current hymnal lacks sheet music
   ///
   /// In en, this message translates to:
   /// **'No sheet music available for this hymnal'**
   String get noSheetMusicAvailable;
 
-  /// No description provided for @noSheetMusicFound.
+  /// Message shown when a specific hymn lacks sheet music
   ///
   /// In en, this message translates to:
   /// **'No sheet music found for hymn {number}'**
   String noSheetMusicFound(int number);
 
-  /// No description provided for @share.
+  /// Generic 'Share' action
   ///
   /// In en, this message translates to:
   /// **'Share'**
   String get share;
 
-  /// No description provided for @copy.
+  /// Generic 'Copy' action
   ///
   /// In en, this message translates to:
   /// **'Copy'**
   String get copy;
 
-  /// No description provided for @viewLyrics.
+  /// Action to view the lyrics of a hymn
   ///
   /// In en, this message translates to:
   /// **'View Lyrics'**
   String get viewLyrics;
 
-  /// No description provided for @instrumental.
+  /// Label for instrumental audio version
   ///
   /// In en, this message translates to:
   /// **'Instrumental'**
   String get instrumental;
 
-  /// No description provided for @sung.
+  /// Label for sung audio version
   ///
   /// In en, this message translates to:
   /// **'Sung'**
   String get sung;
 
-  /// No description provided for @hymnalLanguage.
+  /// Label for hymnal language selection
   ///
   /// In en, this message translates to:
   /// **'Language'**
   String get hymnalLanguage;
 
-  /// No description provided for @clearAll.
+  /// Generic 'Clear All' action
   ///
   /// In en, this message translates to:
   /// **'Clear All'**
   String get clearAll;
 
-  /// No description provided for @clear.
+  /// Generic 'Clear' action
   ///
   /// In en, this message translates to:
   /// **'Clear'**
   String get clear;
 
-  /// No description provided for @hymnTitle.
+  /// Title format for a hymn
   ///
   /// In en, this message translates to:
   /// **'Hymn {number}'**
   String hymnTitle(int number);
 
-  /// No description provided for @sharedFromApp.
+  /// Text appended to shared hymn lyrics
   ///
   /// In en, this message translates to:
   /// **'\n---\n✨ Discover more hymns in the Hymnal App\nDownload here:\niOS: {iOSLink}\nAndroid: {androidLink}'**
   String sharedFromApp(String iOSLink, String androidLink);
 
-  /// No description provided for @nowPlaying.
+  /// Label for the mini-player or current track
   ///
   /// In en, this message translates to:
   /// **'Now Playing'**
   String get nowPlaying;
 
-  /// No description provided for @noAudioPlaying.
+  /// Status message when the player is idle
   ///
   /// In en, this message translates to:
   /// **'No audio playing'**
   String get noAudioPlaying;
 
-  /// No description provided for @sectionHymnal.
+  /// Section header for hymnal-related settings
   ///
   /// In en, this message translates to:
   /// **'Hymnal'**
   String get sectionHymnal;
 
-  /// No description provided for @sectionAppearance.
+  /// Section header for appearance settings
   ///
   /// In en, this message translates to:
   /// **'Appearance'**
   String get sectionAppearance;
 
-  /// No description provided for @sectionBehavior.
+  /// Section header for app behavior settings
   ///
   /// In en, this message translates to:
   /// **'Behavior'**
   String get sectionBehavior;
 
-  /// No description provided for @sectionDataManagement.
+  /// Section header for data management settings
   ///
   /// In en, this message translates to:
   /// **'Data Management'**
   String get sectionDataManagement;
 
-  /// No description provided for @sectionAbout.
+  /// Section header for about settings
   ///
   /// In en, this message translates to:
   /// **'About'**
   String get sectionAbout;
 
-  /// No description provided for @backgroundImageSubtitle.
+  /// Subtitle description for background image setting
   ///
   /// In en, this message translates to:
   /// **'Show background image on screens'**
   String get backgroundImageSubtitle;
 
-  /// No description provided for @clearHistorySubtitle.
+  /// Subtitle description for clear history setting
   ///
   /// In en, this message translates to:
   /// **'Remove all recently viewed hymns'**
   String get clearHistorySubtitle;
 
-  /// No description provided for @clearFavoritesSubtitle.
+  /// Subtitle description for clear favorites setting
   ///
   /// In en, this message translates to:
   /// **'Remove all favorite hymns'**
   String get clearFavoritesSubtitle;
 
-  /// No description provided for @githubRepo.
+  /// Label for GitHub repository link in settings
   ///
   /// In en, this message translates to:
   /// **'GitHub Repository'**
   String get githubRepo;
 
-  /// No description provided for @selectTheme.
+  /// Heading for theme selection dialog
   ///
   /// In en, this message translates to:
   /// **'Select Theme'**
   String get selectTheme;
 
-  /// No description provided for @appStore.
+  /// Label for Apple App Store
   ///
   /// In en, this message translates to:
   /// **'App Store'**
   String get appStore;
 
-  /// No description provided for @playStore.
+  /// Label for Google Play Store
   ///
   /// In en, this message translates to:
   /// **'Play Store'**
   String get playStore;
 
-  /// No description provided for @couldNotLaunch.
+  /// Error message when a URL fails to open
   ///
   /// In en, this message translates to:
   /// **'Could not launch {url}'**
   String couldNotLaunch(String url);
 
-  /// No description provided for @errorOpeningLink.
+  /// Error message for link opening failure
   ///
   /// In en, this message translates to:
   /// **'Error opening link: {error}'**
   String errorOpeningLink(String error);
 
-  /// No description provided for @none.
+  /// Generic 'None' value
   ///
   /// In en, this message translates to:
   /// **'None'**
   String get none;
 
-  /// No description provided for @applicationLegalese.
+  /// Legal/Copyright text
   ///
   /// In en, this message translates to:
   /// **'© {year} GoGoShift'**
   String applicationLegalese(String year);
 
-  /// No description provided for @aboutDevelopers.
+  /// Credit text for the app developers
   ///
   /// In en, this message translates to:
   /// **'Created with dedication by Katherin Castillo and Isaac Rebolledo.'**

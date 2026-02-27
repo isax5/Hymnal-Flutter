@@ -1,173 +1,451 @@
 {
+  "@@locale": "en",
   "appName": "Hymnal",
+  "@appName": {
+    "description": "The name of the application"
+  },
   "home": "Home",
+  "@home": {
+    "description": "Label for the home screen or navigation tab"
+  },
   "lists": "Lists",
+  "@lists": {
+    "description": "Label for the lists screen or navigation tab"
+  },
   "favorites": "Favorites",
+  "@favorites": {
+    "description": "Label for the favorites screen or navigation tab"
+  },
   "settings": "Settings",
+  "@settings": {
+    "description": "Label for the settings screen or navigation tab"
+  },
   "history": "History",
+  "@history": {
+    "description": "Label for the history screen or navigation tab"
+  },
   "search": "Search",
+  "@search": {
+    "description": "Label for the search functionality"
+  },
   "searchHint": "Search hymns...",
+  "@searchHint": {
+    "description": "Hint text shown in the search bar"
+  },
   "noHymnsFound": "No hymns found",
+  "@noHymnsFound": {
+    "description": "Message shown when a search results in no matches"
+  },
   "numeric": "Numeric",
+  "@numeric": {
+    "description": "Option to sort or view hymns numerically"
+  },
   "alpha": "Alphabetic",
+  "@alpha": {
+    "description": "Option to sort or view hymns alphabetically"
+  },
   "thematic": "Thematic",
+  "@thematic": {
+    "description": "Option to sort or view hymns by theme"
+  },
   "selectedHymnal": "Selected Hymnal",
+  "@selectedHymnal": {
+    "description": "Label for the currently selected hymnal"
+  },
   "selectHymnal": "Select Hymnal",
+  "@selectHymnal": {
+    "description": "Action to open the hymnal selection screen"
+  },
   "welcomeTitle": "Welcome to the Hymnal App",
+  "@welcomeTitle": {
+    "description": "Title shown on the welcome or onboarding screen"
+  },
   "welcomeSubtitle": "Select a hymnal to start browsing",
+  "@welcomeSubtitle": {
+    "description": "Subtitle shown on the welcome or onboarding screen"
+  },
   "hymnNumber": "Hymn Number",
+  "@hymnNumber": {
+    "description": "Label for the hymn number input field"
+  },
   "enterHymnNumber": "Enter hymn number",
+  "@enterHymnNumber": {
+    "description": "Hint text for the hymn number input field"
+  },
   "openHymn": "Open Hymn",
+  "@openHymn": {
+    "description": "Action to open a specific hymn by its number"
+  },
   "go": "Go",
+  "@go": {
+    "description": "Generic 'Go' or 'Proceed' action"
+  },
   "invalidHymnNumber": "Please enter a valid hymn number",
+  "@invalidHymnNumber": {
+    "description": "Error message for invalid hymn number input"
+  },
   "hymnNotFound": "Hymn not found",
+  "@hymnNotFound": {
+    "description": "Error message when a specific hymn number doesn't exist"
+  },
   "hymnalNotSelected": "Selected hymnal is null",
+  "@hymnalNotSelected": {
+    "description": "Error message when no hymnal is selected"
+  },
   "clearHistory": "Clear History",
+  "@clearHistory": {
+    "description": "Action to clear the user's view history"
+  },
   "clearHistoryConfirm": "Are you sure you want to clear your history? This cannot be undone.",
+  "@clearHistoryConfirm": {
+    "description": "Confirmation dialog message for clearing history"
+  },
   "historyCleared": "History cleared",
+  "@historyCleared": {
+    "description": "Success message after clearing history"
+  },
   "clearFavorites": "Clear Favorites",
+  "@clearFavorites": {
+    "description": "Action to clear all user favorites"
+  },
   "clearFavoritesConfirm": "Are you sure you want to clear all favorites? This cannot be undone.",
+  "@clearFavoritesConfirm": {
+    "description": "Confirmation dialog message for clearing favorites"
+  },
   "favoritesCleared": "Favorites cleared",
+  "@favoritesCleared": {
+    "description": "Success message after clearing favorites"
+  },
   "noFavoritesYet": "No favorites yet",
+  "@noFavoritesYet": {
+    "description": "Message shown when the favorites list is empty"
+  },
   "addHymnsToFavorites": "Add hymns to your favorites from the hymn page",
+  "@addHymnsToFavorites": {
+    "description": "Instructional text shown when the favorites list is empty"
+  },
   "noHistoryYet": "No history yet",
+  "@noHistoryYet": {
+    "description": "Message shown when the history list is empty"
+  },
   "removeFavorite": "Remove \"{title}\" from favorites?",
   "@removeFavorite": {
+    "description": "Confirmation message to remove a specific hymn from favorites",
     "placeholders": {
       "title": {
-        "type": "String"
+        "type": "String",
+        "description": "The title of the hymn"
       }
     }
   },
   "removeFavoriteTitle": "Remove Favorite",
+  "@removeFavoriteTitle": {
+    "description": "Title for the remove favorite confirmation dialog"
+  },
   "cancel": "Cancel",
+  "@cancel": {
+    "description": "Generic 'Cancel' action"
+  },
   "remove": "Remove",
+  "@remove": {
+    "description": "Generic 'Remove' action"
+  },
   "undo": "Undo",
+  "@undo": {
+    "description": "Action to undo the previous operation"
+  },
   "actionReversed": "Action reversed",
+  "@actionReversed": {
+    "description": "Success message after an action is undone"
+  },
   "hymnRange": "Hymns {start}-{end}",
   "@hymnRange": {
+    "description": "Text showing a range of hymn numbers",
     "placeholders": {
       "start": {
-        "type": "int"
+        "type": "int",
+        "description": "The starting hymn number"
       },
       "end": {
-        "type": "int"
+        "type": "int",
+        "description": "The ending hymn number"
       }
     }
   },
   "appearance": "Appearance",
+  "@appearance": {
+    "description": "Category label for app appearance settings"
+  },
   "theme": "Theme",
+  "@theme": {
+    "description": "Label for theme selection setting"
+  },
   "themeSystem": "System",
+  "@themeSystem": {
+    "description": "Option to follow the system theme"
+  },
   "themeLight": "Light",
+  "@themeLight": {
+    "description": "Option for light theme"
+  },
   "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Option for dark theme"
+  },
   "fontSize": "Font Size",
+  "@fontSize": {
+    "description": "Label for font size setting"
+  },
   "backgroundImage": "Background Image",
+  "@backgroundImage": {
+    "description": "Label for background image setting"
+  },
   "showBackgroundImage": "Show background image",
+  "@showBackgroundImage": {
+    "description": "Toggle to show or hide the background image"
+  },
   "playback": "Playback",
+  "@playback": {
+    "description": "Category label for audio playback settings"
+  },
   "keepScreenOn": "Keep Screen On",
+  "@keepScreenOn": {
+    "description": "Toggle to keep the screen from going to sleep"
+  },
   "keepScreenOnDesc": "Don't dim or turn off screen",
+  "@keepScreenOnDesc": {
+    "description": "Description for the 'Keep Screen On' setting"
+  },
   "continuousPlay": "Continuous Play",
+  "@continuousPlay": {
+    "description": "Toggle for continuous audio playback"
+  },
   "data": "Data",
+  "@data": {
+    "description": "Category label for data management settings"
+  },
   "clearHistoryDesc": "Remove all recently viewed hymns",
+  "@clearHistoryDesc": {
+    "description": "Description for the 'Clear History' action"
+  },
   "clearFavoritesDesc": "Remove all favorite hymns",
+  "@clearFavoritesDesc": {
+    "description": "Description for the 'Clear Favorites' action"
+  },
   "about": "About",
+  "@about": {
+    "description": "Category label for information about the app"
+  },
   "website": "Website",
+  "@website": {
+    "description": "Link to the app's website"
+  },
   "contribute": "Contribute",
+  "@contribute": {
+    "description": "Link to contribute to the project"
+  },
   "contactUs": "Contact Us",
+  "@contactUs": {
+    "description": "Action to contact the developers"
+  },
   "repository": "GitHub Repository",
+  "@repository": {
+    "description": "Link to the GitHub repository"
+  },
   "rateApp": "Rate the App",
+  "@rateApp": {
+    "description": "Action to rate the app in the store"
+  },
   "version": "Version",
+  "@version": {
+    "description": "Label for the app version number"
+  },
   "licenses": "Licenses",
+  "@licenses": {
+    "description": "Action to view open source licenses"
+  },
   "sheetMusicTitle": "Sheet Music - Hymn {number}",
   "@sheetMusicTitle": {
+    "description": "Title for the sheet music view",
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "description": "The hymn number"
       }
     }
   },
   "failedToLoadImage": "Failed to load image: {error}",
   "@failedToLoadImage": {
+    "description": "Error message when an image fails to load",
     "placeholders": {
       "error": {
-        "type": "String"
+        "type": "String",
+        "description": "The error details"
       }
     }
   },
   "noSheetMusicAvailable": "No sheet music available for this hymnal",
+  "@noSheetMusicAvailable": {
+    "description": "Message shown when the current hymnal lacks sheet music"
+  },
   "noSheetMusicFound": "No sheet music found for hymn {number}",
   "@noSheetMusicFound": {
+    "description": "Message shown when a specific hymn lacks sheet music",
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "description": "The hymn number"
       }
     }
   },
   "share": "Share",
+  "@share": {
+    "description": "Generic 'Share' action"
+  },
   "copy": "Copy",
+  "@copy": {
+    "description": "Generic 'Copy' action"
+  },
   "viewLyrics": "View Lyrics",
+  "@viewLyrics": {
+    "description": "Action to view the lyrics of a hymn"
+  },
   "instrumental": "Instrumental",
+  "@instrumental": {
+    "description": "Label for instrumental audio version"
+  },
   "sung": "Sung",
+  "@sung": {
+    "description": "Label for sung audio version"
+  },
   "hymnalLanguage": "Language",
+  "@hymnalLanguage": {
+    "description": "Label for hymnal language selection"
+  },
   "clearAll": "Clear All",
+  "@clearAll": {
+    "description": "Generic 'Clear All' action"
+  },
   "clear": "Clear",
+  "@clear": {
+    "description": "Generic 'Clear' action"
+  },
   "hymnTitle": "Hymn {number}",
   "@hymnTitle": {
+    "description": "Title format for a hymn",
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "description": "The hymn number"
       }
     }
   },
   "sharedFromApp": "\n---\n✨ Discover more hymns in the Hymnal App\nDownload here:\niOS: {iOSLink}\nAndroid: {androidLink}",
   "@sharedFromApp": {
+    "description": "Text appended to shared hymn lyrics",
     "placeholders": {
       "iOSLink": {
-        "type": "String"
+        "type": "String",
+        "description": "App Store link"
       },
       "androidLink": {
-        "type": "String"
+        "type": "String",
+        "description": "Play Store link"
       }
     }
   },
   "nowPlaying": "Now Playing",
+  "@nowPlaying": {
+    "description": "Label for the mini-player or current track"
+  },
   "noAudioPlaying": "No audio playing",
+  "@noAudioPlaying": {
+    "description": "Status message when the player is idle"
+  },
   "sectionHymnal": "Hymnal",
+  "@sectionHymnal": {
+    "description": "Section header for hymnal-related settings"
+  },
   "sectionAppearance": "Appearance",
+  "@sectionAppearance": {
+    "description": "Section header for appearance settings"
+  },
   "sectionBehavior": "Behavior",
+  "@sectionBehavior": {
+    "description": "Section header for app behavior settings"
+  },
   "sectionDataManagement": "Data Management",
+  "@sectionDataManagement": {
+    "description": "Section header for data management settings"
+  },
   "sectionAbout": "About",
+  "@sectionAbout": {
+    "description": "Section header for about settings"
+  },
   "backgroundImageSubtitle": "Show background image on screens",
+  "@backgroundImageSubtitle": {
+    "description": "Subtitle description for background image setting"
+  },
   "clearHistorySubtitle": "Remove all recently viewed hymns",
+  "@clearHistorySubtitle": {
+    "description": "Subtitle description for clear history setting"
+  },
   "clearFavoritesSubtitle": "Remove all favorite hymns",
+  "@clearFavoritesSubtitle": {
+    "description": "Subtitle description for clear favorites setting"
+  },
   "githubRepo": "GitHub Repository",
+  "@githubRepo": {
+    "description": "Label for GitHub repository link in settings"
+  },
   "selectTheme": "Select Theme",
+  "@selectTheme": {
+    "description": "Heading for theme selection dialog"
+  },
   "appStore": "App Store",
+  "@appStore": {
+    "description": "Label for Apple App Store"
+  },
   "playStore": "Play Store",
+  "@playStore": {
+    "description": "Label for Google Play Store"
+  },
   "couldNotLaunch": "Could not launch {url}",
   "@couldNotLaunch": {
+    "description": "Error message when a URL fails to open",
     "placeholders": {
       "url": {
-        "type": "String"
+        "type": "String",
+        "description": "The URL that failed to open"
       }
     }
   },
   "errorOpeningLink": "Error opening link: {error}",
   "@errorOpeningLink": {
+    "description": "Error message for link opening failure",
     "placeholders": {
       "error": {
-        "type": "String"
+        "type": "String",
+        "description": "The error details"
       }
     }
   },
   "none": "None",
+  "@none": {
+    "description": "Generic 'None' value"
+  },
   "applicationLegalese": "© {year} GoGoShift",
   "@applicationLegalese": {
+    "description": "Legal/Copyright text",
     "placeholders": {
       "year": {
-        "type": "String"
+        "type": "String",
+        "description": "The current year"
       }
     }
   },
-  "aboutDevelopers": "Created with dedication by Katherin Castillo and Isaac Rebolledo."
+  "aboutDevelopers": "Created with dedication by Katherin Castillo and Isaac Rebolledo.",
+  "@aboutDevelopers": {
+    "description": "Credit text for the app developers"
+  }
 }

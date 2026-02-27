@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '13.0'
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -37,6 +37,7 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  # Fix deployment targets and build settings for all Pods
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     target.build_configurations.each do |config|
@@ -45,6 +46,60 @@ post_install do |installer|
         config.build_settings['STRIP_INSTALLED_PRODUCT'] = 'YES'
         config.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf-with-dsym'
       end
+    end
+  end
+
+  # Add "Thin and Fix Frameworks" build phase to the Runner target
+  # This fixes Native Assets (like objective_c.framework) that miss architecture thinning or have wrong OS versions
+  project_path = 'Runner.xcodeproj'
+  project = Xcodeproj::Project.open(project_path)
+  target = project.targets.find { |t| t.name == 'Runner' }
+
+  if target
+    phase_name = 'Thin and Fix Frameworks'
+    existing_phase = target.shell_script_build_phases.find { |p| p.name == phase_name }
+    
+    unless existing_phase
+      puts "Adding '#{phase_name}' build phase to Runner target"
+      phase = target.new_shell_script_build_phase(phase_name)
+      phase.shell_script = <<~SCRIPT
+        # This script thins frameworks (removes simulator architectures) and fixes MinimumOSVersion
+        # to prevent App Store validation failures for Native Assets.
+        
+        FRAMEWORKS_DIR="${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+        if [ ! -d "${FRAMEWORKS_DIR}" ]; then
+          exit 0
+        fi
+
+        find "${FRAMEWORKS_DIR}" -name '*.framework' -type d | while read -r FRAMEWORK_PATH; do
+          FRAMEWORK_NAME=$(basename "$FRAMEWORK_PATH" .framework)
+          FRAMEWORK_BINARY="${FRAMEWORK_PATH}/${FRAMEWORK_NAME}"
+          
+          if [ -f "${FRAMEWORK_BINARY}" ]; then
+            # Check architectures
+            ARCHS=$(lipo -info "${FRAMEWORK_BINARY}")
+            
+            # Remove simulator architectures (x86_64, i386) if they exist
+            if [[ "${ARCHS}" == *"x86_64"* ]] || [[ "${ARCHS}" == *"i386"* ]]; then
+              echo "Thinning ${FRAMEWORK_NAME}..."
+              lipo -remove x86_64 -remove i386 "${FRAMEWORK_BINARY}" -output "${FRAMEWORK_BINARY}" || true
+              
+              # Fix MinimumOSVersion in Info.plist
+              INFOPLIST="${FRAMEWORK_PATH}/Info.plist"
+              if [ -f "${INFOPLIST}" ]; then
+                /usr/bin/plutil -replace MinimumOSVersion -string "13.0" "${INFOPLIST}"
+              fi
+              
+              # Re-sign the framework
+              if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" ]; then
+                codesign --force --sign "${EXPANDED_CODE_SIGN_IDENTITY}" --preserve-metadata=identifier,entitlements,flags "${FRAMEWORK_PATH}"
+              fi
+            fi
+          fi
+        done
+      SCRIPT
+      phase.run_only_for_deployment_postprocessing = '1'
+      project.save
     end
   end
 end

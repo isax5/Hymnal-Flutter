@@ -10,7 +10,6 @@ A multi-language hymnal app supporting Spanish, English, Russian and Portuguese.
 <!--ts-->
    * [Features](#features)
    * [Presence in stores](#presence-in-stores)
-   * [Demo](#demo)
    * [Architecture](#architecture)
    * [Getting Started](#getting-started)
    * [Build for Release](#build-for-release)
@@ -39,8 +38,8 @@ A multi-language hymnal app supporting Spanish, English, Russian and Portuguese.
 <a title="AppStore" href="https://apps.apple.com/us/app/adventist-hymnal/id1153114394" target="_blank"><img width="150" alt="AppStore" src="http://devimages.apple.com.edgekey.net/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg"></a>
 <a title="Google Play" href="https://play.google.com/store/apps/details?id=net.ddns.HimnarioAdventistaSPA" target="_blank"><img width="150" alt="Google Play" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/256px-Google_Play_Store_badge_EN.svg.png"></a>
 
-## Demo
-![Recordit GIF](https://recordit.co/IoYOhRUrmB.gif)
+**Other platforms / Alternative (Android):**
+- [GitHub Releases](https://github.com/isax5/Hymnal-Flutter/releases) (Direct APK download)
 
 ---
 

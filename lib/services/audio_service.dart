@@ -74,9 +74,8 @@ class AudioService extends ChangeNotifier {
               '[AudioService] Playback completed, continuous play is ON — advancing to next hymn');
           skipNext();
         } else {
-          debugPrint('[AudioService] Playback completed, pausing and seeking to start');
-          _handler.pause();
-          _handler.seek(Duration.zero);
+          debugPrint('[AudioService] Playback completed, stopping playback');
+          stop();
         }
       }
     });

@@ -21,13 +21,6 @@ class MyAudioHandler extends BaseAudioHandler with SeekHandler {
         mediaItem.add(item.copyWith(duration: duration));
       }
     });
-
-    // Handle completions
-    _player.processingStateStream.listen((state) {
-      if (state == ProcessingState.completed) {
-        stop();
-      }
-    });
   }
 
   @override

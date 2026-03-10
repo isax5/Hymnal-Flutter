@@ -3,7 +3,7 @@ description: A multi-language hymnal app supporting Spanish, English, Russian an
 
 publish_to: "none"
 
-version: 5.0.0+13
+version: 5.0.1+14
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

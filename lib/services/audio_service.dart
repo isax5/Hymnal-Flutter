@@ -19,6 +19,7 @@ class AudioService extends ChangeNotifier {
   Duration _duration = Duration.zero;
   bool _isInstrumental = true;
   bool _continuousPlay = false;
+  bool _isDismissing = false;
   int _playRequestId = 0;
 
   AudioPlayer get player => _handler.player;
@@ -31,6 +32,7 @@ class AudioService extends ChangeNotifier {
   bool get isInstrumental => _isInstrumental;
   bool get hasAudio => _currentUrl != null;
   bool get continuousPlay => _continuousPlay;
+  bool get isDismissing => _isDismissing;
 
   static final AudioService _instance = AudioService._internal();
 
@@ -238,18 +240,31 @@ class AudioService extends ChangeNotifier {
 
   Future<void> stop() async {
     debugPrint('[AudioService] stop()');
-    // Clear state immediately to update UI without waiting for the handler
-    _currentHymn = null;
-    _currentHymnal = null;
-    _currentUrl = null;
-    _isPlaying = false;
-    notifyListeners();
+    if (_isDismissing) return; // Already animating out
+
+    if (_currentHymn != null) {
+      // Signal the player to animate out; actual state is cleared in finalizeDismiss()
+      _isDismissing = true;
+      _isPlaying = false;
+      notifyListeners();
+    }
 
     try {
       await _handler.stop();
     } catch (e) {
       debugPrint('[AudioService] Error stopping audio handler: $e');
     }
+  }
+
+  void finalizeDismiss() {
+    debugPrint('[AudioService] finalizeDismiss()');
+    if (!_isDismissing) return;
+    _isDismissing = false;
+    _currentHymn = null;
+    _currentHymnal = null;
+    _currentUrl = null;
+    _isPlaying = false;
+    notifyListeners();
   }
 
   Future<void> seek(Duration position) async {
